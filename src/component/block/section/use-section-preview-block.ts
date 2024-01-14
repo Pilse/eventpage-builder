@@ -10,6 +10,7 @@ interface IUseSectionPreviewBlockProps {
 
 interface IUseSectionPreviewBlock {
   previewBlock: InstanceType<typeof Block> | null;
+  snappableDir: { x: boolean; y: boolean };
 }
 
 export const useSectionPreviewBlock = (
@@ -22,15 +23,18 @@ export const useSectionPreviewBlock = (
   }));
 
   const [previewBlock, setPreviewBlock] = useState<InstanceType<typeof Block> | null>(draggedBlock);
+  const [snappableDir, setSnappableDir] = useState<{ x: boolean; y: boolean }>({ x: false, y: false });
 
   // 드래그가 끝난 경우
   if (!draggedBlock && previewBlock) {
     setPreviewBlock(null);
+    setSnappableDir({ x: false, y: false });
   }
 
   // 다른 섹션으로 드래그 하는 경우
   if (previewBlock && draggedBlock && !section.hasChlid(draggedBlock)) {
     setPreviewBlock(null);
+    setSnappableDir({ x: false, y: false });
   }
 
   // 같은 섹션에서 다른 부모 블록으로 드래그 하는 경우
@@ -42,6 +46,7 @@ export const useSectionPreviewBlock = (
     draggedBlock.parent.id !== previewBlock.parent.id
   ) {
     previewBlock.parent = draggedBlock.parent;
+    setSnappableDir({ x: false, y: false });
   }
 
   // 현재 섹션에서 드래그가 시작된 경우
@@ -63,7 +68,7 @@ export const useSectionPreviewBlock = (
     draggedBlock.updateDirection(currentOffset);
     previewBlock.updateDirection(currentOffset);
     previewBlock.updateCoords(currentOffset, sectionDomRect);
-    const snappedCoords = section.getSnappedCoords(
+    const { canSnapToX, canSnapToY, ...snappedCoords } = section.getSnappedCoords(
       previewBlock,
       currentOffset,
       sectionDomRect,
@@ -71,9 +76,13 @@ export const useSectionPreviewBlock = (
       SNAP_THRESHOLD
     );
     previewBlock.updateCoords(snappedCoords, sectionDomRect);
+    if (snappableDir.x !== canSnapToX || snappableDir.y !== canSnapToY) {
+      setSnappableDir({ x: canSnapToX, y: canSnapToY });
+    }
   }
 
   return {
     previewBlock,
+    snappableDir,
   };
 };

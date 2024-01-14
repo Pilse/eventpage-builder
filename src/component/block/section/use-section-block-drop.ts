@@ -30,7 +30,7 @@ export const useSectionBlockDrop = (
           const sectionDomRect = element.getBoundingClientRect();
           const deserializedBlock = BlockFactory.deserialize(item.serialize(), section);
           deserializedBlock.updateCoords(currentOffset, sectionDomRect);
-          const snappedCoords = section.getSnappedCoords(
+          const { canSnapToX, canSnapToY, ...snappedCoords } = section.getSnappedCoords(
             deserializedBlock,
             currentOffset,
             sectionDomRect,
@@ -47,7 +47,7 @@ export const useSectionBlockDrop = (
 
         const sectionDomRect = element.getBoundingClientRect();
         item.updateCoords(currentOffset, sectionDomRect);
-        const snappedCoords = section.getSnappedCoords(
+        const { canSnapToX, canSnapToY, ...snappedCoords } = section.getSnappedCoords(
           item,
           currentOffset,
           sectionDomRect,

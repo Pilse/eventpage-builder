@@ -1,18 +1,21 @@
 import { ChildrenMixin, DragdropMixin, ResizeMixin, SnapMixin } from "@/domain/mixin";
-import { Block, BlockFactory, FrameBlock } from "@/domain/block";
+import { Block, BlockFactory, FrameBlock, TextBlock } from "@/domain/block";
 import { hasResizeMixin } from "@/util";
 import { LayoutMap, Position } from "@/type";
 
+type ChildBlock = InstanceType<typeof TextBlock>;
+
 export class Frame extends Block {
-  public children: InstanceType<typeof Block>[];
+  public children: ChildBlock[];
 
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
-      children?: ReturnType<Block["serialize"]>[];
+      children?: ReturnType<ChildBlock["serialize"]>[];
     }
   ) {
     super({ ...initState, type: "FRAME" });
-    this.children = initState.children?.map((child) => BlockFactory.deserialize(child, this)) ?? [];
+    this.children = (initState.children?.map((child) => BlockFactory.deserialize(child, this)) ??
+      []) as ChildBlock[];
   }
 
   public isChildResizing(): boolean {
@@ -66,7 +69,7 @@ export class Frame extends Block {
   public serialize() {
     return {
       ...super.serialize(),
-      children: this.children.map((child) => child.serialize()),
+      children: this.children.map((child) => child.serialize()) as ReturnType<ChildBlock["serialize"]>[],
       type: "FRAME" as const,
     };
   }

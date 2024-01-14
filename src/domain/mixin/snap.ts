@@ -151,6 +151,8 @@ export const SnapMixin = <
         Math.abs(adjecentOffsetFromSection.y - (parentOffsetFromSection.y + block.t)) < threshhold;
 
       return {
+        canSnapToX,
+        canSnapToY,
         x: canSnapToX ? sectionOffset.x + adjecentOffsetFromSection.x : parentOffset.x + block.l,
         y: canSnapToY ? sectionOffset.y + adjecentOffsetFromSection.y : parentOffset.y + block.t,
       };

@@ -21,7 +21,7 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         dragRef(ele);
         previewRef(getEmptyImage());
       }}
-      className={twMerge("group", !isPreview && isDragging && "opacity-0")}
+      className={twMerge("group bg-sky-200", !isPreview && isDragging && "opacity-0")}
       {...blockProps}
     >
       {!isSelected && <HoverLayer />}

@@ -9,7 +9,7 @@ export const HoverLayer = ({ useProgrammaticHovered, programmaticHovered }: IHov
   return (
     <div
       className={twMerge(
-        "absolute -top-px -bottom-px -left-px -right-px border border-transparent",
+        "absolute -top-px -bottom-px -left-px -right-px border select-none border-transparent",
         !useProgrammaticHovered && "group-has-[*:hover]:hover:border-black",
         useProgrammaticHovered && programmaticHovered ? "border-black" : "border-transparent"
       )}

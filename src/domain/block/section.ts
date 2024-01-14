@@ -1,17 +1,20 @@
-import { Block, BlockFactory } from "@/domain/block";
+import { Block, BlockFactory, FrameBlock, TextBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin, SnapMixin } from "@/domain/mixin";
 import { LayoutMap } from "@/type";
 
+type ChildBlock = InstanceType<typeof TextBlock> | InstanceType<typeof FrameBlock>;
+
 export class Section extends Block {
-  public children: InstanceType<typeof Block>[];
+  public children: ChildBlock[];
 
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
-      children?: ReturnType<Block["serialize"]>[];
+      children?: ReturnType<ChildBlock["serialize"]>[];
     }
   ) {
     super({ ...initState, type: "SECTION", position: "relative" });
-    this.children = initState.children?.map((child) => BlockFactory.deserialize(child, this)) ?? [];
+    this.children = (initState.children?.map((child) => BlockFactory.deserialize(child, this)) ??
+      []) as ChildBlock[];
   }
 
   public getLayoutMap() {
@@ -41,7 +44,7 @@ export class Section extends Block {
   public serialize() {
     return {
       ...super.serialize(),
-      children: this.children.map((child) => child.serialize()),
+      children: this.children.map((child) => child.serialize()) as ReturnType<ChildBlock["serialize"]>[],
       type: "SECTION" as const,
     };
   }

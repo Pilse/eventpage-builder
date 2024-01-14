@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block, FrameBlock, SectionBlock, TextBlock } from "@/domain/block";
 import { XYCoord } from "react-dnd";
 
 export type BlockType = "TEXT" | "FRAME" | "SECTION" | "BLOCK";
@@ -14,7 +14,6 @@ export type Layout = Position & Size;
 export type LayoutMap = Record<string, Layout>;
 
 export type Offset = XYCoord;
-
 export interface IBlockProps<T extends InstanceType<typeof Block>> {
   block: T;
   isPreview?: boolean;
