@@ -1,4 +1,4 @@
-import { ChildrenMixin, DragdropMixin, ResizeMixin, SnapMixin } from "@/domain/mixin";
+import { ChildrenMixin, DragMixin, DropMixin, ResizeMixin, SnapMixin } from "@/domain/mixin";
 import { Block, BlockFactory, FrameBlock, TextBlock } from "@/domain/block";
 import { hasResizeMixin } from "@/util";
 import { LayoutMap, Position } from "@/type";
@@ -79,4 +79,4 @@ export class Frame extends Block {
   }
 }
 
-export default SnapMixin(ChildrenMixin(DragdropMixin(ResizeMixin(Frame))));
+export default SnapMixin(ChildrenMixin(DragMixin(DropMixin(ResizeMixin(Frame)))));

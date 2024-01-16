@@ -3,13 +3,14 @@
 import { SectionBlock } from "@/domain/block";
 import { ChildrenMixin } from "@/component/mixin";
 import {
-  BlockFactory,
+  PreviewBlock,
   useSectionBlockDrop,
   useSectionBlockProps,
   useSectionPreviewBlock,
+  SnapLineLayer,
 } from "@/component/block";
 import { IBlockProps } from "@/type";
-import { HoverLayer, SnapLineLayer } from "@/component/layer";
+import { HoverLayer } from "@/component/layer";
 
 interface ISectionProps extends IBlockProps<InstanceType<typeof SectionBlock>> {}
 
@@ -39,11 +40,7 @@ export const Section = ({ block }: ISectionProps) => {
         <SnapLineLayer sectionElement={element} previewBlock={previewBlock} snappableDir={snappableDir} />
       )}
       <ChildrenMixin block={section} />
-      {previewBlock && (
-        <div className="absolute pointer-events-none">
-          <BlockFactory block={previewBlock} isPreview />
-        </div>
-      )}
+      {previewBlock && <PreviewBlock block={previewBlock} />}
     </section>
   );
 };

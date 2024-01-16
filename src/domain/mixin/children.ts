@@ -15,7 +15,7 @@ export const ChildrenMixin = <TBase extends Constructor<Block & { children: Inst
       super(...args);
     }
 
-    public hasChlid(child: InstanceType<typeof Block>) {
+    public hasChlidDeep(child: InstanceType<typeof Block>) {
       for (const block of this) {
         if (block.id === child.id) {
           return true;

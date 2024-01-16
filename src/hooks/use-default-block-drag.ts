@@ -1,4 +1,5 @@
 import { Block } from "@/domain/block";
+import { hasDragdropMixin } from "@/util";
 import { DragSourceMonitor, useDrag } from "react-dnd";
 
 interface IUseDefaultBlockDragProps {
@@ -11,7 +12,7 @@ export const useDefaultBlockDrag = ({ block, canDrag }: IUseDefaultBlockDragProp
     () => ({
       type: "BLOCK",
       item: block,
-      canDrag: canDrag ? canDrag : () => true,
+      canDrag: canDrag ? canDrag : () => hasDragdropMixin(block),
       collect: (monitor) => {
         return { isDragging: monitor.isDragging() || monitor.getItem()?.id === block.id };
       },

@@ -133,7 +133,7 @@ export const SnapMixin = <
       return { x, y };
     }
 
-    public getSnappedCoords(
+    private getSnappedCoords(
       block: InstanceType<typeof Block>,
       currentOffset: Offset,
       sectionOffset: Offset,
@@ -151,11 +151,30 @@ export const SnapMixin = <
         Math.abs(adjecentOffsetFromSection.y - (parentOffsetFromSection.y + block.t)) < threshhold;
 
       return {
-        canSnapToX,
-        canSnapToY,
+        snappedToX: canSnapToX,
+        snappedToY: canSnapToY,
         x: canSnapToX ? sectionOffset.x + adjecentOffsetFromSection.x : parentOffset.x + block.l,
         y: canSnapToY ? sectionOffset.y + adjecentOffsetFromSection.y : parentOffset.y + block.t,
       };
+    }
+
+    public snap(
+      block: InstanceType<typeof Block>,
+      currentOffset: Offset,
+      sectionOffset: Offset,
+      parentOffset: Offset,
+      threshhold: number = 0
+    ) {
+      const { snappedToX, snappedToY, ...snappedCoords } = this.getSnappedCoords(
+        block,
+        currentOffset,
+        sectionOffset,
+        parentOffset,
+        threshhold
+      );
+      block.updateCoords(snappedCoords, parentOffset);
+
+      return { snappedToX, snappedToY };
     }
   };
 };

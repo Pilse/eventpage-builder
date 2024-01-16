@@ -1,5 +1,5 @@
 import { Block, BlockFactory, FrameBlock, TextBlock } from "@/domain/block";
-import { ChildrenMixin, ResizeMixin, SnapMixin } from "@/domain/mixin";
+import { ChildrenMixin, DropMixin, ResizeMixin, SnapMixin } from "@/domain/mixin";
 import { LayoutMap } from "@/type";
 
 type ChildBlock = InstanceType<typeof TextBlock> | InstanceType<typeof FrameBlock>;
@@ -54,4 +54,4 @@ export class Section extends Block {
   }
 }
 
-export default SnapMixin(ChildrenMixin(ResizeMixin(Section)));
+export default SnapMixin(ChildrenMixin(DropMixin(ResizeMixin(Section))));

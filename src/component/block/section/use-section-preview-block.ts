@@ -32,7 +32,7 @@ export const useSectionPreviewBlock = (
   }
 
   // 다른 섹션으로 드래그 하는 경우
-  if (previewBlock && draggedBlock && !section.hasChlid(draggedBlock)) {
+  if (previewBlock && draggedBlock && !section.hasChlidDeep(draggedBlock)) {
     setPreviewBlock(null);
     setSnappableDir({ x: false, y: false });
   }
@@ -50,7 +50,7 @@ export const useSectionPreviewBlock = (
   }
 
   // 현재 섹션에서 드래그가 시작된 경우
-  if (!previewBlock && draggedBlock && section.hasChlid(draggedBlock) && currentOffset && element) {
+  if (!previewBlock && draggedBlock && section.hasChlidDeep(draggedBlock) && currentOffset && element) {
     const newItem = BlockFactory.deserialize(
       { ...draggedBlock.serialize(), draggable: false },
       draggedBlock.parent
@@ -68,16 +68,15 @@ export const useSectionPreviewBlock = (
     draggedBlock.updateDirection(currentOffset);
     previewBlock.updateDirection(currentOffset);
     previewBlock.updateCoords(currentOffset, sectionDomRect);
-    const { canSnapToX, canSnapToY, ...snappedCoords } = section.getSnappedCoords(
+    const { snappedToX, snappedToY } = section.snap(
       previewBlock,
       currentOffset,
       sectionDomRect,
       sectionDomRect,
       SNAP_THRESHOLD
     );
-    previewBlock.updateCoords(snappedCoords, sectionDomRect);
-    if (snappableDir.x !== canSnapToX || snappableDir.y !== canSnapToY) {
-      setSnappableDir({ x: canSnapToX, y: canSnapToY });
+    if (snappableDir.x !== snappedToX || snappableDir.y !== snappedToY) {
+      setSnappableDir({ x: snappedToX, y: snappedToY });
     }
   }
 
