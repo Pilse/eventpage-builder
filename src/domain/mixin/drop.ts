@@ -1,16 +1,19 @@
 import { SNAP_THRESHOLD } from "@/constant";
 import { Block, BlockFactory } from "@/domain/block";
-import { Constructor, Offset } from "@/type";
+import { Constructor, LayoutMap, Offset } from "@/type";
 import { hasChildrenMixin, hasSnapMixin } from "@/util";
+import { ChildrenMixin, SnapMixin } from ".";
 
 export type DropMixinBlockType = InstanceType<
-  ReturnType<typeof DropMixin<Constructor<Block & { children: Block[] }>>>
+  ReturnType<typeof DropMixin<Constructor<Block & { children: Block[]; getLayoutMap(): LayoutMap }>>>
 >;
 
-export const DropMixin = <TBase extends Constructor<Block & { children: InstanceType<typeof Block>[] }>>(
+export const DropMixin = <
+  TBase extends Constructor<Block & { children: InstanceType<typeof Block>[]; getLayoutMap(): LayoutMap }>
+>(
   Base: TBase
 ) => {
-  return class extends Base {
+  return class extends SnapMixin(ChildrenMixin(Base)) {
     public droppable = true;
 
     constructor(...args: any[]) {
@@ -25,14 +28,11 @@ export const DropMixin = <TBase extends Constructor<Block & { children: Instance
     ) {
       if (draggedBlock.parent && draggedBlock.parent.id !== this.id) {
         const deserializedBlock = BlockFactory.deserialize(draggedBlock.serialize(), draggedBlock.parent);
-        deserializedBlock.updateCoords(currentOffset, thisOffset);
-        if (hasSnapMixin(this)) {
-          this.snap(deserializedBlock, currentOffset, sectionOffset, thisOffset, SNAP_THRESHOLD);
-        }
 
-        if (hasChildrenMixin(this)) {
-          this.addChild(deserializedBlock);
-        }
+        deserializedBlock.updateCoords(currentOffset, thisOffset);
+        this.snap(deserializedBlock, currentOffset, sectionOffset, thisOffset, SNAP_THRESHOLD);
+        this.addChild(deserializedBlock);
+
         if (hasChildrenMixin(draggedBlock.parent)) {
           draggedBlock.parent.removeChild(draggedBlock);
         }
@@ -40,9 +40,7 @@ export const DropMixin = <TBase extends Constructor<Block & { children: Instance
       }
 
       draggedBlock.updateCoords(currentOffset, thisOffset);
-      if (hasSnapMixin(this)) {
-        this.snap(draggedBlock, currentOffset, sectionOffset, thisOffset, SNAP_THRESHOLD);
-      }
+      this.snap(draggedBlock, currentOffset, sectionOffset, thisOffset, SNAP_THRESHOLD);
     }
 
     public hovered(hoveredBlock: InstanceType<typeof Block>) {
@@ -50,11 +48,7 @@ export const DropMixin = <TBase extends Constructor<Block & { children: Instance
         return;
       }
 
-      if (
-        hoveredBlock.parent.id !== this.id &&
-        hasChildrenMixin(hoveredBlock.parent) &&
-        hasChildrenMixin(this)
-      ) {
+      if (hoveredBlock.parent.id !== this.id && hasChildrenMixin(hoveredBlock.parent)) {
         hoveredBlock.parent.removeChild(hoveredBlock);
         hoveredBlock.parent = this;
         this.addChild(hoveredBlock);

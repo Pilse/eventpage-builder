@@ -79,4 +79,4 @@ export class Frame extends Block {
   }
 }
 
-export default SnapMixin(ChildrenMixin(DragMixin(DropMixin(ResizeMixin(Frame)))));
+export default DragMixin(DropMixin(ResizeMixin(Frame)));

@@ -54,4 +54,4 @@ export class Section extends Block {
   }
 }
 
-export default SnapMixin(ChildrenMixin(DropMixin(ResizeMixin(Section))));
+export default DropMixin(ResizeMixin(Section));
