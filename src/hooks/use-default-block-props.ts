@@ -1,5 +1,5 @@
 import { Block } from "@/domain/block";
-import { hasChildrenMixin, hasResizeMixin } from "@/util";
+import { hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/util";
 import {
   CSSProperties,
   Dispatch,
@@ -8,10 +8,9 @@ import {
   MouseEvent,
   MouseEventHandler,
   SetStateAction,
-  useLayoutEffect,
   useState,
 } from "react";
-import { DragSourceMonitor } from "react-dnd";
+import { DragSourceMonitor, useDragDropManager } from "react-dnd";
 import { useDomain } from ".";
 import { BlockType } from "@/type";
 
@@ -68,15 +67,6 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
 
     setIsSelected(false);
   };
-
-  // 부모 블록의 children중 본인 블록을 proxy블록으로 교체
-  useLayoutEffect(() => {
-    if (block.parent && hasChildrenMixin(block.parent)) {
-      if (block.parent.findChild(block) !== block) {
-        block.parent.replaceChild(block);
-      }
-    }
-  }, [block]);
 
   return {
     tabIndex: -1,

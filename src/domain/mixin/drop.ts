@@ -1,7 +1,7 @@
 import { SNAP_THRESHOLD } from "@/constant";
 import { Block, BlockFactory } from "@/domain/block";
 import { Constructor, LayoutMap, Offset } from "@/type";
-import { hasChildrenMixin, hasSnapMixin } from "@/util";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { ChildrenMixin, SnapMixin } from ".";
 
 export type DropMixinBlockType = InstanceType<
@@ -50,6 +50,10 @@ export const DropMixin = <
 
       if (hoveredBlock.parent.id !== this.id && hasChildrenMixin(hoveredBlock.parent)) {
         hoveredBlock.parent.removeChild(hoveredBlock);
+        if (hasDropRowMixin(hoveredBlock.parent) || hasDropColMixin(hoveredBlock.parent)) {
+          hoveredBlock.parent.autoLayout();
+        }
+
         hoveredBlock.parent = this;
         this.addChild(hoveredBlock);
       }

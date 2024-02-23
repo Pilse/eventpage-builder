@@ -172,6 +172,7 @@ export const SnapMixin = <
         parentOffset,
         threshhold
       );
+
       block.updateCoords(snappedCoords, parentOffset);
 
       return { snappedToX, snappedToY };

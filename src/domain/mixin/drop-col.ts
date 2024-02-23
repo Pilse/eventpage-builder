@@ -1,0 +1,88 @@
+import { Block, BlockFactory } from "@/domain/block";
+import { ChildrenMixin } from "@/domain/mixin";
+import { Constructor, Offset } from "@/type";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+
+export type DropColMixinBlockType = InstanceType<
+  ReturnType<typeof DropColMixin<Constructor<Block & { children: Block[] }>>>
+>;
+
+export const DropColMixin = <TBase extends Constructor<Block & { children: Block[] }>>(Base: TBase) => {
+  return class extends ChildrenMixin(Base) {
+    public colDroppable = true;
+    public childrenOffsetY: number[] = [0];
+
+    constructor(...args: any[]) {
+      super(...args);
+      this.autoLayout();
+    }
+
+    public autoLayout() {
+      this.childrenOffsetY = [0];
+      this.children.sort((chlid1, child2) => chlid1.t - child2.t);
+      this.children.forEach((child, idx) => {
+        this.childrenOffsetY.push(this.childrenOffsetY[idx] + child.height);
+        child.t = this.childrenOffsetY[idx];
+        child.l = 0;
+      });
+    }
+
+    public dropped(
+      draggedBlock: InstanceType<typeof Block>,
+      currentOffset: Offset,
+      sectionOffset: Offset,
+      thisOffset: Offset
+    ) {
+      if (draggedBlock.parent && draggedBlock.parent.id !== this.id) {
+        const deserializedBlock = BlockFactory.deserialize(draggedBlock.serialize(), draggedBlock.parent);
+
+        deserializedBlock.updateCoords(currentOffset, thisOffset);
+        this.addChild(deserializedBlock);
+
+        if (hasChildrenMixin(draggedBlock.parent)) {
+          draggedBlock.parent.removeChild(draggedBlock);
+        }
+        return;
+      }
+
+      draggedBlock.updateCoords(currentOffset, thisOffset);
+      this.autoLayout();
+    }
+
+    public hovered(hoveredBlock: InstanceType<typeof Block>, offsetFromFrameCol: Offset) {
+      if (!hoveredBlock.parent) {
+        return;
+      }
+
+      if (hoveredBlock.parent.id !== this.id && hasChildrenMixin(hoveredBlock.parent)) {
+        hoveredBlock.parent.removeChild(hoveredBlock);
+        if (hasDropRowMixin(hoveredBlock.parent) || hasDropColMixin(hoveredBlock.parent)) {
+          hoveredBlock.parent.autoLayout();
+        }
+
+        hoveredBlock.parent = this;
+        hoveredBlock.t = offsetFromFrameCol.y;
+        this.addChild(hoveredBlock);
+        this.autoLayout();
+        return;
+      }
+
+      if (hoveredBlock.parent.id === this.id) {
+        const idx = this.childrenOffsetY.findLastIndex((childOffetY) => childOffetY > offsetFromFrameCol.y);
+        if (idx === -1) {
+          return;
+        }
+
+        hoveredBlock.t = offsetFromFrameCol.y;
+
+        if (this.children[idx]) {
+          this.swapChildren(hoveredBlock, this.children[idx]);
+        } else {
+          this.swapChildren(hoveredBlock, this.children[idx - 1]);
+        }
+
+        this.autoLayout();
+      }
+    }
+  };
+};

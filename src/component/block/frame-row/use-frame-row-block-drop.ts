@@ -1,27 +1,38 @@
-import { Block, FrameBlock } from "@/domain/block";
+import { Block, FrameRowBlock } from "@/domain/block";
 import { useDefaultBlockDrop } from "@/hooks";
 import { DropTargetMonitor } from "react-dnd";
 
-export const useFrameBlockDrop = (
-  frame: InstanceType<typeof FrameBlock>,
+export const useFrameRowBlockDrop = (
+  frameRow: InstanceType<typeof FrameRowBlock>,
   element: HTMLElement | null,
   isDragging: boolean,
   isPreview?: boolean
 ) => {
   const isDraggingDeep = (monitor: DropTargetMonitor) => {
     const currentDragged = monitor.getItem() as InstanceType<typeof Block> | null;
-    return currentDragged !== null && [...currentDragged].some((block) => block.id === frame.id);
+    return currentDragged !== null && [...currentDragged].some((block) => block.id === frameRow.id);
   };
 
   return useDefaultBlockDrop(
     {
       hover: (item, monitor) => {
-        monitor.getItem();
         if (isDragging || isDraggingDeep(monitor) || !monitor.isOver({ shallow: true })) {
           return;
         }
 
-        frame.hovered(item);
+        const currentOffset = monitor.getSourceClientOffset();
+        if (!currentOffset || !element) {
+          return;
+        }
+
+        const { x: draggedOffsetX, y: draggedOffsetY } = currentOffset;
+        const { x: frameRowOffsetX, y: frameRowOffsetY } = element.getBoundingClientRect();
+        const offsetFromFrameRow = {
+          x: draggedOffsetX - frameRowOffsetX,
+          y: draggedOffsetY - frameRowOffsetY,
+        };
+
+        frameRow.hovered(item, offsetFromFrameRow);
       },
       canDrop: (_, monitor) => !isDraggingDeep(monitor) && !isDragging && !isPreview,
       drop: (item, monitor) => {
@@ -38,7 +49,7 @@ export const useFrameBlockDrop = (
         const sectionDomRect = sectionElement.getBoundingClientRect();
         const frameDomRect = element.getBoundingClientRect();
 
-        frame.dropped(item, currentOffset, sectionDomRect, frameDomRect);
+        frameRow.dropped(item, currentOffset, sectionDomRect, frameDomRect);
       },
     },
     [element, isDragging]

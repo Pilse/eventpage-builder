@@ -1,6 +1,5 @@
 import { SectionBlock } from "@/domain/block";
 import { useDefaultBlockDrop } from "@/hooks";
-import { hasChildrenMixin } from "@/util";
 
 export const useSectionBlockDrop = (
   section: InstanceType<typeof SectionBlock>,
@@ -8,7 +7,11 @@ export const useSectionBlockDrop = (
 ) => {
   return useDefaultBlockDrop(
     {
-      hover: (item) => {
+      hover: (item, monitor) => {
+        if (!monitor.isOver({ shallow: true })) {
+          return;
+        }
+
         section.hovered(item);
       },
       drop: (item, monitor) => {

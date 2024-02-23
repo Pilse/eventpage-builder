@@ -1,7 +1,7 @@
-import { Block, FrameBlock, SectionBlock, TextBlock } from "@/domain/block";
+import { Block } from "@/domain/block";
 import { XYCoord } from "react-dnd";
 
-export type BlockType = "TEXT" | "FRAME" | "SECTION" | "BLOCK";
+export type BlockType = "TEXT" | "FRAME" | "SECTION" | "BLOCK" | "FRAME_ROW" | "FRAME_COL";
 
 export type ParentBlockType = (Block & { children: InstanceType<typeof Block>[] }) | null;
 

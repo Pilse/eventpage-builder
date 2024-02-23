@@ -2,24 +2,25 @@
 
 import { getEmptyImage } from "react-dnd-html5-backend";
 import { twMerge } from "tailwind-merge";
-import { FrameBlock } from "@/domain/block";
+import { FrameRowBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
-import { useFrameBlockDrag, useFrameBlockDrop, useFrameBlockProps } from "@/component/block";
 import { HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
+import { useFrameRowBlockDrag, useFrameRowBlockDrop, useFrameRowBlockProps } from "@/component/block";
 import { isAutoLayouted } from "@/util";
 
-interface IFrameProps extends IBlockProps<InstanceType<typeof FrameBlock>> {}
+interface IFrameRowProps extends IBlockProps<InstanceType<typeof FrameRowBlock>> {}
 
-export const Frame = ({ block, isPreview }: IFrameProps) => {
-  const { block: frame, element, setElement, isSelected, ...blockProps } = useFrameBlockProps(block);
-  const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useFrameBlockDrag(frame);
-  const [{ isCurrentOver, isDragging }, dropRef] = useFrameBlockDrop(
-    frame,
+export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
+  const { block: frameRow, element, setElement, isSelected, ...blockProps } = useFrameRowBlockProps(block);
+  const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useFrameRowBlockDrag(frameRow);
+  const [{ isCurrentOver, isDragging }, dropRef] = useFrameRowBlockDrop(
+    frameRow,
     element,
     isCurrentDragging,
     isPreview
   );
+
   return (
     <div
       ref={(ele) => {
@@ -31,15 +32,15 @@ export const Frame = ({ block, isPreview }: IFrameProps) => {
         previewRef(getEmptyImage());
       }}
       className={twMerge(
-        "group bg-neutral-100",
+        "group bg-gray-300",
         !isPreview && isCurrentDragging && "opacity-0",
-        isAutoLayouted(frame) && "opacity-100"
+        isAutoLayouted(frameRow) && "opacity-100"
       )}
       {...blockProps}
     >
       {!isSelected && <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />}
-      {isSelected && element && <ResizeMixin element={element} block={frame} />}
-      <ChildrenMixin block={frame} />
+      {isSelected && element && <ResizeMixin element={element} block={frameRow} />}
+      <ChildrenMixin block={frameRow} />
     </div>
   );
 };

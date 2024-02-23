@@ -1,5 +1,7 @@
 import { Block } from "@/domain/block";
 import { BlockFactory } from "@/component/block";
+import { twMerge } from "tailwind-merge";
+import { isAutoLayouted } from "@/util";
 
 interface IPreviewBlock {
   block: InstanceType<typeof Block>;
@@ -7,7 +9,7 @@ interface IPreviewBlock {
 
 export const PreviewBlock = ({ block }: IPreviewBlock) => {
   return (
-    <div className="absolute pointer-events-none">
+    <div className={twMerge("absolute pointer-events-none", isAutoLayouted(block) && "opacity-30")}>
       <BlockFactory block={block} isPreview />
     </div>
   );

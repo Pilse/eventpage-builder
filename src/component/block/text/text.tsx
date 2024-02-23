@@ -7,6 +7,7 @@ import { useTextBlockDrag, useTextBlockProps } from "@/component/block";
 import { ResizeMixin } from "@/component/mixin";
 import { HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
+import { isAutoLayouted } from "@/util";
 
 interface ITextProps extends IBlockProps<InstanceType<typeof TextBlock>> {}
 
@@ -21,10 +22,14 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         dragRef(ele);
         previewRef(getEmptyImage());
       }}
-      className={twMerge("group bg-sky-200", !isPreview && isDragging && "opacity-0")}
+      className={twMerge(
+        "group bg-sky-200",
+        !isPreview && isDragging && "opacity-0",
+        isAutoLayouted(text) && "opacity-100"
+      )}
       {...blockProps}
     >
-      {!isSelected && <HoverLayer />}
+      {!isSelected && !text.isSiblingResizing() && <HoverLayer />}
       {isSelected && element && <ResizeMixin element={element} block={text} />}
       <p className="w-full h-full">{text.getContent()}</p>
     </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDragLayer } from "react-dnd";
 import { Block, SectionBlock, BlockFactory } from "@/domain/block";
 import { SNAP_THRESHOLD } from "@/constant";
+import { hasSnapMixin } from "@/util";
 
 interface IUseSectionPreviewBlockProps {
   section: InstanceType<typeof SectionBlock>;
@@ -68,15 +69,17 @@ export const useSectionPreviewBlock = (
     draggedBlock.updateDirection(currentOffset);
     previewBlock.updateDirection(currentOffset);
     previewBlock.updateCoords(currentOffset, sectionDomRect);
-    const { snappedToX, snappedToY } = section.snap(
-      previewBlock,
-      currentOffset,
-      sectionDomRect,
-      sectionDomRect,
-      SNAP_THRESHOLD
-    );
-    if (snappableDir.x !== snappedToX || snappableDir.y !== snappedToY) {
-      setSnappableDir({ x: snappedToX, y: snappedToY });
+    if (previewBlock.parent && hasSnapMixin(previewBlock.parent)) {
+      const { snappedToX, snappedToY } = section.snap(
+        previewBlock,
+        currentOffset,
+        sectionDomRect,
+        sectionDomRect,
+        SNAP_THRESHOLD
+      );
+      if (snappableDir.x !== snappedToX || snappableDir.y !== snappedToY) {
+        setSnappableDir({ x: snappedToX, y: snappedToY });
+      }
     }
   }
 
