@@ -45,7 +45,6 @@ export const DropColMixin = <TBase extends Constructor<Block & { children: Block
         return;
       }
 
-      draggedBlock.updateCoords(currentOffset, thisOffset);
       this.autoLayout();
     }
 

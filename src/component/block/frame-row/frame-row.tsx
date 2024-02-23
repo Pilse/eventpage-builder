@@ -32,7 +32,7 @@ export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
         previewRef(getEmptyImage());
       }}
       className={twMerge(
-        "group bg-gray-300",
+        "group bg-green-300",
         !isPreview && isCurrentDragging && "opacity-0",
         isAutoLayouted(frameRow) && "opacity-100"
       )}
