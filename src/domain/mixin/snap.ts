@@ -49,6 +49,9 @@ export const SnapMixin = <
             adjecentX = pos.l + pos.width;
           }
 
+          if (Math.abs(offsetX - (pos.l + Math.floor(pos.width / 2))) < Math.abs(offsetX - adjecentX)) {
+            adjecentX = pos.l + Math.floor(pos.width / 2);
+          }
           return adjecentX;
         }, Math.max()) - block.width
       );
@@ -64,6 +67,10 @@ export const SnapMixin = <
 
         if (Math.abs(offsetX - (pos.l + pos.width)) < Math.abs(offsetX - adjecentX)) {
           adjecentX = pos.l + pos.width;
+        }
+
+        if (Math.abs(offsetX - (pos.l + Math.floor(pos.width / 2))) < Math.abs(offsetX - adjecentX)) {
+          adjecentX = pos.l + Math.floor(pos.width / 2);
         }
 
         return adjecentX;
@@ -87,6 +94,10 @@ export const SnapMixin = <
             adjecentY = pos.t + pos.height;
           }
 
+          if (Math.abs(offsetY - (pos.t + Math.floor(pos.height / 2))) < Math.abs(offsetY - adjecentY)) {
+            adjecentY = pos.t + Math.floor(pos.height / 2);
+          }
+
           return adjecentY;
         }, Math.max()) - block.height
       );
@@ -102,6 +113,10 @@ export const SnapMixin = <
 
         if (Math.abs(offsetY - (pos.t + pos.height)) < Math.abs(offsetY - adjecentY)) {
           adjecentY = pos.t + pos.height;
+        }
+
+        if (Math.abs(offsetY - (pos.t + Math.floor(pos.height / 2))) < Math.abs(offsetY - adjecentY)) {
+          adjecentY = pos.t + Math.floor(pos.height / 2);
         }
 
         return adjecentY;
