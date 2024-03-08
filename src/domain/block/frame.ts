@@ -48,6 +48,24 @@ export class Frame extends Block {
       height: this.height,
     };
 
+    layoutMap["centerX"] = {
+      t: sectionOffset.t + Math.floor(this.height / 2),
+      r: 0,
+      b: 0,
+      l: 0,
+      width: this.width,
+      height: 1,
+    };
+
+    layoutMap["centerY"] = {
+      t: 0,
+      r: 0,
+      b: 0,
+      l: sectionOffset.l + Math.floor(this.width / 2),
+      width: 1,
+      height: this.height,
+    };
+
     return layoutMap;
   }
 
