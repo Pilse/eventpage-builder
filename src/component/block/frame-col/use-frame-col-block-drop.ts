@@ -1,5 +1,6 @@
 import { Block, FrameColBlock } from "@/domain/block";
 import { useDefaultBlockDrop } from "@/hooks";
+import { getClosestSectionBlockEle } from "@/util";
 import { DropTargetMonitor } from "react-dnd";
 
 export const useFrameColBlockDrop = (
@@ -41,7 +42,7 @@ export const useFrameColBlockDrop = (
           return;
         }
 
-        const sectionElement = element.closest("[data-block-type='SECTION']");
+        const sectionElement = getClosestSectionBlockEle(element);
         if (!sectionElement) {
           return;
         }
