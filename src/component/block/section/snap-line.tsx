@@ -4,7 +4,10 @@ import { useRef } from "react";
 interface ISnapLineLayerProps {
   sectionElement: HTMLElement;
   previewBlock: InstanceType<typeof Block>;
-  snappableDir: { x: boolean; y: boolean };
+  snappableDir: {
+    x: "l" | "r" | "c" | boolean;
+    y: "t" | "b" | "c" | boolean;
+  };
 }
 
 export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: ISnapLineLayerProps) => {
@@ -26,51 +29,69 @@ export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: IS
 
   return (
     <>
-      {snappableDir.x &&
-        (previewBlock.xDirection === "l" ? (
-          <div
-            style={{
-              top: t,
-              bottom: b,
-              left: previewBlock.l,
-              height: "unset",
-            }}
-            className="absolute w-px border border-dashed border-red-400 z-20"
-          ></div>
-        ) : (
-          <div
-            style={{
-              top: t,
-              bottom: b,
-              left: previewBlock.l + previewBlock.width,
-              height: "unset",
-            }}
-            className="absolute w-px border border-dashed border-red-400 z-20"
-          ></div>
-        ))}
+      {snappableDir.x === "l" ? (
+        <div
+          style={{
+            top: t,
+            bottom: b,
+            left: previewBlock.l,
+            height: "unset",
+          }}
+          className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
+        ></div>
+      ) : snappableDir.x === "r" ? (
+        <div
+          style={{
+            top: t,
+            bottom: b,
+            left: previewBlock.l + previewBlock.width,
+            height: "unset",
+          }}
+          className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
+        ></div>
+      ) : snappableDir.x === "c" ? (
+        <div
+          style={{
+            top: t,
+            bottom: b,
+            left: previewBlock.l + previewBlock.width / 2,
+            height: "unset",
+          }}
+          className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
+        ></div>
+      ) : null}
 
-      {snappableDir.y &&
-        (previewBlock.yDirection === "t" ? (
-          <div
-            style={{
-              left: l,
-              right: r,
-              top: previewBlock.t,
-              width: "unset",
-            }}
-            className="absolute w-px border border-dashed border-red-400 z-20"
-          ></div>
-        ) : (
-          <div
-            style={{
-              left: l,
-              right: r,
-              top: previewBlock.t + previewBlock.height,
-              width: "unset",
-            }}
-            className="absolute w-px border border-dashed border-red-400 z-20"
-          ></div>
-        ))}
+      {snappableDir.y === "t" ? (
+        <div
+          style={{
+            left: l,
+            right: r,
+            top: previewBlock.t,
+            width: "unset",
+          }}
+          className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
+        ></div>
+      ) : snappableDir.y === "b" ? (
+        <div
+          style={{
+            left: l,
+            right: r,
+            top: previewBlock.t + previewBlock.height,
+            width: "unset",
+          }}
+          className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
+        ></div>
+      ) : snappableDir.y === "c" ? (
+        <div
+          style={{
+            left: l,
+            right: r,
+            top: previewBlock.t + previewBlock.height / 2,
+            width: "unset",
+          }}
+          className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
+        ></div>
+      ) : null}
     </>
   );
 };

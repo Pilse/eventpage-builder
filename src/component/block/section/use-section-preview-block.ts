@@ -11,7 +11,10 @@ interface IUseSectionPreviewBlockProps {
 
 interface IUseSectionPreviewBlock {
   previewBlock: InstanceType<typeof Block> | null;
-  snappableDir: { x: boolean; y: boolean };
+  snappableDir: {
+    x: "l" | "r" | "c" | boolean;
+    y: "t" | "b" | "c" | boolean;
+  };
 }
 
 export const useSectionPreviewBlock = (
@@ -24,7 +27,10 @@ export const useSectionPreviewBlock = (
   }));
 
   const [previewBlock, setPreviewBlock] = useState<InstanceType<typeof Block> | null>(draggedBlock);
-  const [snappableDir, setSnappableDir] = useState<{ x: boolean; y: boolean }>({ x: false, y: false });
+  const [snappableDir, setSnappableDir] = useState<{
+    x: "l" | "r" | "c" | boolean;
+    y: "t" | "b" | "c" | boolean;
+  }>({ x: false, y: false });
 
   // 드래그가 끝난 경우
   if (!draggedBlock && previewBlock) {
