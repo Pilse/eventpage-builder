@@ -38,9 +38,8 @@ export const SnapMixin = <
       block: InstanceType<typeof Block>
     ) {
       const offsetRX = currentOffsetFromSection.x + block.width;
-      const offsetCX = currentOffsetFromSection.x + Math.floor(block.width / 2);
 
-      const rx =
+      return (
         Object.values(layoutMap).reduce((adjecentX, pos) => {
           if (Math.abs(offsetRX - pos.l) < Math.abs(offsetRX - adjecentX)) {
             adjecentX = pos.l;
@@ -54,8 +53,18 @@ export const SnapMixin = <
             adjecentX = pos.l + Math.floor(pos.width / 2);
           }
           return adjecentX;
-        }, Math.max()) - block.width;
+        }, Math.max()) - block.width
+      );
+    }
 
+    private getSnappedRCX(
+      layoutMap: LayoutMap,
+      currentOffsetFromSection: Offset,
+      block: InstanceType<typeof Block>
+    ) {
+      const offsetCX = currentOffsetFromSection.x + Math.floor(block.width / 2);
+
+      const rx = this.getSnappedRX(layoutMap, currentOffsetFromSection, block);
       const cx =
         Object.values(layoutMap).reduce((adjecentX, pos) => {
           if (Math.abs(offsetCX - (pos.l + Math.floor(pos.width / 2))) < Math.abs(offsetCX - adjecentX)) {
@@ -69,15 +78,10 @@ export const SnapMixin = <
         : { snappedTo: "c" as const, value: cx };
     }
 
-    private getSnappedLX(
-      layoutMap: LayoutMap,
-      currentOffsetFromSection: Offset,
-      block: InstanceType<typeof Block>
-    ) {
+    private getSnappedLX(layoutMap: LayoutMap, currentOffsetFromSection: Offset) {
       const offsetLX = currentOffsetFromSection.x;
-      const offsetCX = currentOffsetFromSection.x + Math.floor(block.width / 2);
 
-      const lx = Object.values(layoutMap).reduce((adjecentX, pos) => {
+      return Object.values(layoutMap).reduce((adjecentX, pos) => {
         if (Math.abs(offsetLX - pos.l) < Math.abs(offsetLX - adjecentX)) {
           adjecentX = pos.l;
         }
@@ -92,7 +96,16 @@ export const SnapMixin = <
 
         return adjecentX;
       }, Math.max());
+    }
 
+    private getSnappedLCX(
+      layoutMap: LayoutMap,
+      currentOffsetFromSection: Offset,
+      block: InstanceType<typeof Block>
+    ) {
+      const offsetCX = currentOffsetFromSection.x + Math.floor(block.width / 2);
+
+      const lx = this.getSnappedLX(layoutMap, currentOffsetFromSection);
       const cx =
         Object.values(layoutMap).reduce((adjecentX, pos) => {
           if (Math.abs(offsetCX - (pos.l + Math.floor(pos.width / 2))) < Math.abs(offsetCX - adjecentX)) {
@@ -113,9 +126,8 @@ export const SnapMixin = <
       block: InstanceType<typeof Block>
     ) {
       const offsetBY = currentOffsetFromSection.y + block.height;
-      const offsetCY = currentOffsetFromSection.y + Math.floor(block.height / 2);
 
-      const by =
+      return (
         Object.values(layoutMap).reduce((adjecentY, pos) => {
           if (Math.abs(offsetBY - pos.t) < Math.abs(offsetBY - adjecentY)) {
             adjecentY = pos.t;
@@ -130,8 +142,18 @@ export const SnapMixin = <
           }
 
           return adjecentY;
-        }, Math.max()) - block.height;
+        }, Math.max()) - block.height
+      );
+    }
 
+    private getSnappedBCY(
+      layoutMap: LayoutMap,
+      currentOffsetFromSection: Offset,
+      block: InstanceType<typeof Block>
+    ) {
+      const offsetCY = currentOffsetFromSection.y + Math.floor(block.height / 2);
+
+      const by = this.getSnappedBY(layoutMap, currentOffsetFromSection, block);
       const cy =
         Object.values(layoutMap).reduce((adjecentY, pos) => {
           if (Math.abs(offsetCY - (pos.t + Math.floor(pos.height / 2))) < Math.abs(offsetCY - adjecentY)) {
@@ -146,15 +168,10 @@ export const SnapMixin = <
         : { snappedTo: "c" as const, value: cy };
     }
 
-    private getSnappedTY(
-      layoutMap: LayoutMap,
-      currentOffsetFromSection: Offset,
-      block: InstanceType<typeof Block>
-    ) {
+    private getSnappedTY(layoutMap: LayoutMap, currentOffsetFromSection: Offset) {
       const offsetTY = currentOffsetFromSection.y;
-      const offsetCY = currentOffsetFromSection.y + Math.floor(block.height / 2);
 
-      const ty = Object.values(layoutMap).reduce((adjecentY, pos) => {
+      return Object.values(layoutMap).reduce((adjecentY, pos) => {
         if (Math.abs(offsetTY - pos.t) < Math.abs(offsetTY - adjecentY)) {
           adjecentY = pos.t;
         }
@@ -169,7 +186,16 @@ export const SnapMixin = <
 
         return adjecentY;
       }, Math.max());
+    }
 
+    private getSnappedTCY(
+      layoutMap: LayoutMap,
+      currentOffsetFromSection: Offset,
+      block: InstanceType<typeof Block>
+    ) {
+      const offsetCY = currentOffsetFromSection.y + Math.floor(block.height / 2);
+
+      const ty = this.getSnappedTY(layoutMap, currentOffsetFromSection);
       const cy =
         Object.values(layoutMap).reduce((adjecentY, pos) => {
           if (Math.abs(offsetCY - (pos.t + Math.floor(pos.height / 2))) < Math.abs(offsetCY - adjecentY)) {
@@ -187,7 +213,8 @@ export const SnapMixin = <
     private getAdjecentBlockPosition(
       block: InstanceType<typeof Block>,
       currentOffset: Offset,
-      sectionOffset: Offset
+      sectionOffset: Offset,
+      useCenterCoords: boolean
     ) {
       if (!block.parent || !hasSnapMixin(block.parent)) {
         throw new Error("block is not in snappable parent");
@@ -198,14 +225,30 @@ export const SnapMixin = <
         x: currentOffset.x - sectionOffset.x,
         y: currentOffset.y - sectionOffset.y,
       };
+
       const xRes =
         block.xDirection === "r"
-          ? this.getSnappedRX(layoutMap, currentOffsetFromSection, block)
-          : this.getSnappedLX(layoutMap, currentOffsetFromSection, block);
+          ? useCenterCoords
+            ? this.getSnappedRCX(layoutMap, currentOffsetFromSection, block)
+            : {
+                value: this.getSnappedRX(layoutMap, currentOffsetFromSection, block),
+                snappedTo: "r" as const,
+              }
+          : useCenterCoords
+          ? this.getSnappedLCX(layoutMap, currentOffsetFromSection, block)
+          : { value: this.getSnappedLX(layoutMap, currentOffsetFromSection), snappedTo: "l" as const };
       const yRes =
         block.yDirection === "b"
-          ? this.getSnappedBY(layoutMap, currentOffsetFromSection, block)
-          : this.getSnappedTY(layoutMap, currentOffsetFromSection, block);
+          ? useCenterCoords
+            ? this.getSnappedBCY(layoutMap, currentOffsetFromSection, block)
+            : {
+                value: this.getSnappedBY(layoutMap, currentOffsetFromSection, block),
+                snappedTo: "b" as const,
+              }
+          : useCenterCoords
+          ? this.getSnappedTCY(layoutMap, currentOffsetFromSection, block)
+          : { value: this.getSnappedTY(layoutMap, currentOffsetFromSection), snappedTo: "t" as const };
+
       return { xRes, yRes };
     }
 
@@ -214,9 +257,15 @@ export const SnapMixin = <
       currentOffset: Offset,
       sectionOffset: Offset,
       parentOffset: Offset,
-      threshhold: number = 0
+      threshhold: number = 0,
+      useCenterCoords: boolean
     ) {
-      const { xRes, yRes } = this.getAdjecentBlockPosition(block, currentOffset, sectionOffset);
+      const { xRes, yRes } = this.getAdjecentBlockPosition(
+        block,
+        currentOffset,
+        sectionOffset,
+        useCenterCoords
+      );
       const parentOffsetFromSection = {
         x: parentOffset.x - sectionOffset.x,
         y: parentOffset.y - sectionOffset.y,
@@ -245,10 +294,45 @@ export const SnapMixin = <
         currentOffset,
         sectionOffset,
         parentOffset,
-        threshhold
+        threshhold,
+        true
       );
 
       block.updateCoords(snappedCoords, parentOffset);
+
+      return { snappedToX, snappedToY };
+    }
+
+    public resizeSnap(
+      block: InstanceType<typeof Block>,
+      currentOffset: Offset,
+      sectionOffset: Offset,
+      parentOffset: Offset,
+      threshhold: number = 0
+    ) {
+      const { snappedToX, snappedToY, ...snappedCoords } = this.getSnappedCoords(
+        block,
+        currentOffset,
+        sectionOffset,
+        parentOffset,
+        threshhold,
+        false
+      );
+
+      if (snappedToY === "t") {
+        block.height -= snappedCoords.y - parentOffset.y - block.t;
+        block.t = snappedCoords.y - parentOffset.y;
+      }
+      if (snappedToY === "b") {
+        block.height += snappedCoords.y - parentOffset.y - block.t;
+      }
+      if (snappedToX === "l") {
+        block.width -= snappedCoords.x - parentOffset.x - block.l;
+        block.l = snappedCoords.x - parentOffset.x;
+      }
+      if (snappedToX === "r") {
+        block.width += snappedCoords.x - parentOffset.x - block.l;
+      }
 
       return { snappedToX, snappedToY };
     }

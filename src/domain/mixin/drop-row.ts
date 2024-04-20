@@ -1,14 +1,18 @@
 import { Block, BlockFactory } from "@/domain/block";
-import { ChildrenMixin } from "@/domain/mixin";
-import { Constructor, Offset } from "@/type";
+import { ChildrenMixin, SnapMixin } from "@/domain/mixin";
+import { Constructor, LayoutMap, Offset } from "@/type";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 
 export type DropRowMixinBlockType = InstanceType<
-  ReturnType<typeof DropRowMixin<Constructor<Block & { children: Block[] }>>>
+  ReturnType<typeof DropRowMixin<Constructor<Block & { children: Block[]; getLayoutMap: () => LayoutMap }>>>
 >;
 
-export const DropRowMixin = <TBase extends Constructor<Block & { children: Block[] }>>(Base: TBase) => {
-  return class extends ChildrenMixin(Base) {
+export const DropRowMixin = <
+  TBase extends Constructor<Block & { children: Block[]; getLayoutMap: () => LayoutMap }>
+>(
+  Base: TBase
+) => {
+  return class extends SnapMixin(ChildrenMixin(Base)) {
     public rowDroppable = true;
     public childrenOffsetX: number[] = [0];
 

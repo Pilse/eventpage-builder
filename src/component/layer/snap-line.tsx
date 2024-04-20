@@ -1,31 +1,31 @@
 import { Block } from "@/domain/block";
-import { useRef } from "react";
+import { getBlockEleById } from "@/util";
 
 interface ISnapLineLayerProps {
   sectionElement: HTMLElement;
-  previewBlock: InstanceType<typeof Block>;
+  block: InstanceType<typeof Block>;
   snappableDir: {
     x: "l" | "r" | "c" | boolean;
     y: "t" | "b" | "c" | boolean;
   };
+  layoutFrom: "block" | "domRect";
 }
 
-export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: ISnapLineLayerProps) => {
-  const previewBlockParentElement = previewBlock.parent
-    ? document.getElementById(previewBlock.parent.id)
-    : null;
+export const SnapLineLayer = ({ sectionElement, block, snappableDir, layoutFrom }: ISnapLineLayerProps) => {
+  const parentEle = block.parent ? getBlockEleById(block.parent.id) : null;
+  const ele = getBlockEleById(block.id);
+  const blockDomRect = ele?.getBoundingClientRect();
+  const sectionDomRect = sectionElement.getBoundingClientRect();
+  const parentDomRect = parentEle?.getBoundingClientRect();
 
-  const sectionDomRect = useRef(sectionElement.getBoundingClientRect()).current;
-  const previewBlockParentDomRect = previewBlockParentElement?.getBoundingClientRect();
-
-  if (!previewBlockParentDomRect) {
+  if (!parentDomRect || !blockDomRect) {
     return null;
   }
 
-  const t = previewBlockParentDomRect.top - sectionDomRect.top;
-  const l = previewBlockParentDomRect.left - sectionDomRect.left;
-  const b = sectionDomRect.bottom - previewBlockParentDomRect.bottom;
-  const r = sectionDomRect.right - previewBlockParentDomRect.right;
+  const t = parentDomRect.top - sectionDomRect.top;
+  const l = parentDomRect.left - sectionDomRect.left;
+  const b = sectionDomRect.bottom - parentDomRect.bottom;
+  const r = sectionDomRect.right - parentDomRect.right;
 
   return (
     <>
@@ -34,7 +34,7 @@ export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: IS
           style={{
             top: t,
             bottom: b,
-            left: previewBlock.l,
+            left: layoutFrom === "block" ? block.l : blockDomRect.left - sectionDomRect.left,
             height: "unset",
           }}
           className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
@@ -44,7 +44,10 @@ export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: IS
           style={{
             top: t,
             bottom: b,
-            left: previewBlock.l + previewBlock.width,
+            left:
+              layoutFrom === "block"
+                ? block.l + block.width
+                : blockDomRect.left - sectionDomRect.left + blockDomRect.width,
             height: "unset",
           }}
           className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
@@ -54,7 +57,10 @@ export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: IS
           style={{
             top: t,
             bottom: b,
-            left: previewBlock.l + previewBlock.width / 2,
+            left:
+              layoutFrom === "block"
+                ? block.l + block.width
+                : blockDomRect.left - sectionDomRect.left + blockDomRect.width / 2,
             height: "unset",
           }}
           className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
@@ -66,7 +72,7 @@ export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: IS
           style={{
             left: l,
             right: r,
-            top: previewBlock.t,
+            top: layoutFrom === "block" ? block.t : blockDomRect.top - sectionDomRect.top,
             width: "unset",
           }}
           className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
@@ -76,7 +82,10 @@ export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: IS
           style={{
             left: l,
             right: r,
-            top: previewBlock.t + previewBlock.height,
+            top:
+              layoutFrom === "block"
+                ? block.t + block.height
+                : blockDomRect.top - sectionDomRect.top + blockDomRect.height,
             width: "unset",
           }}
           className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"
@@ -86,7 +95,10 @@ export const SnapLineLayer = ({ sectionElement, previewBlock, snappableDir }: IS
           style={{
             left: l,
             right: r,
-            top: previewBlock.t + previewBlock.height / 2,
+            top:
+              layoutFrom === "block"
+                ? block.t + block.height / 2
+                : blockDomRect.top + blockDomRect.height / 2,
             width: "unset",
           }}
           className="absolute w-px border border-dashed border-red-400 z-20 pointer-events-none"

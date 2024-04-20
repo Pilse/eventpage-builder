@@ -1,6 +1,6 @@
 import { Block } from "@/domain/block";
 import { Constructor } from "@/type";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";
+import { hasChildrenMixin, isAutoLayouted } from "@/util";
 
 export type ResizeMixinBlockType = InstanceType<ReturnType<typeof ResizeMixin<typeof Block>>>;
 
@@ -39,6 +39,7 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
       }
 
       if (this.resizableDir.resizable("t")) {
+        this.yDirection = "t";
         if (!isAutoLayouted(this)) {
           this.t = this.sizeMetric.getResizedTop(pos.pageY);
         }
@@ -46,22 +47,21 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
       }
 
       if (this.resizableDir.resizable("r")) {
+        this.xDirection = "r";
         this.width = this.sizeMetric.getResizedWidth("r", pos.pageX);
       }
 
       if (this.resizableDir.resizable("b")) {
+        this.yDirection = "b";
         this.height = this.sizeMetric.getResizedHeight("b", pos.pageY);
       }
 
       if (this.resizableDir.resizable("l")) {
+        this.xDirection = "l";
         if (!isAutoLayouted(this)) {
           this.l = this.sizeMetric.getResizedLeft(pos.pageX);
         }
         this.width = this.sizeMetric.getResizedWidth("l", pos.pageX);
-      }
-
-      if (this.parent && (hasDropColMixin(this.parent) || hasDropRowMixin(this.parent))) {
-        this.parent.autoLayout();
       }
     }
 
