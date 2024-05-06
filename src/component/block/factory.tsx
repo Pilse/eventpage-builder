@@ -9,7 +9,7 @@ interface IBlockFactoryProps extends IBlockProps<Block> {}
 export const BlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
   return (
     <>
-      {block.type === "FRAME" ? (
+      {block.type === "FRAME_CANVAS" ? (
         <Frame block={block as InstanceType<typeof FrameBlock>} isPreview={isPreview} />
       ) : block.type === "FRAME_ROW" ? (
         <FrameRow block={block as InstanceType<typeof FrameRowBlock>} isPreview={isPreview} />

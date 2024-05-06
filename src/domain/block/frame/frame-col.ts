@@ -1,18 +1,18 @@
-import { DragMixin, DropMixin, ResizeMixin } from "@/domain/mixin";
+import { DragMixin, DropColMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
 import { Block, BlockFactory, TextBlock } from "@/domain/block";
 import { LayoutMap, Position } from "@/type";
 
 type ChildBlock = InstanceType<typeof TextBlock>;
 
-export class Frame extends Block {
-  public children: ChildBlock[];
+export class FrameCol extends Block {
+  public children: ChildBlock[] = [];
 
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
       children: ReturnType<ChildBlock["serialize"]>[];
     }
   ) {
-    super({ ...initState, type: "FRAME" });
+    super({ ...initState, type: "FRAME_COL" });
     this.children = (initState.children.map((child) => BlockFactory.deserialize(child, this)) ??
       []) as ChildBlock[];
   }
@@ -73,13 +73,13 @@ export class Frame extends Block {
     return {
       ...super.serialize(),
       children: this.children.map((child) => child.serialize()) as ReturnType<ChildBlock["serialize"]>[],
-      type: "FRAME" as const,
+      type: "FRAME_COL" as const,
     };
   }
 
-  static deserialize(serialized: ReturnType<Frame["serialize"]>) {
-    return new Frame(serialized);
+  static deserialize(serialized: ReturnType<FrameCol["serialize"]>) {
+    return new FrameCol(serialized);
   }
 }
 
-export default DragMixin(DropMixin(ResizeMixin(Frame)));
+export default ResizeSnapMixin(DropColMixin(DragMixin(ResizeMixin(FrameCol))));

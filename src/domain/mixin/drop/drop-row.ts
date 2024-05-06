@@ -1,20 +1,20 @@
 import { Block, BlockFactory } from "@/domain/block";
-import { ChildrenMixin, SnapMixin } from "@/domain/mixin";
+import { ChildrenMixin, DragSnapMixin } from "@/domain/mixin";
 import { Constructor, LayoutMap, Offset } from "@/type";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 
-export type DropColMixinBlockType = InstanceType<
-  ReturnType<typeof DropColMixin<Constructor<Block & { children: Block[]; getLayoutMap: () => LayoutMap }>>>
+export type DropRowMixinBlockType = InstanceType<
+  ReturnType<typeof DropRowMixin<Constructor<Block & { children: Block[]; getLayoutMap: () => LayoutMap }>>>
 >;
 
-export const DropColMixin = <
+export const DropRowMixin = <
   TBase extends Constructor<Block & { children: Block[]; getLayoutMap: () => LayoutMap }>
 >(
   Base: TBase
 ) => {
-  return class extends SnapMixin(ChildrenMixin(Base)) {
-    public colDroppable = true;
-    public childrenOffsetY: number[] = [0];
+  return class extends DragSnapMixin(ChildrenMixin(Base)) {
+    public rowDroppable = true;
+    public childrenOffsetX: number[] = [0];
 
     constructor(...args: any[]) {
       super(...args);
@@ -22,12 +22,12 @@ export const DropColMixin = <
     }
 
     public autoLayout() {
-      this.childrenOffsetY = [0];
-      this.children.sort((chlid1, child2) => chlid1.t - child2.t);
+      this.childrenOffsetX = [0];
+      this.children.sort((chlid1, child2) => chlid1.l - child2.l);
       this.children.forEach((child, idx) => {
-        this.childrenOffsetY.push(this.childrenOffsetY[idx] + child.height);
-        child.t = this.childrenOffsetY[idx];
-        child.l = 0;
+        this.childrenOffsetX.push(this.childrenOffsetX[idx] + child.width);
+        child.l = this.childrenOffsetX[idx];
+        child.t = 0;
       });
     }
 
@@ -52,7 +52,7 @@ export const DropColMixin = <
       this.autoLayout();
     }
 
-    public hovered(hoveredBlock: InstanceType<typeof Block>, offsetFromFrameCol: Offset) {
+    public hovered(hoveredBlock: InstanceType<typeof Block>, offsetFromFrameRow: Offset) {
       if (!hoveredBlock.parent) {
         return;
       }
@@ -64,19 +64,19 @@ export const DropColMixin = <
         }
 
         hoveredBlock.parent = this;
-        hoveredBlock.t = offsetFromFrameCol.y;
+        hoveredBlock.l = offsetFromFrameRow.x;
         this.addChild(hoveredBlock);
         this.autoLayout();
         return;
       }
 
       if (hoveredBlock.parent.id === this.id) {
-        const idx = this.childrenOffsetY.findLastIndex((childOffetY) => childOffetY > offsetFromFrameCol.y);
+        const idx = this.childrenOffsetX.findLastIndex((childOffetX) => childOffetX > offsetFromFrameRow.x);
         if (idx === -1) {
           return;
         }
 
-        hoveredBlock.t = offsetFromFrameCol.y;
+        hoveredBlock.l = offsetFromFrameRow.x;
 
         if (this.children[idx]) {
           this.swapChildren(hoveredBlock, this.children[idx]);

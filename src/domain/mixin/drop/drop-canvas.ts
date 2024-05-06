@@ -1,19 +1,19 @@
 import { SNAP_THRESHOLD } from "@/constant";
 import { Block, BlockFactory } from "@/domain/block";
+import { ChildrenMixin, DragSnapMixin, ResizeSnapMixin } from "@/domain/mixin";
 import { Constructor, LayoutMap, Offset } from "@/type";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
-import { ChildrenMixin, SnapMixin } from ".";
 
-export type DropMixinBlockType = InstanceType<
-  ReturnType<typeof DropMixin<Constructor<Block & { children: Block[]; getLayoutMap(): LayoutMap }>>>
+export type DropCanvasMixinBlockType = InstanceType<
+  ReturnType<typeof DropCanvasMixin<Constructor<Block & { children: Block[]; getLayoutMap(): LayoutMap }>>>
 >;
 
-export const DropMixin = <
+export const DropCanvasMixin = <
   TBase extends Constructor<Block & { children: InstanceType<typeof Block>[]; getLayoutMap(): LayoutMap }>
 >(
   Base: TBase
 ) => {
-  return class extends SnapMixin(ChildrenMixin(Base)) {
+  return class extends DragSnapMixin(ChildrenMixin(Base)) {
     public droppable = true;
 
     constructor(...args: any[]) {
@@ -30,7 +30,7 @@ export const DropMixin = <
         const deserializedBlock = BlockFactory.deserialize(draggedBlock.serialize(), draggedBlock.parent);
 
         deserializedBlock.updateCoords(currentOffset, thisOffset);
-        this.snap(deserializedBlock, currentOffset, sectionOffset, thisOffset, SNAP_THRESHOLD);
+        this.dragSnap(deserializedBlock, currentOffset, sectionOffset, thisOffset, SNAP_THRESHOLD);
         this.addChild(deserializedBlock);
 
         if (hasChildrenMixin(draggedBlock.parent)) {
@@ -40,7 +40,7 @@ export const DropMixin = <
       }
 
       draggedBlock.updateCoords(currentOffset, thisOffset);
-      this.snap(draggedBlock, currentOffset, sectionOffset, thisOffset, SNAP_THRESHOLD);
+      this.dragSnap(draggedBlock, currentOffset, sectionOffset, thisOffset, SNAP_THRESHOLD);
     }
 
     public hovered(hoveredBlock: InstanceType<typeof Block>) {

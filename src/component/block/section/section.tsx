@@ -9,7 +9,7 @@ import {
   useSectionPreviewBlock,
 } from "@/component/block";
 import { IBlockProps } from "@/type";
-import { HoverLayer, SnapLineLayer } from "@/component/layer";
+import { HoverLayer, DragSnapLineLayer } from "@/component/layer";
 import { isAutoLayouted } from "@/util";
 
 interface ISectionProps extends IBlockProps<InstanceType<typeof SectionBlock>> {}
@@ -37,12 +37,7 @@ export const Section = ({ block }: ISectionProps) => {
     >
       <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />
       {previewBlock && !isAutoLayouted(previewBlock) && element && (
-        <SnapLineLayer
-          sectionElement={element}
-          block={previewBlock}
-          snappableDir={snappableDir}
-          layoutFrom="block"
-        />
+        <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />
       )}
       <ChildrenMixin block={section} />
       {previewBlock && <PreviewBlock block={previewBlock} />}

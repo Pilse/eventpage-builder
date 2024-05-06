@@ -5,7 +5,7 @@ import { ParentBlockType } from "@/type";
 export class BlockFactory {
   static deserialize<T extends ReturnType<Block["serialize"]>>(serialized: T, parent: ParentBlockType) {
     switch (serialized.type) {
-      case "FRAME":
+      case "FRAME_CANVAS":
         return new FrameBlock({ children: [], ...serialized, parent });
       case "FRAME_ROW":
         return new FrameRowBlock({ children: [], ...serialized, parent });
@@ -22,7 +22,7 @@ export class BlockFactory {
 
   static create<T extends ReturnType<Block["serialize"]>>(serialized: T, parent: ParentBlockType) {
     switch (serialized.type) {
-      case "FRAME":
+      case "FRAME_CANVAS":
         return new FrameBlock({ children: [], ...serialized, parent, id: uuidv4() });
       case "FRAME_ROW":
         return new FrameRowBlock({ children: [], ...serialized, parent, id: uuidv4() });

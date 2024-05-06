@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDragLayer } from "react-dnd";
 import { Block, SectionBlock, BlockFactory } from "@/domain/block";
 import { SNAP_THRESHOLD } from "@/constant";
-import { hasSnapMixin, isAutoLayouted } from "@/util";
+import { hasDragSnapMixin, isAutoLayouted } from "@/util";
 
 interface IUseSectionPreviewBlockProps {
   section: InstanceType<typeof SectionBlock>;
@@ -75,8 +75,8 @@ export const useSectionPreviewBlock = (
     draggedBlock.updateDirection(currentOffset);
     previewBlock.updateDirection(currentOffset);
     previewBlock.updateCoords(currentOffset, sectionDomRect);
-    if (!isAutoLayouted(previewBlock) && previewBlock.parent && hasSnapMixin(previewBlock.parent)) {
-      const { snappedToX, snappedToY } = section.snap(
+    if (!isAutoLayouted(previewBlock) && previewBlock.parent && hasDragSnapMixin(previewBlock.parent)) {
+      const { snappedToX, snappedToY } = section.dragSnap(
         previewBlock,
         currentOffset,
         sectionDomRect,

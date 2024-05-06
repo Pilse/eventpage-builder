@@ -2,12 +2,13 @@ import { Block } from "@/domain/block";
 import {
   ChildrenMixinBlockType,
   DragMixinBlockType,
-  DropMixinBlockType,
+  DropCanvasMixinBlockType,
   DropRowMixinBlockType,
   ResizeMixinBlockType,
-  SnapMixinBlockType,
+  DragSnapMixinBlockType,
+  ResizeSnapMixinBlockType,
 } from "@/domain/mixin";
-import { DropColMixinBlockType } from "@/domain/mixin/drop-col";
+import { DropColMixinBlockType } from "@/domain/mixin/drop/drop-col";
 
 export const hasResizeMixin = (block: Block): block is ResizeMixinBlockType => {
   return Object.hasOwn(block, "resizable");
@@ -17,16 +18,20 @@ export const hasDragMixin = (block: Block): block is DragMixinBlockType => {
   return Object.hasOwn(block, "draggable");
 };
 
-export const hasDropMixin = (block: Block): block is DropMixinBlockType => {
-  return Object.hasOwn(block, "droppable");
-};
-
 export const hasChildrenMixin = (block: Block): block is ChildrenMixinBlockType => {
   return Object.hasOwn(block, "placeable");
 };
 
-export const hasSnapMixin = (block: Block): block is SnapMixinBlockType => {
-  return Object.hasOwn(block, "snappable");
+export const hasDragSnapMixin = (block: Block): block is DragSnapMixinBlockType => {
+  return Object.hasOwn(block, "dragSnappable");
+};
+
+export const hasResizeSnapMixin = (block: Block): block is ResizeSnapMixinBlockType => {
+  return Object.hasOwn(block, "resizeSnappable");
+};
+
+export const hasDropCanvasMixin = (block: Block): block is DropCanvasMixinBlockType => {
+  return Object.hasOwn(block, "droppable");
 };
 
 export const hasDropRowMixin = (block: Block): block is DropRowMixinBlockType => {

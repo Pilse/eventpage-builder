@@ -5,9 +5,10 @@ import {
   getClosestSectionBlockEle,
   hasDropColMixin,
   hasDropRowMixin,
-  hasSnapMixin,
+  hasDragSnapMixin,
+  hasResizeSnapMixin,
 } from "@/util";
-import { SnapLineLayer } from "@/component/layer";
+import { ResizeSnapLineLayer } from "@/component/layer";
 import { MouseEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
@@ -69,7 +70,7 @@ export const ResizeMixin = ({ element, block }: IResizeMixinProps) => {
         block.parent.autoLayout();
       }
 
-      if (hasSnapMixin(block.parent)) {
+      if (hasResizeSnapMixin(block.parent)) {
         const { snappedToX, snappedToY } = block.parent.resizeSnap(
           block,
           elementRect,
@@ -148,11 +149,10 @@ export const ResizeMixin = ({ element, block }: IResizeMixinProps) => {
         parentElement.current &&
         sectionElement.current &&
         createPortal(
-          <SnapLineLayer
+          <ResizeSnapLineLayer
             sectionElement={sectionElement.current}
             block={block}
             snappableDir={snappableDir.current}
-            layoutFrom="domRect"
           />,
           sectionElement.current
         )}
