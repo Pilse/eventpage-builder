@@ -1,3 +1,3 @@
 ## Getting Started
 
-Demo -  https://eventpage-builder-5ss8pn6v5-pilses-projects.vercel.app/
+Demo -  https://eventpage-builder.vercel.app/
