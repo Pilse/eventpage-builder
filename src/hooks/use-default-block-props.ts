@@ -1,5 +1,5 @@
 import { Block } from "@/domain/block";
-import { hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/util";
+import { hasChildrenMixin, hasResizeMixin } from "@/util";
 import {
   CSSProperties,
   Dispatch,
@@ -8,11 +8,14 @@ import {
   MouseEvent,
   MouseEventHandler,
   SetStateAction,
+  useLayoutEffect,
+  useRef,
   useState,
 } from "react";
-import { DragSourceMonitor, useDragDropManager } from "react-dnd";
-import { useDomain } from ".";
+import { DragSourceMonitor } from "react-dnd";
+import { useDomain } from "./use-domain";
 import { BlockType } from "@/type";
+import { GlobalContext } from "@/domain/context";
 
 export interface IUseDefaultBlockPropsProps<T extends InstanceType<typeof Block>> {
   block: T;
@@ -38,6 +41,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
 ): IUseDefaultBlockProps<T> => {
   const [isSelected, setIsSelected] = useState(false);
   const [element, setElement] = useState<HTMLElement | null>(null);
+  const globalContextRef = useRef(new GlobalContext());
 
   const block = useDomain(blockInstance);
 
@@ -51,31 +55,40 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     bottom: block.b,
   };
 
-  const onClick = (e: MouseEvent) => {
+  const handleClick = (e: MouseEvent) => {
     setIsSelected(true);
+    globalContextRef.current.setCurrentBlock(block);
     e.stopPropagation();
   };
 
-  const onBlur = () => {
+  const handleBlur = () => {
     setIsSelected(false);
+    globalContextRef.current.setCurrentBlock(null);
   };
 
-  const onDragStart = () => {
+  const handleDragStart = () => {
     if (!hasResizeMixin(block) || block.isResizing()) {
       return;
     }
 
     setIsSelected(false);
+    globalContextRef.current.setCurrentBlock(null);
   };
+
+  useLayoutEffect(() => {
+    if (block.parent && hasChildrenMixin(block.parent)) {
+      block.parent.replaceChild(block);
+    }
+  }, [block]);
 
   return {
     tabIndex: -1,
     id: block.id,
     "data-block-type": block.type,
     element,
-    onBlur,
-    onClick,
-    onDragStart,
+    onBlur: handleBlur,
+    onClick: handleClick,
+    onDragStart: handleDragStart,
     setElement,
     style,
     block,

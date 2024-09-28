@@ -1,6 +1,6 @@
 import { SNAP_THRESHOLD } from "@/constant";
 import { Block, BlockFactory } from "@/domain/block";
-import { ChildrenMixin, DragSnapMixin, ResizeSnapMixin } from "@/domain/mixin";
+import { ChildrenMixin, DragSnapMixin } from "@/domain/mixin";
 import { Constructor, LayoutMap, Offset } from "@/type";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 

@@ -1,6 +1,6 @@
 import { Block } from "@/domain/block";
 import { hasDragMixin } from "@/util";
-import { DragSourceMonitor, useDrag, useDragDropManager } from "react-dnd";
+import { DragSourceMonitor, useDrag } from "react-dnd";
 
 interface IUseDefaultBlockDragProps {
   block: InstanceType<typeof Block>;

@@ -20,7 +20,10 @@ export class BlockFactory {
     }
   }
 
-  static create<T extends ReturnType<Block["serialize"]>>(serialized: T, parent: ParentBlockType) {
+  static create<T extends Omit<ReturnType<Block["serialize"]>, "id">>(
+    serialized: T,
+    parent: ParentBlockType
+  ) {
     switch (serialized.type) {
       case "FRAME_CANVAS":
         return new FrameBlock({ children: [], ...serialized, parent, id: uuidv4() });
