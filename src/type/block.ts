@@ -1,5 +1,5 @@
 import { Block } from "@/domain/block";
-import { XYCoord } from "react-dnd";
+import { useDrag, XYCoord } from "react-dnd";
 
 export type BlockType = "TEXT" | "FRAME_CANVAS" | "SECTION" | "BLOCK" | "FRAME_ROW" | "FRAME_COL";
 
@@ -18,3 +18,11 @@ export interface IBlockProps<T extends InstanceType<typeof Block>> {
   block: T;
   isPreview?: boolean;
 }
+
+export type BlockDragOptions = Parameters<
+  typeof useDrag<Block, unknown, { isDragging: boolean }>
+>[0] extends infer T
+  ? T extends (...args: any) => any
+    ? Omit<ReturnType<T>, "type">
+    : never
+  : never;

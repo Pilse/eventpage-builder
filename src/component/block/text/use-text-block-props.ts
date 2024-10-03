@@ -3,6 +3,6 @@ import { IUseDefaultBlockProps, useDefaultBlockProps } from "@/hooks";
 
 interface IUseTextBlockProps extends IUseDefaultBlockProps<InstanceType<typeof TextBlock>> {}
 
-export const useTextBlockProps = (frameBlock: InstanceType<typeof TextBlock>): IUseTextBlockProps => {
-  return useDefaultBlockProps(frameBlock);
+export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTextBlockProps => {
+  return useDefaultBlockProps(text);
 };

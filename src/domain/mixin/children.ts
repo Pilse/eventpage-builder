@@ -48,12 +48,7 @@ export const ChildrenMixin = <TBase extends Constructor<Block & { children: Inst
     }
 
     public replaceChild(block: InstanceType<typeof Block>) {
-      const idx = this.children.findIndex((child) => block.id === child.id);
-      if (idx === -1) {
-        return;
-      }
-
-      this.children.splice(idx, 1, block);
+      this.children = this.children.map((child) => (child.id === block.id ? block : child));
     }
 
     public findChild(block: InstanceType<typeof Block>) {

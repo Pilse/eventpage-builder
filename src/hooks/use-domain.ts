@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useSyncExternalStore } from "react";
 import { Constructor } from "@/type";
+import { IS_PROXY } from "@/constant";
 
 export const useDomain = <T extends InstanceType<Constructor>>(domainInstance: T) => {
   const listeners = useRef<Function[]>([]);
@@ -19,6 +20,13 @@ export const useDomain = <T extends InstanceType<Constructor>>(domainInstance: T
             domainInstanceRef.current = proxyObject(target);
             emitChange();
             return true;
+          },
+          get(target, property, receiver) {
+            if (property === IS_PROXY) {
+              return true;
+            }
+
+            return Reflect.get(target, property, receiver);
           },
         });
       };

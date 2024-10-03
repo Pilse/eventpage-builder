@@ -5,7 +5,6 @@ import {
   getClosestSectionBlockEle,
   hasDropColMixin,
   hasDropRowMixin,
-  hasDragSnapMixin,
   hasResizeSnapMixin,
 } from "@/util";
 import { ResizeSnapLineLayer } from "@/component/layer";

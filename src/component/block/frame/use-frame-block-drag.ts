@@ -1,9 +1,10 @@
 import { useDefaultBlockDrag } from "@/hooks";
 import { FrameBlock } from "@/domain/block";
+import { BlockDragOptions } from "@/type";
 
-export const useFrameBlockDrag = (frame: InstanceType<typeof FrameBlock>) => {
+export const useFrameBlockDrag = (frame: InstanceType<typeof FrameBlock>, options?: BlockDragOptions) => {
   return useDefaultBlockDrag({
     block: frame,
-    canDrag: () => !frame.isResizing() && !frame.isChildResizing(),
+    options: { canDrag: () => !frame.isResizing() && !frame.isChildResizing(), ...options },
   });
 };

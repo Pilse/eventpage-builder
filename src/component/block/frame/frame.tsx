@@ -20,6 +20,7 @@ export const Frame = ({ block, isPreview }: IFrameProps) => {
     isCurrentDragging,
     isPreview
   );
+
   return (
     <div
       ref={(ele) => {
