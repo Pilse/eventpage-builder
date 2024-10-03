@@ -1,6 +1,6 @@
-import { SectionBlock } from "@/domain/block";
+import { ContainerBlock, SectionBlock } from "@/domain/block";
 
-export const sampleSection1: ReturnType<InstanceType<typeof SectionBlock>["serialize"]> = {
+const sampleSection1: ReturnType<InstanceType<typeof SectionBlock>["serialize"]> = {
   id: "51750cec-13f6-4491-aa11-0ca05bf3e649",
   t: 0,
   r: 0,
@@ -161,7 +161,7 @@ export const sampleSection1: ReturnType<InstanceType<typeof SectionBlock>["seria
   ],
 };
 
-export const sampleSection2: ReturnType<InstanceType<typeof SectionBlock>["serialize"]> = {
+const sampleSection2: ReturnType<InstanceType<typeof SectionBlock>["serialize"]> = {
   id: "7383c00a-47a1-40a6-9df4-3183b0cb02c7",
   t: 0,
   r: 0,
@@ -345,4 +345,17 @@ export const sampleSection2: ReturnType<InstanceType<typeof SectionBlock>["seria
       ],
     },
   ],
+};
+
+export const sampleContainer: ReturnType<InstanceType<typeof ContainerBlock>["serialize"]> = {
+  id: "d93e29f7-5518-493d-bb9b-1f659a84b93e",
+  t: 0,
+  r: 0,
+  b: 0,
+  l: 0,
+  type: "CONTAINER",
+  position: "relative",
+  width: 700,
+  height: 2000,
+  children: [sampleSection1, sampleSection2],
 };

@@ -58,6 +58,11 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     e.stopPropagation();
   };
 
+  const handleMouseDown = (e: MouseEvent) => {
+    setCurrentBlock(block);
+    e.stopPropagation();
+  };
+
   const handleDragStart = () => {
     if (!hasResizeMixin(block) || block.isResizing()) {
       return;
@@ -79,7 +84,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     "data-block-type": block.type,
     element,
     onClick: handleClick,
-    onMouseDown: handleClick,
+    onMouseDown: handleMouseDown,
     onDragStart: handleDragStart,
     setElement,
     style,

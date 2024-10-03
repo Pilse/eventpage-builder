@@ -1,7 +1,14 @@
 import { Block } from "@/domain/block";
 import { useDrag, XYCoord } from "react-dnd";
 
-export type BlockType = "TEXT" | "FRAME_CANVAS" | "SECTION" | "BLOCK" | "FRAME_ROW" | "FRAME_COL";
+export type BlockType =
+  | "TEXT"
+  | "FRAME_CANVAS"
+  | "SECTION"
+  | "BLOCK"
+  | "FRAME_ROW"
+  | "FRAME_COL"
+  | "CONTAINER";
 
 export type ParentBlockType = (Block & { children: InstanceType<typeof Block>[] }) | null;
 
