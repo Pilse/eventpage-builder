@@ -3,10 +3,8 @@
 import { useCallback, useRef, useSyncExternalStore } from "react";
 import { Constructor } from "@/type";
 import { IS_PROXY } from "@/constant";
-import { useGlobalContext } from "./use-global-context";
 
 export const useDomain = <T extends InstanceType<Constructor>>(domainInstance: T) => {
-  const { addHistory } = useGlobalContext();
   const listeners = useRef<Function[]>([]);
   const domainInstanceRef = useRef<T>(
     (() => {
@@ -15,17 +13,10 @@ export const useDomain = <T extends InstanceType<Constructor>>(domainInstance: T
           set(target, property, newValue, receiver) {
             const originalValue = Reflect.get(target, property, receiver);
             if (originalValue === newValue) {
-              Reflect.set(target, property, newValue, receiver);
               return true;
             }
 
             Reflect.set(target, property, newValue, receiver);
-            if (property !== "parent") {
-              console.log("history", property, originalValue, newValue);
-              //   addHistory(() => {
-              //     Reflect.set(target, property, originalValue, receiver);
-              //   });
-            }
             domainInstanceRef.current = proxyObject(target);
             emitChange();
             return true;

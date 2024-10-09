@@ -1,8 +1,16 @@
 "use client";
 
 import { IBlockProps } from "@/type";
-import { Block, FrameBlock, FrameColBlock, FrameRowBlock, SectionBlock, TextBlock } from "@/domain/block";
-import { Frame, FrameCol, Text, FrameRow, Section } from "@/component/block";
+import {
+  Block,
+  ContainerBlock,
+  FrameBlock,
+  FrameColBlock,
+  FrameRowBlock,
+  SectionBlock,
+  TextBlock,
+} from "@/domain/block";
+import { Frame, FrameCol, Text, FrameRow, Section, Container } from "@/component/block";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
 
@@ -19,6 +27,8 @@ export const BlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
         <Text block={block as InstanceType<typeof TextBlock>} isPreview={isPreview} />
       ) : block.type === "SECTION" ? (
         <Section block={block as InstanceType<typeof SectionBlock>} isPreview={isPreview} />
+      ) : block.type === "CONTAINER" ? (
+        <Container block={block as InstanceType<typeof ContainerBlock>} isPreview={isPreview} />
       ) : (
         <></>
       )}

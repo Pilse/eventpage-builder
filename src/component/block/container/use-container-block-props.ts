@@ -8,6 +8,8 @@ interface IUseContainerBlockProps extends IUseDefaultBlockProps<InstanceType<typ
 export const useContainerBlockProps = (
   containerBlock: InstanceType<typeof ContainerBlock>
 ): IUseContainerBlockProps => {
+  const { block: container, ...props } = useDefaultBlockProps(containerBlock);
+
   const globalContext = useGlobalContext();
 
   useHotkeys("backspace", () => {
@@ -22,5 +24,5 @@ export const useContainerBlockProps = (
     }
   });
 
-  return useDefaultBlockProps(containerBlock);
+  return { block: container, ...props };
 };
