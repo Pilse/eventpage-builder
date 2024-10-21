@@ -10,6 +10,7 @@ import {
 import { ResizeSnapLineLayer } from "@/component/layer";
 import { MouseEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useBlockHistory } from "@/hooks";
 
 interface IResizableDirection {
   t: boolean;
@@ -28,10 +29,12 @@ export const ResizeMixin = ({ element, block }: IResizeMixinProps) => {
     x: "l" | "r" | "c" | boolean;
     y: "t" | "b" | "c" | boolean;
   }>({ x: false, y: false });
+  const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const sectionElement = useRef<HTMLElement | null>(null);
   const parentElement = useRef<HTMLElement | null>(null);
 
   const handleMouseDown = (e: MouseEvent, resizableDir: Partial<IResizableDirection>) => {
+    startCaptureSnapshot(`resize-${block.id}`);
     const elementRect = element.getBoundingClientRect();
     block.setSizeMetric(elementRect, element.scrollLeft, element.scrollTop, e.pageX, e.pageY);
     block.resizableDir.update(resizableDir);
@@ -45,6 +48,7 @@ export const ResizeMixin = ({ element, block }: IResizeMixinProps) => {
     const handleMouseUp = () => {
       block.resetSizeMetric();
       block.resizableDir.update({});
+      endCaptureSnapshot(`resize-${block.id}`);
     };
 
     const handleMouseMove = (e: globalThis.MouseEvent) => {
@@ -87,7 +91,7 @@ export const ResizeMixin = ({ element, block }: IResizeMixinProps) => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [block, element]);
+  }, [block, element, endCaptureSnapshot]);
 
   const resized =
     block.resizableDir.resizable("t") ||

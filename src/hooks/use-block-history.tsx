@@ -41,6 +41,10 @@ export const BlockHistoryProvider = ({ root, children }: IBlockHistoryProviderPr
     undo();
   });
 
+  useHotkeys("mod+shift+z", () => {
+    redo();
+  });
+
   return (
     <BlockHistoryContext.Provider
       value={{

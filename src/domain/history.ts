@@ -43,7 +43,7 @@ export class BlockHistory {
       return;
     }
 
-    this.redoq.concat(snapshot);
+    this.redoq = this.redoq.concat(this.root.serialize());
     this.root = BlockFactory.deserialize(snapshot, null);
   }
 
@@ -53,7 +53,7 @@ export class BlockHistory {
       return;
     }
 
-    this.undoq.concat(snapshot);
+    this.undoq = this.undoq.concat(this.root.serialize());
     this.root = BlockFactory.deserialize(snapshot, null);
   }
 }
