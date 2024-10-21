@@ -13,6 +13,10 @@ export class Text extends Block {
     return this.content;
   }
 
+  public setContent(content: string) {
+    this.content = content;
+  }
+
   public serialize() {
     return {
       ...super.serialize(),
