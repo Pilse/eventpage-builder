@@ -1,7 +1,7 @@
 "use client";
 
 import { SectionBlock } from "@/domain/block";
-import { ChildrenMixin } from "@/component/mixin";
+import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
 import {
   PreviewBlock,
   useSectionBlockDrop,
@@ -27,6 +27,22 @@ export const Section = ({ block }: ISectionProps) => {
   const { previewBlock, snappableDir } = useSectionPreviewBlock(section, element);
   const [{ isCurrentOver, isDragging }, dropRef] = useSectionBlockDrop(section, element);
 
+  const handlePaste = (e: ClipboardEvent) => {
+    e.preventDefault();
+
+    console.log(e.clipboardData);
+
+    const blob = e.clipboardData?.files[0];
+    if (!blob) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      // console.log(event?.target?.result);
+    }; // data url!
+    reader.readAsDataURL(blob);
+  };
+
   return (
     <>
       <section
@@ -35,10 +51,13 @@ export const Section = ({ block }: ISectionProps) => {
           setElement(ele);
         }}
         style={style}
-        className="bg-neutral-200"
+        className="group bg-neutral-200"
         {...blockProps}
       >
-        <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />
+        {!isSelected && (
+          <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />
+        )}
+        {isSelected && element && <ResizeMixin element={element} block={section} vertical />}
         {previewBlock && !isAutoLayouted(previewBlock) && element && (
           <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />
         )}

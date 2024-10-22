@@ -8,14 +8,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 interface IContainerProps extends IBlockProps<InstanceType<typeof ContainerBlock>> {}
 
 export const Container = ({ block }: IContainerProps) => {
-  const {
-    block: container,
-    element,
-    setElement,
-    isSelected,
-    style,
-    ...blockProps
-  } = useContainerBlockProps(block);
+  const { block: container, element, setElement, isSelected, ...blockProps } = useContainerBlockProps(block);
 
   return (
     <>
@@ -23,7 +16,7 @@ export const Container = ({ block }: IContainerProps) => {
         ref={(ele) => {
           setElement(ele);
         }}
-        className="flex flex-col items-center justify-start gap-2"
+        className="flex flex-col items-center justify-center"
         {...blockProps}
       >
         <DndProvider backend={HTML5Backend}>

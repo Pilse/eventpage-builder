@@ -44,7 +44,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
   const block = useDomain(blockInstance);
 
   const style: CSSProperties = {
-    width: block.width,
+    width: block.width === -1 ? "auto" : block.width,
     height: block.height,
     position: block.position,
     top: block.t,

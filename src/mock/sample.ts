@@ -7,7 +7,7 @@ const sampleSection1: ReturnType<InstanceType<typeof SectionBlock>["serialize"]>
   b: 0,
   l: 0,
   type: "SECTION",
-  position: "relative",
+  position: "absolute",
   width: 700,
   height: 800,
   children: [
@@ -168,8 +168,8 @@ const sampleSection2: ReturnType<InstanceType<typeof SectionBlock>["serialize"]>
   b: 0,
   l: 0,
   type: "SECTION",
-  position: "relative",
-  width: 700,
+  position: "absolute",
+  width: 800,
   height: 800,
   children: [
     {
@@ -355,7 +355,7 @@ export const sampleContainer: ReturnType<InstanceType<typeof ContainerBlock>["se
   l: 0,
   type: "CONTAINER",
   position: "relative",
-  width: 700,
+  width: 900,
   height: 2000,
   children: [sampleSection1, sampleSection2],
 };
