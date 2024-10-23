@@ -1,4 +1,5 @@
 export * from "./text";
+export * from "./image";
 export * from "./section";
 export * from "./frame";
 export * from "./frame-row";

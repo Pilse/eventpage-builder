@@ -3,6 +3,7 @@ import { useDrag, XYCoord } from "react-dnd";
 
 export type BlockType =
   | "TEXT"
+  | "IMAGE"
   | "FRAME_CANVAS"
   | "SECTION"
   | "BLOCK"

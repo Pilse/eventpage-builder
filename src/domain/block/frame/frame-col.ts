@@ -39,11 +39,12 @@ export class FrameCol extends Block {
         height: child.height,
       };
     }
+
     layoutMap[this.id] = {
-      t: sectionOffset.t,
-      r: sectionOffset.r,
-      b: sectionOffset.b,
-      l: sectionOffset.l,
+      t: sectionOffset.t - this.pt,
+      r: sectionOffset.r - this.pr,
+      b: sectionOffset.b - this.pb,
+      l: sectionOffset.l - this.pl,
       width: this.width,
       height: this.height,
     };

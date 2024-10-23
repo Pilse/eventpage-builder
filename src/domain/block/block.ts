@@ -13,6 +13,10 @@ export interface IBlock {
   r?: number;
   b?: number;
   l?: number;
+  pt?: number;
+  pr?: number;
+  pb?: number;
+  pl?: number;
 }
 
 export class Block {
@@ -26,16 +30,24 @@ export class Block {
   public r: number;
   public b: number;
   public l: number;
+  public pt: number;
+  public pr: number;
+  public pb: number;
+  public pl: number;
   public xDirection: "l" | "r";
   public yDirection: "t" | "b";
   private prevOffset: Offset;
 
   constructor(initState: IBlock) {
     this.id = initState.id ?? uuidv4();
-    this.t = initState.t ?? 0;
-    this.r = initState.r ?? 0;
-    this.b = initState.b ?? 0;
-    this.l = initState.l ?? 0;
+    this.t = (initState.t ?? 0) + (initState?.pt ?? 0) + (initState.parent?.pt ?? 0);
+    this.r = (initState.r ?? 0) + (initState?.pr ?? 0) + (initState.parent?.pr ?? 0);
+    this.b = (initState.b ?? 0) + (initState?.pb ?? 0) + (initState.parent?.pb ?? 0);
+    this.l = (initState.l ?? 0) + (initState?.pl ?? 0) + (initState.parent?.pl ?? 0);
+    this.pt = initState.pt ?? 0;
+    this.pr = initState.pr ?? 0;
+    this.pb = initState.pb ?? 0;
+    this.pl = initState.pl ?? 0;
     this.type = initState.type;
     this.position = initState.position ?? "absolute";
     this.parent = initState.parent ?? null;
@@ -69,13 +81,31 @@ export class Block {
     this.prevOffset = currentOffset;
   }
 
-  public serialize() {
+  public serialize(): {
+    id: string;
+    t: number;
+    r: number;
+    b: number;
+    l: number;
+    pt?: number;
+    pr?: number;
+    pb?: number;
+    pl?: number;
+    type: BlockType;
+    position: "relative" | "absolute";
+    width: number;
+    height: number;
+  } {
     return {
       id: this.id,
       t: this.t,
       r: this.r,
       b: this.b,
       l: this.l,
+      pt: this.pt,
+      pr: this.pr,
+      pb: this.pb,
+      pl: this.pl,
       type: this.type,
       position: this.position,
       width: this.width,

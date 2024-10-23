@@ -27,22 +27,6 @@ export const Section = ({ block }: ISectionProps) => {
   const { previewBlock, snappableDir } = useSectionPreviewBlock(section, element);
   const [{ isCurrentOver, isDragging }, dropRef] = useSectionBlockDrop(section, element);
 
-  const handlePaste = (e: ClipboardEvent) => {
-    e.preventDefault();
-
-    console.log(e.clipboardData);
-
-    const blob = e.clipboardData?.files[0];
-    if (!blob) {
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      // console.log(event?.target?.result);
-    }; // data url!
-    reader.readAsDataURL(blob);
-  };
-
   return (
     <>
       <section
@@ -63,8 +47,8 @@ export const Section = ({ block }: ISectionProps) => {
         )}
         <ChildrenMixin block={section} />
         {previewBlock && <PreviewBlock block={previewBlock} />}
+        <NewBlockButtons parent={section} />
       </section>
-      <NewBlockButtons parent={section} />
     </>
   );
 };

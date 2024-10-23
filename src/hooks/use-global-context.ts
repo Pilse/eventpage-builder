@@ -12,6 +12,9 @@ let globalContext: GlobalContext = {
   currentBlock: null,
 
   setCurrentBlock(block: InstanceType<typeof Block> | null) {
+    if (globalContext.currentBlock === block) {
+      return;
+    }
     globalContext = { ...globalContext, currentBlock: block };
     globalContextStore.emitChange();
   },

@@ -4,6 +4,7 @@ import {
   FrameBlock,
   FrameColBlock,
   FrameRowBlock,
+  ImageBlock,
   SectionBlock,
   TextBlock,
 } from "@/domain/block";
@@ -21,6 +22,8 @@ export class BlockFactory {
         return new FrameColBlock({ children: [], ...serialized, parent });
       case "TEXT":
         return new TextBlock({ ...serialized, parent });
+      case "IMAGE":
+        return new ImageBlock({ ...serialized, parent });
       case "SECTION":
         return new SectionBlock({ children: [], ...serialized, parent });
       case "CONTAINER":
@@ -43,6 +46,8 @@ export class BlockFactory {
         return new FrameColBlock({ children: [], ...serialized, parent, id: uuidv4() });
       case "TEXT":
         return new TextBlock({ ...serialized, parent, id: uuidv4() });
+      case "IMAGE":
+        return new ImageBlock({ ...serialized, parent, id: uuidv4() });
       case "SECTION":
         return new SectionBlock({ children: [], ...serialized, parent, id: uuidv4() });
       case "CONTAINER":

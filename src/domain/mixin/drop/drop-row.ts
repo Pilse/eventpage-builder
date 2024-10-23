@@ -22,13 +22,17 @@ export const DropRowMixin = <
     }
 
     public autoLayout() {
-      this.childrenOffsetX = [0];
+      let childrenTotalWidth = 0;
+      this.childrenOffsetX = [this.pl];
       this.children.sort((chlid1, child2) => chlid1.l - child2.l);
       this.children.forEach((child, idx) => {
         this.childrenOffsetX.push(this.childrenOffsetX[idx] + child.width);
         child.l = this.childrenOffsetX[idx];
-        child.t = 0;
+        child.t = this.pt;
+        childrenTotalWidth += child.width;
       });
+
+      // this.width = childrenTotalWidth + this.pl + this.pr;
     }
 
     public dropped(

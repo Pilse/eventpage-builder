@@ -43,7 +43,9 @@ export const Text = ({ block, isPreview }: ITextProps) => {
       {isSelected && element && <ResizeMixin element={element} block={text} />}
       <p
         id={`text-${block.id}`}
+        spellCheck={false}
         onDoubleClick={onDoubleClick}
+        onClick={(e) => e.stopPropagation()}
         onBlur={onBlur}
         onInput={onInput}
         contentEditable={isEditing}
