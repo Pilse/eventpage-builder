@@ -49,6 +49,8 @@ export const DropCanvasMixin = <
       }
 
       if (hoveredBlock.parent.id !== this.id && hasChildrenMixin(hoveredBlock.parent)) {
+        hoveredBlock.widthType = "fixed";
+        hoveredBlock.heightType = "fixed";
         hoveredBlock.parent.removeChild(hoveredBlock);
         if (hasDropRowMixin(hoveredBlock.parent) || hasDropColMixin(hoveredBlock.parent)) {
           hoveredBlock.parent.autoLayout();

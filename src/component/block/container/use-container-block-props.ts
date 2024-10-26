@@ -71,6 +71,8 @@ export const useContainerBlockProps = (
             position: "absolute",
             width,
             height,
+            widthType: "fixed",
+            heightType: "fixed",
           },
           currentBlock
         );

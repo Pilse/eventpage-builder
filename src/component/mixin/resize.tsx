@@ -37,6 +37,12 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
 
   const handleMouseDown = (e: MouseEvent, resizableDir: Partial<IResizableDirection>) => {
     startCaptureSnapshot(`resize-${block.id}`);
+    if (resizableDir.t || resizableDir.b) {
+      block.heightType = "fixed";
+    }
+    if (resizableDir.l || resizableDir.r) {
+      block.widthType = "fixed";
+    }
     const elementRect = element.getBoundingClientRect();
     block.setSizeMetric(elementRect, element.scrollLeft, element.scrollTop, e.pageX, e.pageY);
     block.resizableDir.update(resizableDir);
@@ -66,6 +72,9 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
 
       if (hasDropColMixin(block.parent) || hasDropRowMixin(block.parent)) {
         block.parent.autoLayout();
+      }
+      if (hasDropColMixin(block) || hasDropRowMixin(block)) {
+        block.autoLayout();
       }
 
       if (!sectionRect) {

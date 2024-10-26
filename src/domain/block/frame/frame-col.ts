@@ -1,8 +1,8 @@
 import { DragMixin, DropColMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
-import { Block, BlockFactory, TextBlock } from "@/domain/block";
+import { Block, BlockFactory, FrameBlock, FrameRowBlock, ImageBlock, TextBlock } from "@/domain/block";
 import { LayoutMap, Position } from "@/type";
 
-type ChildBlock = InstanceType<typeof TextBlock>;
+type ChildBlock = InstanceType<typeof TextBlock> | InstanceType<typeof ImageBlock>;
 
 export class FrameCol extends Block {
   public children: ChildBlock[] = [];
@@ -27,7 +27,7 @@ export class FrameCol extends Block {
       sectionOffset.b += parent.b;
       sectionOffset.r += parent.r;
       parent = parent.parent;
-    } while (parent);
+    } while (parent && parent.type !== "SECTION");
 
     for (const child of this.children) {
       layoutMap[child.id] = {

@@ -53,6 +53,8 @@ export const useSectionPreviewBlock = (
     draggedBlock.parent.id !== previewBlock.parent.id
   ) {
     previewBlock.parent = draggedBlock.parent;
+    previewBlock.widthType = "fixed";
+    previewBlock.heightType = "fixed";
     setSnappableDir({ x: false, y: false });
   }
 

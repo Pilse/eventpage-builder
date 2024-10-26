@@ -31,8 +31,6 @@ export const DropRowMixin = <
         child.t = this.pt;
         childrenTotalWidth += child.width;
       });
-
-      // this.width = childrenTotalWidth + this.pl + this.pr;
     }
 
     public dropped(
@@ -62,6 +60,8 @@ export const DropRowMixin = <
       }
 
       if (hoveredBlock.parent.id !== this.id && hasChildrenMixin(hoveredBlock.parent)) {
+        hoveredBlock.widthType = "fixed";
+        hoveredBlock.heightType = "fixed";
         hoveredBlock.parent.removeChild(hoveredBlock);
         if (hasDropRowMixin(hoveredBlock.parent) || hasDropColMixin(hoveredBlock.parent)) {
           hoveredBlock.parent.autoLayout();

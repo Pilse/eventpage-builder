@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { hasChildrenMixin } from "@/util";
+import { hasChildrenMixin, hasDropRowMixin } from "@/util";
 import { BlockType, ParentBlockType, Offset } from "@/type";
 
 export interface IBlock {
@@ -17,13 +17,15 @@ export interface IBlock {
   pr?: number;
   pb?: number;
   pl?: number;
+  widthType?: "fixed" | "fill";
+  heightType?: "fixed" | "fill";
 }
 
 export class Block {
   public id: string;
   public type: BlockType;
-  public width: number;
-  public height: number;
+  public widthType: "fixed" | "fill";
+  public heightType: "fixed" | "fill";
   public position: "relative" | "absolute";
   public parent: ParentBlockType;
   public t: number;
@@ -37,6 +39,8 @@ export class Block {
   public xDirection: "l" | "r";
   public yDirection: "t" | "b";
   private prevOffset: Offset;
+  private _width: number;
+  private _height: number;
 
   constructor(initState: IBlock) {
     this.id = initState.id ?? uuidv4();
@@ -51,11 +55,67 @@ export class Block {
     this.type = initState.type;
     this.position = initState.position ?? "absolute";
     this.parent = initState.parent ?? null;
-    this.width = initState.width ?? 100;
-    this.height = initState.height ?? 100;
+    this._width = initState.width ?? 100;
+    this._height = initState.height ?? 100;
     this.xDirection = "l";
     this.yDirection = "t";
     this.prevOffset = { x: 0, y: 0 };
+    this.widthType = initState.widthType ?? "fixed";
+    this.heightType = initState.heightType ?? "fixed";
+  }
+
+  get width() {
+    switch (this.widthType) {
+      case "fixed":
+        return this._width;
+      case "fill": {
+        if (!this.parent) {
+          return this._width;
+        }
+
+        const fillChildrenCnt = this.parent.children.filter((child) => child.widthType === "fill").length;
+        const fixedChildrenWidth = this.parent.children.reduce((acc, child) => {
+          return acc + (child.widthType === "fixed" ? child.width : 0);
+        }, 0);
+        const parentWidth = this.parent.width - this.parent.pl - this.parent.pr;
+        const width = hasDropRowMixin(this.parent)
+          ? Math.floor((parentWidth - fixedChildrenWidth) / fillChildrenCnt)
+          : parentWidth;
+        this._width = width;
+        return width;
+      }
+    }
+  }
+
+  set width(value: number) {
+    this._width = value;
+  }
+
+  get height() {
+    switch (this.heightType) {
+      case "fixed":
+        return this._height;
+      case "fill": {
+        if (!this.parent) {
+          return this._height;
+        }
+
+        const fillChildrenCnt = this.parent.children.filter((child) => child.heightType === "fill").length;
+        const fillChildrenHeight = this.parent.children.reduce((acc, child) => {
+          return acc + (child.heightType === "fixed" ? child.height : 0);
+        }, 0);
+        const parentHeight = this.parent.height - this.parent.pt - this.parent.pb;
+        const height = hasDropRowMixin(this.parent)
+          ? parentHeight
+          : Math.floor((parentHeight - fillChildrenHeight) / fillChildrenCnt);
+        this._height = height;
+        return height;
+      }
+    }
+  }
+
+  set height(value: number) {
+    this._height = value;
   }
 
   public updateCoords(currentOffset: Offset, parentOffset?: Offset) {
@@ -95,6 +155,8 @@ export class Block {
     position: "relative" | "absolute";
     width: number;
     height: number;
+    widthType: "fixed" | "fill";
+    heightType: "fixed" | "fill";
   } {
     return {
       id: this.id,
@@ -110,6 +172,8 @@ export class Block {
       position: this.position,
       width: this.width,
       height: this.height,
+      widthType: this.widthType,
+      heightType: this.heightType,
     };
   }
 
