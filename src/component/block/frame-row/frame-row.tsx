@@ -6,15 +6,15 @@ import { FrameRowBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
 import { HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
-import { useSectionRowBlockDrag, useSectionRowBlockDrop, useFrameRowBlockProps } from "@/component/block";
+import { useFrameRowBlockDrag, useFrameRowBlockDrop, useFrameRowBlockProps } from "@/component/block";
 import { isAutoLayouted } from "@/util";
 
 interface IFrameRowProps extends IBlockProps<InstanceType<typeof FrameRowBlock>> {}
 
 export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
   const { block: frameRow, element, setElement, isSelected, ...blockProps } = useFrameRowBlockProps(block);
-  const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useSectionRowBlockDrag(frameRow);
-  const [{ isCurrentOver, isDragging }, dropRef] = useSectionRowBlockDrop(
+  const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useFrameRowBlockDrag(frameRow);
+  const [{ isCurrentOver, isDragging }, dropRef] = useFrameRowBlockDrop(
     frameRow,
     element,
     isCurrentDragging,
