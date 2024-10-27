@@ -47,7 +47,6 @@ export const Section = ({ block }: ISectionProps) => {
         )}
         <ChildrenMixin block={section} />
         {previewBlock && <PreviewBlock block={previewBlock} />}
-        <NewBlockButtons parent={section} />
       </section>
     </>
   );

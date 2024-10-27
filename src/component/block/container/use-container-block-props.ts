@@ -1,12 +1,17 @@
-import { BlockFactory, ContainerBlock } from "@/domain/block";
-import { IUseDefaultBlockProps, useBlockHistory, useDefaultBlockProps, useGlobalContext } from "@/hooks";
+import { ContainerBlock } from "@/domain/block";
+import {
+  IUseDefaultBlockProps,
+  useBlockHistory,
+  useDefaultBlockProps,
+  useGlobalContext,
+  useNewBlock,
+} from "@/hooks";
 import {
   getImageSizeFromBlobFile,
   getImageUrlFromBlobFile,
   hasChildrenMixin,
   hasDropColMixin,
   hasDropRowMixin,
-  isAutoLayouted,
 } from "@/util";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -19,6 +24,7 @@ export const useContainerBlockProps = (
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const { block: container, ...props } = useDefaultBlockProps(containerBlock);
   const globalContext = useGlobalContext();
+  const { isAddable, addNewBlock } = useNewBlock();
 
   useHotkeys("backspace", () => {
     const block = globalContext.currentBlock;
@@ -30,6 +36,9 @@ export const useContainerBlockProps = (
     if (parent && hasChildrenMixin(parent)) {
       startCaptureSnapshot(`remove-${parent.id}`);
       parent.removeChild(block);
+      if (hasDropColMixin(parent) || hasDropRowMixin(parent)) {
+        parent.autoLayout();
+      }
       endCaptureSnapshot(`remove-${parent.id}`);
     }
   });
@@ -43,47 +52,25 @@ export const useContainerBlockProps = (
 
       e.preventDefault();
 
-      let currentBlock = globalContext.currentBlock;
-      if (!currentBlock) {
-        return;
-      }
-
-      if (!hasChildrenMixin(currentBlock)) {
-        currentBlock = currentBlock.parent;
-      }
-
-      if (!currentBlock) {
+      if (!isAddable) {
         return;
       }
 
       const url = getImageUrlFromBlobFile(blob);
-      const { width, height } = await getImageSizeFromBlobFile(blob);
-
-      if (url && hasChildrenMixin(currentBlock)) {
-        const image = BlockFactory.create(
-          {
-            type: "IMAGE",
-            url,
-            t: currentBlock.height / 2 - 50,
-            l: currentBlock.width / 2 - 50,
-            b: currentBlock.height / 2,
-            r: currentBlock.width / 2,
-            position: "absolute",
-            width,
-            height,
-            widthType: "fixed",
-            heightType: "fixed",
-          },
-          currentBlock
-        );
-        startCaptureSnapshot(`new-${image.id}`);
-        currentBlock.addChild(image);
-        globalContext.setCurrentBlock(image);
-        if (hasDropRowMixin(currentBlock) || hasDropColMixin(currentBlock)) {
-          currentBlock.autoLayout();
-        }
-        endCaptureSnapshot(`new-${image.id}`);
+      if (!url) {
+        return;
       }
+
+      const { width, height } = await getImageSizeFromBlobFile(blob);
+      const imageProps = {
+        position: "absolute",
+        width,
+        height,
+        widthType: "fixed",
+        heightType: "fixed",
+        url,
+      } as const;
+      addNewBlock("IMAGE", imageProps);
     };
 
     document.addEventListener("paste", handlePaste);
