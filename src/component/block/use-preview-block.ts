@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useDragLayer } from "react-dnd";
-import { Block, SectionBlock, BlockFactory } from "@/domain/block";
+import { Block, SectionBlock, BlockFactory, SectionColBlock, SectionRowBlock } from "@/domain/block";
 import { SNAP_THRESHOLD } from "@/constant";
 import { hasDragSnapMixin, isAutoLayouted } from "@/util";
 
 interface IUseSectionPreviewBlockProps {
-  section: InstanceType<typeof SectionBlock>;
+  section:
+    | InstanceType<typeof SectionBlock>
+    | InstanceType<typeof SectionColBlock>
+    | InstanceType<typeof SectionRowBlock>;
   element: HTMLElement | null;
 }
 

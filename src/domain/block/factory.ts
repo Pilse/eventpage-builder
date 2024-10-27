@@ -6,6 +6,8 @@ import {
   FrameRowBlock,
   ImageBlock,
   SectionBlock,
+  SectionColBlock,
+  SectionRowBlock,
   TextBlock,
 } from "@/domain/block";
 import { v4 as uuidv4 } from "uuid";
@@ -24,8 +26,12 @@ export class BlockFactory {
         return new TextBlock({ ...serialized, parent });
       case "IMAGE":
         return new ImageBlock({ ...serialized, parent });
-      case "SECTION":
+      case "SECTION_CANVAS":
         return new SectionBlock({ children: [], ...serialized, parent });
+      case "SECTION_ROW":
+        return new SectionRowBlock({ children: [], ...serialized, parent });
+      case "SECTION_COL":
+        return new SectionColBlock({ children: [], ...serialized, parent });
       case "CONTAINER":
         return new ContainerBlock({ children: [], ...serialized, parent });
       case "BLOCK":
@@ -48,8 +54,12 @@ export class BlockFactory {
         return new TextBlock({ ...serialized, parent, id: uuidv4() });
       case "IMAGE":
         return new ImageBlock({ ...serialized, parent, id: uuidv4() });
-      case "SECTION":
+      case "SECTION_CANVAS":
         return new SectionBlock({ children: [], ...serialized, parent, id: uuidv4() });
+      case "SECTION_ROW":
+        return new SectionRowBlock({ children: [], ...serialized, parent, id: uuidv4() });
+      case "SECTION_COL":
+        return new SectionColBlock({ children: [], ...serialized, parent, id: uuidv4() });
       case "CONTAINER":
         return new ContainerBlock({ children: [], ...serialized, parent, id: uuidv4() });
       case "BLOCK":

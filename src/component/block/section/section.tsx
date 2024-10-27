@@ -7,7 +7,6 @@ import {
   useSectionBlockDrop,
   useSectionBlockProps,
   useSectionPreviewBlock,
-  NewBlockButtons,
 } from "@/component/block";
 import { IBlockProps } from "@/type";
 import { HoverLayer, DragSnapLineLayer } from "@/component/layer";

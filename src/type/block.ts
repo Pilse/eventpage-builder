@@ -2,11 +2,13 @@ import { Block } from "@/domain/block";
 import { useDrag, XYCoord } from "react-dnd";
 
 export type BlockType =
+  | "BLOCK"
   | "TEXT"
   | "IMAGE"
+  | "SECTION_CANVAS"
+  | "SECTION_ROW"
+  | "SECTION_COL"
   | "FRAME_CANVAS"
-  | "SECTION"
-  | "BLOCK"
   | "FRAME_ROW"
   | "FRAME_COL"
   | "CONTAINER";

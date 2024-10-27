@@ -9,9 +9,21 @@ import {
   FrameRowBlock,
   ImageBlock,
   SectionBlock,
+  SectionColBlock,
+  SectionRowBlock,
   TextBlock,
 } from "@/domain/block";
-import { Frame, FrameCol, Text, FrameRow, Section, Container, Image as ImageComp } from "@/component/block";
+import {
+  Frame,
+  FrameCol,
+  Text,
+  FrameRow,
+  Section,
+  Container,
+  Image as ImageComp,
+  SectionRow,
+  SectionCol,
+} from "@/component/block";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
 
@@ -28,8 +40,12 @@ export const BlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
         <Text block={block as InstanceType<typeof TextBlock>} isPreview={isPreview} />
       ) : block.type === "IMAGE" ? (
         <ImageComp block={block as InstanceType<typeof ImageBlock>} isPreview={isPreview} />
-      ) : block.type === "SECTION" ? (
+      ) : block.type === "SECTION_CANVAS" ? (
         <Section block={block as InstanceType<typeof SectionBlock>} isPreview={isPreview} />
+      ) : block.type === "SECTION_ROW" ? (
+        <SectionRow block={block as InstanceType<typeof SectionRowBlock>} isPreview={isPreview} />
+      ) : block.type === "SECTION_COL" ? (
+        <SectionCol block={block as InstanceType<typeof SectionColBlock>} isPreview={isPreview} />
       ) : block.type === "CONTAINER" ? (
         <Container block={block as InstanceType<typeof ContainerBlock>} isPreview={isPreview} />
       ) : (

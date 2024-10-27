@@ -25,7 +25,7 @@ export class Section extends Block {
       children: ReturnType<ChildBlock["serialize"]>[];
     }
   ) {
-    super({ ...initState, type: "SECTION", width: initState.parent?.width ?? initState.width });
+    super({ ...initState, type: "SECTION_CANVAS", width: initState.parent?.width ?? initState.width });
     this.children = (initState.children.map((child) => BlockFactory.deserialize(child, this)) ??
       []) as ChildBlock[];
   }
@@ -76,7 +76,7 @@ export class Section extends Block {
     return {
       ...super.serialize(),
       children: this.children.map((child) => child.serialize()) as ReturnType<ChildBlock["serialize"]>[],
-      type: "SECTION" as const,
+      type: "SECTION_CANVAS" as const,
     };
   }
 

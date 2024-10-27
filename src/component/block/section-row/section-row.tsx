@@ -2,20 +2,26 @@
 
 import { getEmptyImage } from "react-dnd-html5-backend";
 import { twMerge } from "tailwind-merge";
-import { FrameRowBlock } from "@/domain/block";
+import { SectionRowBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
 import { HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
-import { useSectionRowBlockDrag, useSectionRowBlockDrop, useFrameRowBlockProps } from "@/component/block";
+import { useSectionRowBlockDrag, useSectionRowBlockDrop, useSectionRowBlockProps } from "@/component/block";
 import { isAutoLayouted } from "@/util";
 
-interface IFrameRowProps extends IBlockProps<InstanceType<typeof FrameRowBlock>> {}
+interface ISectionRowProps extends IBlockProps<InstanceType<typeof SectionRowBlock>> {}
 
-export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
-  const { block: frameRow, element, setElement, isSelected, ...blockProps } = useFrameRowBlockProps(block);
-  const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useSectionRowBlockDrag(frameRow);
+export const SectionRow = ({ block, isPreview }: ISectionRowProps) => {
+  const {
+    block: sectionRow,
+    element,
+    setElement,
+    isSelected,
+    ...blockProps
+  } = useSectionRowBlockProps(block);
+  const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useSectionRowBlockDrag(sectionRow);
   const [{ isCurrentOver, isDragging }, dropRef] = useSectionRowBlockDrop(
-    frameRow,
+    sectionRow,
     element,
     isCurrentDragging,
     isPreview
@@ -34,13 +40,13 @@ export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
       className={twMerge(
         "group bg-green-300",
         !isPreview && isCurrentDragging && "opacity-0",
-        isAutoLayouted(frameRow) && "opacity-100"
+        isAutoLayouted(sectionRow) && "opacity-100"
       )}
       {...blockProps}
     >
       {!isSelected && <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />}
-      {isSelected && element && <ResizeMixin element={element} block={frameRow} />}
-      <ChildrenMixin block={frameRow} />
+      {isSelected && element && <ResizeMixin vertical element={element} block={sectionRow} />}
+      <ChildrenMixin block={sectionRow} />
     </div>
   );
 };

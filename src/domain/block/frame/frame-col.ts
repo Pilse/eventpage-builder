@@ -27,7 +27,7 @@ export class FrameCol extends Block {
       sectionOffset.b += parent.b;
       sectionOffset.r += parent.r;
       parent = parent.parent;
-    } while (parent && parent.type !== "SECTION");
+    } while (parent && !parent.type.startsWith("SECTION"));
 
     for (const child of this.children) {
       layoutMap[child.id] = {
