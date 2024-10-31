@@ -45,11 +45,25 @@ export const BlockHistoryProvider = ({ root, children }: IBlockHistoryProviderPr
     redo();
   });
 
+  const startCaptureSnapshot = useCallback(
+    (id: string) => {
+      history.startCaptureSnapshot(id);
+    },
+    [history]
+  );
+
+  const endCaptureSnapshot = useCallback(
+    (id: string) => {
+      history.endCaptureSnapshot(id);
+    },
+    [history]
+  );
+
   return (
     <BlockHistoryContext.Provider
       value={{
-        startCaptureSnapshot: history.startCaptureSnapshot.bind(history),
-        endCaptureSnapshot: history.endCaptureSnapshot.bind(history),
+        startCaptureSnapshot,
+        endCaptureSnapshot,
         undo,
         redo,
       }}

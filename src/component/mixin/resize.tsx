@@ -112,35 +112,19 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
   return (
     <>
       {/* top */}
-      <div
-        onMouseDown={(e) => handleMouseDown(e, { t: true })}
-        className="z-10 absolute -top-0.5 left-0 h-0.5 bg-black w-full cursor-row-resize"
-      >
-        {vertical && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="14"
-            viewBox="0 0 24 18"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray-700 text-white"
-          >
-            <circle cx="12" cy="7" r="1" />
-            <circle cx="19" cy="7" r="1" />
-            <circle cx="5" cy="7" r="1" />
-            <circle cx="12" cy="12" r="1" />
-            <circle cx="19" cy="12" r="1" />
-            <circle cx="5" cy="12" r="1" />
-          </svg>
-        )}
-      </div>
+      {vertical ? (
+        <div className="z-10 absolute -top-0.5 left-0 h-0.5 bg-black w-full"></div>
+      ) : (
+        <div
+          onMouseDown={(e) => handleMouseDown(e, { t: true })}
+          className="z-10 absolute -top-0.5 left-0 h-0.5 bg-black w-full cursor-row-resize"
+        ></div>
+      )}
 
       {/* left */}
-      {!vertical && (
+      {vertical ? (
+        <div className="z-10 absolute -top-0.5 -bottom-0.5 -left-0.5  bg-black w-0.5"></div>
+      ) : (
         <div
           onMouseDown={(e) => handleMouseDown(e, { l: true })}
           className="z-10 absolute top-0 -left-0.5 h-full bg-black w-0.5 cursor-col-resize"
@@ -148,7 +132,9 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
       )}
 
       {/* right */}
-      {!vertical && (
+      {vertical ? (
+        <div className="z-10 absolute -top-0.5 -bottom-0.5 -right-0.5  bg-black w-0.5"></div>
+      ) : (
         <div
           onMouseDown={(e) => handleMouseDown(e, { r: true })}
           className="z-10 absolute top-0 -right-0.5 h-full bg-black w-0.5 cursor-col-resize"
@@ -183,9 +169,9 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
         )}
       </div>
 
-      {/* top-left corner */}
       {!vertical && (
         <>
+          {/* top-left corner */}
           <div
             onMouseDown={(e) => handleMouseDown(e, { t: true, l: true })}
             className="z-10 absolute -top-1 -left-1 border-2 border-black w-2 h-2 cursor-nwse-resize bg-white"

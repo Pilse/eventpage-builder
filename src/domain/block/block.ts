@@ -97,7 +97,7 @@ export class Block {
       case "fixed":
         return this._height;
       case "fill": {
-        if (!this.parent) {
+        if (!this.parent || !this.parent.children) {
           return this._height;
         }
 
