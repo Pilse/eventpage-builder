@@ -1,6 +1,7 @@
 import { DragMixin, DropCanvasMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
-import { Block, BlockFactory, FrameColBlock, FrameRowBlock, ImageBlock, TextBlock } from "@/domain/block";
+import { Block, BlockFactory, ImageBlock, TextBlock } from "@/domain/block";
 import { LayoutMap, Position } from "@/type";
+import { v4 as uuidv4 } from "uuid";
 
 type ChildBlock = InstanceType<typeof TextBlock> | InstanceType<typeof ImageBlock>;
 
@@ -10,11 +11,13 @@ export class FrameCanvas extends Block {
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
       children: ReturnType<ChildBlock["serialize"]>[];
-    }
+    },
+    deserialize = true
   ) {
     super({ ...initState, type: "FRAME_CANVAS" });
-    this.children = (initState.children.map((child) => BlockFactory.deserialize(child, this)) ??
-      []) as ChildBlock[];
+    this.children = (initState.children.map((child) =>
+      deserialize ? BlockFactory.deserialize(child, this) : BlockFactory.create(child, this)
+    ) ?? []) as ChildBlock[];
   }
 
   public getLayoutMap() {

@@ -1,4 +1,4 @@
-import { ContainerBlock } from "@/domain/block";
+import { BlockFactory, ContainerBlock } from "@/domain/block";
 import {
   IUseDefaultBlockProps,
   useBlockHistory,
@@ -23,19 +23,18 @@ export const useContainerBlockProps = (
 ): IUseContainerBlockProps => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const { block: container, ...props } = useDefaultBlockProps(containerBlock);
-  const globalContext = useGlobalContext();
+  const { currentBlock } = useGlobalContext();
   const { isAddable, addNewBlock } = useNewBlock();
 
   useHotkeys("backspace", () => {
-    const block = globalContext.currentBlock;
-    if (!block) {
+    if (!currentBlock) {
       return;
     }
 
-    const parent = block.parent;
+    const parent = currentBlock.parent;
     if (parent && hasChildrenMixin(parent)) {
       startCaptureSnapshot(`remove-${parent.id}`);
-      parent.removeChild(block);
+      parent.removeChild(currentBlock);
       if (hasDropColMixin(parent) || hasDropRowMixin(parent)) {
         parent.autoLayout();
       }
@@ -43,15 +42,44 @@ export const useContainerBlockProps = (
     }
   });
 
+  useHotkeys("mod+c", () => {
+    if (!currentBlock) {
+      return;
+    }
+
+    navigator.clipboard.writeText(JSON.stringify(currentBlock.serialize()));
+  });
+
   useEffect(() => {
-    const handlePaste = async (e: ClipboardEvent) => {
+    const handleTextPaste = (e: ClipboardEvent) => {
+      const text = e.clipboardData?.getData("text/plain");
+      if (!text || !isAddable) {
+        return false;
+      }
+      try {
+        const parent = currentBlock?.getClosestParent();
+        if (!parent) {
+          return false;
+        }
+
+        const block = BlockFactory.create(JSON.parse(text), parent);
+        addNewBlock(block.type, block.serialize());
+        return true;
+      } catch {
+        console.error("Failed to paste text block");
+        return false;
+      } finally {
+        return false;
+      }
+    };
+
+    const handleBlobPaste = async (e: ClipboardEvent) => {
       const blob = e.clipboardData?.files[0];
       if (!blob) {
         return;
       }
 
       e.preventDefault();
-
       if (!isAddable) {
         return;
       }
@@ -73,11 +101,20 @@ export const useContainerBlockProps = (
       addNewBlock("IMAGE", imageProps);
     };
 
+    const handlePaste = async (e: ClipboardEvent) => {
+      const textHandled = handleTextPaste(e);
+      if (textHandled) {
+        return;
+      }
+
+      handleBlobPaste(e);
+    };
+
     document.addEventListener("paste", handlePaste);
     return () => {
       document.removeEventListener("paste", handlePaste);
     };
-  }, [endCaptureSnapshot, globalContext, startCaptureSnapshot]);
+  }, [addNewBlock, endCaptureSnapshot, isAddable, startCaptureSnapshot, currentBlock]);
 
   return { block: container, ...props };
 };

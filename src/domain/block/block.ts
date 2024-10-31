@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { hasChildrenMixin, hasDropRowMixin } from "@/util";
 import { BlockType, ParentBlockType, Offset } from "@/type";
+import { ChildrenMixinBlockType } from "../mixin";
 
 export interface IBlock {
   id?: string;
@@ -44,10 +45,10 @@ export class Block {
 
   constructor(initState: IBlock) {
     this.id = initState.id ?? uuidv4();
-    this.t = (initState.t ?? 0) + (initState?.pt ?? 0) + (initState.parent?.pt ?? 0);
-    this.r = (initState.r ?? 0) + (initState?.pr ?? 0) + (initState.parent?.pr ?? 0);
-    this.b = (initState.b ?? 0) + (initState?.pb ?? 0) + (initState.parent?.pb ?? 0);
-    this.l = (initState.l ?? 0) + (initState?.pl ?? 0) + (initState.parent?.pl ?? 0);
+    this.t = (initState.t ?? 0) + (initState.parent?.pt ?? 0);
+    this.r = (initState.r ?? 0) + (initState.parent?.pr ?? 0);
+    this.b = (initState.b ?? 0) + (initState.parent?.pb ?? 0);
+    this.l = (initState.l ?? 0) + (initState.parent?.pl ?? 0);
     this.pt = initState.pt ?? 0;
     this.pr = initState.pr ?? 0;
     this.pb = initState.pb ?? 0;
@@ -139,6 +140,19 @@ export class Block {
         ? "b"
         : "t";
     this.prevOffset = currentOffset;
+  }
+
+  public getClosestParent(): ChildrenMixinBlockType | null {
+    let parent: Block | null = this;
+    if (hasChildrenMixin(parent)) {
+      return parent;
+    }
+
+    while (parent && !hasChildrenMixin(parent)) {
+      parent = parent.parent;
+    }
+
+    return parent;
   }
 
   public serialize(): {

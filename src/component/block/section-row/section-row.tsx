@@ -28,7 +28,7 @@ export const SectionRow = ({ block, isPreview }: ISectionRowProps) => {
   );
 
   return (
-    <div
+    <section
       ref={(ele) => {
         setElement(ele);
         dragRef(ele);
@@ -47,6 +47,6 @@ export const SectionRow = ({ block, isPreview }: ISectionRowProps) => {
       {!isSelected && <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />}
       {isSelected && element && <ResizeMixin vertical element={element} block={sectionRow} />}
       <ChildrenMixin block={sectionRow} />
-    </div>
+    </section>
   );
 };

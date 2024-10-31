@@ -35,7 +35,7 @@ export const SectionCol = ({ block, isPreview }: ISectionColProps) => {
   const { previewBlock, snappableDir } = useSectionPreviewBlock(sectionCol, element);
 
   return (
-    <div
+    <section
       ref={(ele) => {
         setElement(ele);
         dragRef(ele);
@@ -58,6 +58,6 @@ export const SectionCol = ({ block, isPreview }: ISectionColProps) => {
       )}
       <ChildrenMixin block={sectionCol} />
       {previewBlock && <PreviewBlock block={previewBlock} />}
-    </div>
+    </section>
   );
 };

@@ -45,23 +45,23 @@ export class BlockFactory {
   ) {
     switch (serialized.type) {
       case "FRAME_CANVAS":
-        return new FrameBlock({ children: [], ...serialized, parent, id: uuidv4() });
+        return new FrameBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "FRAME_ROW":
-        return new FrameRowBlock({ children: [], ...serialized, parent, id: uuidv4() });
+        return new FrameRowBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "FRAME_COL":
-        return new FrameColBlock({ children: [], ...serialized, parent, id: uuidv4() });
+        return new FrameColBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "TEXT":
         return new TextBlock({ ...serialized, parent, id: uuidv4() });
       case "IMAGE":
         return new ImageBlock({ ...serialized, parent, id: uuidv4() });
       case "SECTION_CANVAS":
-        return new SectionBlock({ children: [], ...serialized, parent, id: uuidv4() });
+        return new SectionBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "SECTION_ROW":
-        return new SectionRowBlock({ children: [], ...serialized, parent, id: uuidv4() });
+        return new SectionRowBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "SECTION_COL":
-        return new SectionColBlock({ children: [], ...serialized, parent, id: uuidv4() });
+        return new SectionColBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "CONTAINER":
-        return new ContainerBlock({ children: [], ...serialized, parent, id: uuidv4() });
+        return new ContainerBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "BLOCK":
         return new Block({ ...serialized, parent, id: uuidv4() });
     }

@@ -1,9 +1,9 @@
-import { BlockType } from "@/type";
 import { useGlobalContext } from "./use-global-context";
 import { Block, BlockFactory } from "@/domain/block";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useBlockHistory } from "./use-block-history";
 import { useCallback } from "react";
+import { ChildrenMixinBlockType } from "@/domain/mixin";
 
 export const useNewBlock = () => {
   const { setCurrentBlock, currentBlock } = useGlobalContext();
@@ -53,17 +53,20 @@ export const useNewBlock = () => {
         return null;
       }
 
-      let parent: Block | null = currentBlock;
-      while (parent && !hasChildrenMixin(parent)) {
-        parent = parent.parent;
+      let parent: ChildrenMixinBlockType | null = currentBlock.getClosestParent();
+      if (parent?.type.startsWith("SECTION") && type.startsWith("SECTION")) {
+        parent = parent.parent?.getClosestParent() ?? null;
       }
+
       if (!parent) {
         return null;
       }
 
-      const layout = getInitalLayout(parent, currentBlock);
-
-      const newBlock = BlockFactory.create({ type, ...layout, ...serialized }, parent);
+      const { width, height, widthType, heightType, ...position } = getInitalLayout(parent, currentBlock);
+      const newBlock = BlockFactory.create(
+        { type, width, height, widthType, heightType, ...serialized, ...position },
+        parent
+      );
       startCaptureSnapshot(`add-${parent.id}`);
       parent.addChild(newBlock);
       if (hasDropRowMixin(parent) || hasDropColMixin(parent)) {

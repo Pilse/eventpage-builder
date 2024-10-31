@@ -23,11 +23,13 @@ export class SectionCol extends Block {
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
       children: ReturnType<ChildBlock["serialize"]>[];
-    }
+    },
+    deserialize = true
   ) {
     super({ ...initState, type: "SECTION_COL" });
-    this.children = (initState.children.map((child) => BlockFactory.deserialize(child, this)) ??
-      []) as ChildBlock[];
+    this.children = (initState.children.map((child) =>
+      deserialize ? BlockFactory.deserialize(child, this) : BlockFactory.create(child, this)
+    ) ?? []) as ChildBlock[];
   }
 
   public getLayoutMap() {
