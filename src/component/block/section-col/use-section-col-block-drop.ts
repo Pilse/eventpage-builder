@@ -5,9 +5,7 @@ import { DropTargetMonitor } from "react-dnd";
 
 export const useSectionColBlockDrop = (
   sectionCol: InstanceType<typeof SectionColBlock>,
-  element: HTMLElement | null,
-  isDragging: boolean,
-  isPreview?: boolean
+  element: HTMLElement | null
 ) => {
   const isDraggingDeep = (monitor: DropTargetMonitor) => {
     const currentDragged = monitor.getItem() as InstanceType<typeof Block> | null;
@@ -17,7 +15,7 @@ export const useSectionColBlockDrop = (
   return useDefaultBlockDrop(
     {
       hover: (item, monitor) => {
-        if (isDragging || isDraggingDeep(monitor) || !monitor.isOver({ shallow: true })) {
+        if (isDraggingDeep(monitor) || !monitor.isOver({ shallow: true })) {
           return;
         }
 
@@ -35,7 +33,7 @@ export const useSectionColBlockDrop = (
 
         sectionCol.hovered(item, offsetFromSectionCol);
       },
-      canDrop: (_, monitor) => !isDraggingDeep(monitor) && !isDragging && !isPreview,
+      canDrop: (_, monitor) => !isDraggingDeep(monitor),
       drop: (item, monitor) => {
         const currentOffset = monitor.getSourceClientOffset();
         if (!currentOffset || !element) {
@@ -47,6 +45,6 @@ export const useSectionColBlockDrop = (
         sectionCol.dropped(item, currentOffset, sectionDomRect, sectionDomRect);
       },
     },
-    [element, isDragging]
+    [element]
   );
 };

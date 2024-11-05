@@ -1,4 +1,4 @@
-import { ContainerBlock, SectionBlock, SectionColBlock } from "@/domain/block";
+import { ContainerBlock, SectionBlock, SectionColBlock, SectionRowBlock } from "@/domain/block";
 
 const sampleSection1: ReturnType<InstanceType<typeof SectionColBlock>["serialize"]> = {
   id: "51750cec-13f6-4491-aa11-0ca05bf3e649",
@@ -193,6 +193,21 @@ const sampleSection2: ReturnType<InstanceType<typeof SectionBlock>["serialize"]>
   ],
 };
 
+const sampleSection3: ReturnType<InstanceType<typeof SectionRowBlock>["serialize"]> = {
+  id: "01d3b1b1-1b1b-4b1b-8b1b-1b1b1b1b1b1b",
+  t: 0,
+  r: 0,
+  b: 0,
+  l: 0,
+  type: "SECTION_ROW",
+  position: "absolute",
+  width: 800,
+  height: 800,
+  widthType: "fill",
+  heightType: "fixed",
+  children: [],
+};
+
 export const sampleContainer: ReturnType<InstanceType<typeof ContainerBlock>["serialize"]> = {
   id: "d93e29f7-5518-493d-bb9b-1f659a84b93e",
   t: 0,
@@ -205,5 +220,5 @@ export const sampleContainer: ReturnType<InstanceType<typeof ContainerBlock>["se
   height: 2000,
   widthType: "fixed",
   heightType: "fixed",
-  children: [sampleSection1, sampleSection2],
+  children: [sampleSection1, sampleSection2, sampleSection3],
 };

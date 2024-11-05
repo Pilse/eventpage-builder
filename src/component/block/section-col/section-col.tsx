@@ -1,6 +1,5 @@
 "use client";
 
-import { getEmptyImage } from "react-dnd-html5-backend";
 import { twMerge } from "tailwind-merge";
 import { SectionColBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
@@ -8,7 +7,6 @@ import { DragSnapLineLayer, HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
 import {
   PreviewBlock,
-  useSectionColBlockDrag,
   useSectionColBlockDrop,
   useSectionColBlockProps,
   useSectionPreviewBlock,
@@ -17,7 +15,7 @@ import { isAutoLayouted } from "@/util";
 
 interface ISectionColProps extends IBlockProps<InstanceType<typeof SectionColBlock>> {}
 
-export const SectionCol = ({ block, isPreview }: ISectionColProps) => {
+export const SectionCol = ({ block }: ISectionColProps) => {
   const {
     block: sectionCol,
     element,
@@ -25,30 +23,16 @@ export const SectionCol = ({ block, isPreview }: ISectionColProps) => {
     isSelected,
     ...blockProps
   } = useSectionColBlockProps(block);
-  const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useSectionColBlockDrag(sectionCol);
-  const [{ isCurrentOver, isDragging }, dropRef] = useSectionColBlockDrop(
-    sectionCol,
-    element,
-    isCurrentDragging,
-    isPreview
-  );
+  const [{ isCurrentOver, isDragging }, dropRef] = useSectionColBlockDrop(sectionCol, element);
   const { previewBlock, snappableDir } = useSectionPreviewBlock(sectionCol, element);
 
   return (
     <section
       ref={(ele) => {
         setElement(ele);
-        dragRef(ele);
-        if (isPreview || !isCurrentDragging) {
-          dropRef(ele);
-        }
-        previewRef(getEmptyImage());
+        dropRef(ele);
       }}
-      className={twMerge(
-        "group bg-blue-200",
-        !isPreview && isCurrentDragging && "opacity-0",
-        isAutoLayouted(sectionCol) && "opacity-100"
-      )}
+      className={twMerge("group bg-blue-200", isAutoLayouted(sectionCol) && "opacity-100")}
       {...blockProps}
     >
       {!isSelected && <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />}
