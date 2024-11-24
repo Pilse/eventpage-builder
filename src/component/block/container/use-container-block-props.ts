@@ -56,6 +56,7 @@ export const useContainerBlockProps = (
       if (!text || !isAddable) {
         return false;
       }
+
       try {
         const parent = currentBlock?.getClosestParent();
         if (!parent) {

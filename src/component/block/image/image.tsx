@@ -33,7 +33,7 @@ export const Image = ({ block, isPreview }: IImageProps) => {
       {isSelected && element && <ResizeMixin element={element} block={image} />}
       {/*  eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={image.getUrl()}
+        src={image.url}
         alt="image"
         className="w-full h-full object-cover pointer-events-none"
         draggable={false}

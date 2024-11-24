@@ -161,10 +161,10 @@ export class Block {
     r: number;
     b: number;
     l: number;
-    pt?: number;
-    pr?: number;
-    pb?: number;
-    pl?: number;
+    pt: number;
+    pr: number;
+    pb: number;
+    pl: number;
     type: BlockType;
     position: "relative" | "absolute";
     width: number;

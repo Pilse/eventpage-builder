@@ -4,11 +4,15 @@ import { Constructor, LayoutMap, Offset } from "@/type";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 
 export type DropColMixinBlockType = InstanceType<
-  ReturnType<typeof DropColMixin<Constructor<Block & { children: Block[]; getLayoutMap: () => LayoutMap }>>>
+  ReturnType<
+    typeof DropColMixin<
+      Constructor<Block & { gap: number; children: Block[]; getLayoutMap: () => LayoutMap }>
+    >
+  >
 >;
 
 export const DropColMixin = <
-  TBase extends Constructor<Block & { children: Block[]; getLayoutMap: () => LayoutMap }>
+  TBase extends Constructor<Block & { gap: number; children: Block[]; getLayoutMap: () => LayoutMap }>
 >(
   Base: TBase
 ) => {
@@ -26,7 +30,7 @@ export const DropColMixin = <
       this.childrenOffsetY = [this.pt];
       this.children.sort((chlid1, child2) => chlid1.t - child2.t);
       this.children.forEach((child, idx) => {
-        this.childrenOffsetY.push(this.childrenOffsetY[idx] + child.height);
+        this.childrenOffsetY.push(this.childrenOffsetY[idx] + child.height + this.gap);
         child.t = this.childrenOffsetY[idx];
         child.l = this.pl;
         childrenTotalHeight += child.height;
@@ -54,7 +58,7 @@ export const DropColMixin = <
       this.autoLayout();
     }
 
-    public hovered(hoveredBlock: InstanceType<typeof Block>, offsetFromFrameCol: Offset) {
+    public hovered(hoveredBlock: InstanceType<typeof Block>, offsetFromThis: Offset) {
       if (!hoveredBlock.parent) {
         return;
       }
@@ -68,19 +72,19 @@ export const DropColMixin = <
         }
 
         hoveredBlock.parent = this;
-        hoveredBlock.t = offsetFromFrameCol.y;
+        hoveredBlock.t = offsetFromThis.y;
         this.addChild(hoveredBlock);
         this.autoLayout();
         return;
       }
 
       if (hoveredBlock.parent.id === this.id) {
-        const idx = this.childrenOffsetY.findLastIndex((childOffetY) => childOffetY > offsetFromFrameCol.y);
+        const idx = this.childrenOffsetY.findLastIndex((childOffetY) => childOffetY > offsetFromThis.y);
         if (idx === -1) {
           return;
         }
 
-        hoveredBlock.t = offsetFromFrameCol.y;
+        hoveredBlock.t = offsetFromThis.y;
 
         if (this.children[idx]) {
           this.swapChildren(hoveredBlock, this.children[idx]);

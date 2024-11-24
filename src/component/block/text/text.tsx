@@ -50,7 +50,7 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         onInput={onInput}
         contentEditable={isEditing}
         className="w-full h-full outline-none [&>*]:pointer-events-none"
-        dangerouslySetInnerHTML={{ __html: text.getContent() }}
+        dangerouslySetInnerHTML={{ __html: text.content }}
       ></p>
     </div>
   );

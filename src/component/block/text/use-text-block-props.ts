@@ -14,7 +14,7 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const defaultProps = useDefaultBlockProps(text);
   const [isEditing, setIsEditing] = useState(false);
-  const contentRef = useRef(text.getContent());
+  const contentRef = useRef(text.content);
 
   const handleDoublicClick = () => {
     const text = document.getElementById(`text-${defaultProps.block.id}`);
@@ -41,7 +41,7 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
 
   const handleBlur = () => {
     setIsEditing(false);
-    defaultProps.block.setContent(contentRef.current);
+    defaultProps.block.content = contentRef.current;
     endCaptureSnapshot(`input-${defaultProps.block.id}`);
   };
 

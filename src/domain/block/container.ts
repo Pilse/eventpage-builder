@@ -9,6 +9,7 @@ type ChildBlock =
 
 export class Container extends Block {
   public children: ChildBlock[];
+  public gap: number = 0;
 
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
@@ -67,6 +68,7 @@ export class Container extends Block {
   public serialize() {
     return {
       ...super.serialize(),
+      gap: this.gap,
       children: this.children.map((child) => child.serialize()) as ReturnType<ChildBlock["serialize"]>[],
       type: "CONTAINER" as const,
     };

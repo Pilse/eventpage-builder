@@ -6,14 +6,17 @@ type ChildBlock = InstanceType<typeof TextBlock> | InstanceType<typeof ImageBloc
 
 export class FrameCol extends Block {
   public children: ChildBlock[] = [];
+  public gap: number = 0;
 
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
       children: ReturnType<ChildBlock["serialize"]>[];
+      gap: number;
     },
     deserialize = true
   ) {
     super({ ...initState, type: "FRAME_COL" });
+    this.gap = initState.gap;
     this.children = (initState.children.map((child) =>
       deserialize ? BlockFactory.deserialize(child, this) : BlockFactory.create(child, this)
     ) ?? []) as ChildBlock[];
@@ -75,6 +78,7 @@ export class FrameCol extends Block {
   public serialize() {
     return {
       ...super.serialize(),
+      gap: this.gap,
       children: this.children.map((child) => child.serialize()) as ReturnType<ChildBlock["serialize"]>[],
       type: "FRAME_COL" as const,
     };

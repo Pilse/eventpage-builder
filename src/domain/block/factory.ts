@@ -19,9 +19,9 @@ export class BlockFactory {
       case "FRAME_CANVAS":
         return new FrameBlock({ children: [], ...serialized, parent });
       case "FRAME_ROW":
-        return new FrameRowBlock({ children: [], ...serialized, parent });
+        return new FrameRowBlock({ children: [], gap: 0, ...serialized, parent });
       case "FRAME_COL":
-        return new FrameColBlock({ children: [], ...serialized, parent });
+        return new FrameColBlock({ children: [], gap: 0, ...serialized, parent });
       case "TEXT":
         return new TextBlock({ ...serialized, parent });
       case "IMAGE":
@@ -29,9 +29,9 @@ export class BlockFactory {
       case "SECTION_CANVAS":
         return new SectionBlock({ children: [], ...serialized, parent });
       case "SECTION_ROW":
-        return new SectionRowBlock({ children: [], ...serialized, parent });
+        return new SectionRowBlock({ children: [], gap: 0, ...serialized, parent });
       case "SECTION_COL":
-        return new SectionColBlock({ children: [], ...serialized, parent });
+        return new SectionColBlock({ children: [], gap: 0, ...serialized, parent });
       case "CONTAINER":
         return new ContainerBlock({ children: [], ...serialized, parent });
       case "BLOCK":
@@ -47,9 +47,9 @@ export class BlockFactory {
       case "FRAME_CANVAS":
         return new FrameBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "FRAME_ROW":
-        return new FrameRowBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
+        return new FrameRowBlock({ children: [], gap: 0, ...serialized, parent, id: uuidv4() }, false);
       case "FRAME_COL":
-        return new FrameColBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
+        return new FrameColBlock({ children: [], gap: 0, ...serialized, parent, id: uuidv4() }, false);
       case "TEXT":
         return new TextBlock({ ...serialized, parent, id: uuidv4() });
       case "IMAGE":
@@ -57,9 +57,9 @@ export class BlockFactory {
       case "SECTION_CANVAS":
         return new SectionBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "SECTION_ROW":
-        return new SectionRowBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
+        return new SectionRowBlock({ children: [], gap: 0, ...serialized, parent, id: uuidv4() }, false);
       case "SECTION_COL":
-        return new SectionColBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
+        return new SectionColBlock({ children: [], gap: 0, ...serialized, parent, id: uuidv4() }, false);
       case "CONTAINER":
         return new ContainerBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
       case "BLOCK":
