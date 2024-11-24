@@ -4,5 +4,5 @@
 
 :root,
 body {
-  @apply w-full min-h-full;
+  @apply w-full min-h-full max-w-full;
 }

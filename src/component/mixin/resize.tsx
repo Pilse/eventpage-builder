@@ -114,38 +114,38 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
     <>
       {/* top */}
       {vertical ? (
-        <div className="z-10 absolute -top-0.5 left-0 h-0.5 bg-black w-full"></div>
+        <div className="z-10 absolute -top-0.5 left-0 h-0.5 bg-[#0090FF] w-full"></div>
       ) : (
         <div
           onMouseDown={(e) => handleMouseDown(e, { t: true })}
-          className="z-10 absolute -top-0.5 left-0 h-0.5 bg-black w-full cursor-row-resize"
+          className="z-10 absolute -top-0.5 left-0 h-0.5 bg-[#0090FF] w-full cursor-row-resize"
         ></div>
       )}
 
       {/* left */}
       {vertical ? (
-        <div className="z-10 absolute -top-0.5 -bottom-0.5 -left-0.5  bg-black w-0.5"></div>
+        <div className="z-10 absolute -top-0.5 -bottom-0.5 -left-0.5  bg-[#0090FF] w-0.5"></div>
       ) : (
         <div
           onMouseDown={(e) => handleMouseDown(e, { l: true })}
-          className="z-10 absolute top-0 -left-0.5 h-full bg-black w-0.5 cursor-col-resize"
+          className="z-10 absolute top-0 -left-0.5 h-full bg-[#0090FF] w-0.5 cursor-col-resize"
         ></div>
       )}
 
       {/* right */}
       {vertical ? (
-        <div className="z-10 absolute -top-0.5 -bottom-0.5 -right-0.5  bg-black w-0.5"></div>
+        <div className="z-10 absolute -top-0.5 -bottom-0.5 -right-0.5  bg-[#0090FF] w-0.5"></div>
       ) : (
         <div
           onMouseDown={(e) => handleMouseDown(e, { r: true })}
-          className="z-10 absolute top-0 -right-0.5 h-full bg-black w-0.5 cursor-col-resize"
+          className="z-10 absolute top-0 -right-0.5 h-full bg-[#0090FF] w-0.5 cursor-col-resize"
         ></div>
       )}
 
       {/* bottom */}
       <div
         onMouseDown={(e) => handleMouseDown(e, { b: true })}
-        className="z-10 absolute -bottom-0.5 left-0 h-0.5 bg-black w-full cursor-row-resize"
+        className="z-10 absolute -bottom-0.5 left-0 h-0.5 bg-[#0090FF] w-full cursor-row-resize"
       >
         {vertical && (
           <svg
@@ -158,7 +158,7 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md bg-gray-700 text-white"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded bg-[#0090FF] text-white"
           >
             <circle cx="12" cy="7" r="1" />
             <circle cx="19" cy="7" r="1" />
@@ -175,25 +175,25 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
           {/* top-left corner */}
           <div
             onMouseDown={(e) => handleMouseDown(e, { t: true, l: true })}
-            className="z-10 absolute -top-1 -left-1 border-2 border-black w-2 h-2 cursor-nwse-resize bg-white"
+            className="z-10 absolute -top-1 -left-1 border-2 border-[#0090FF] w-2 h-2 cursor-nwse-resize bg-[white]"
           ></div>
 
           {/* top-right corner */}
           <div
             onMouseDown={(e) => handleMouseDown(e, { t: true, r: true })}
-            className="z-10 absolute -top-1 -right-1 border-2 border-black w-2 h-2 cursor-nesw-resize bg-white"
+            className="z-10 absolute -top-1 -right-1 border-2 border-[#0090FF] w-2 h-2 cursor-nesw-resize bg-[white]"
           ></div>
 
           {/* bottom-left corner */}
           <div
             onMouseDown={(e) => handleMouseDown(e, { b: true, l: true })}
-            className="z-10 absolute -bottom-1 -left-1 border-2 border-black w-2 h-2 cursor-nesw-resize bg-white"
+            className="z-10 absolute -bottom-1 -left-1 border-2 border-[#0090FF] w-2 h-2 cursor-nesw-resize bg-[white]"
           ></div>
 
           {/* bottom-right corner */}
           <div
             onMouseDown={(e) => handleMouseDown(e, { b: true, r: true })}
-            className="z-10 absolute -bottom-1 -right-1 border-2 border-black w-2 h-2 cursor-nwse-resize bg-white"
+            className="z-10 absolute -bottom-1 -right-1 border-2 border-[#0090FF] w-2 h-2 cursor-nwse-resize bg-[white]"
           ></div>
         </>
       )}

@@ -4,7 +4,6 @@ import { useContainerBlockProps } from "./use-container-block-props";
 import { ChildrenMixin } from "@/component/mixin";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { NewBlockButtons } from "./new-block-buttons";
 
 interface IContainerProps extends IBlockProps<InstanceType<typeof ContainerBlock>> {}
 
@@ -13,7 +12,6 @@ export const Container = ({ block }: IContainerProps) => {
 
   return (
     <>
-      <NewBlockButtons />
       <main
         ref={(ele) => {
           setElement(ele);

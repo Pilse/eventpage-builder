@@ -1,6 +1,6 @@
 "use client";
 
-import { BlockFactory, PropertiesFactory } from "@/component/block";
+import { BlockFactory, BlockToolbars, PropertiesFactory } from "@/component/block";
 import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/block";
 import { useGlobalContext } from "@/hooks";
 import { BlockHistoryProvider } from "@/hooks/use-block-history";
@@ -17,8 +17,32 @@ export default function Home() {
       {({ root }) => {
         return (
           <Flex>
-            <BlockFactory key={JSON.stringify(root.serialize())} block={root} />
-            <Box width={"400px"} height={"fit-content"} position={"sticky"} top={"0"} left={"0"}>
+            <Box flexShrink="0" width="400px" height="fit-content" position="sticky" top="0" left="0"></Box>
+            <Flex
+              direction="column"
+              flexShrink="1"
+              flexGrow="1"
+              gap="4"
+              align="center"
+              position="relative"
+              width="100%"
+              minWidth="0"
+            >
+              <Box position="sticky" top="2" left="0" width="fit-content" style={{ zIndex: 20 }}>
+                <BlockToolbars />
+              </Box>
+
+              <Flex
+                overflow="hidden"
+                width="100%"
+                justify="center"
+                flexShrink="1"
+                style={{ backgroundColor: "#D9EDFE25" }}
+              >
+                <BlockFactory key={JSON.stringify(root.serialize())} block={root} />
+              </Flex>
+            </Flex>
+            <Box flexShrink="0" width="400px" height="fit-content" position="sticky" top="0" left="0">
               {globalContext.currentBlock && <PropertiesFactory block={globalContext.currentBlock} />}
             </Box>
           </Flex>
