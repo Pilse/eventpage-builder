@@ -61,7 +61,14 @@ export class BlockFactory {
           parent,
         });
       case "CONTAINER":
-        return new ContainerBlock({ children: [], ...serialized, parent });
+        return new ContainerBlock({
+          children: [],
+          gap: 0,
+          alignHorizontal: "center",
+          alignVertical: "top",
+          ...serialized,
+          parent,
+        });
       case "BLOCK":
         return new Block({ ...serialized, parent });
     }
@@ -133,7 +140,18 @@ export class BlockFactory {
           false
         );
       case "CONTAINER":
-        return new ContainerBlock({ children: [], ...serialized, parent, id: uuidv4() }, false);
+        return new ContainerBlock(
+          {
+            children: [],
+            gap: 0,
+            alignHorizontal: "center",
+            alignVertical: "top",
+            ...serialized,
+            parent,
+            id: uuidv4(),
+          },
+          false
+        );
       case "BLOCK":
         return new Block({ ...serialized, parent, id: uuidv4() });
     }
