@@ -35,6 +35,10 @@ export const DropColMixin = <
         child.l = this.pl;
         childrenTotalHeight += child.height;
       });
+
+      if (this.heightType === "fit" && this.parent && hasDropColMixin(this.parent)) {
+        this.parent.autoLayout();
+      }
     }
 
     public dropped(

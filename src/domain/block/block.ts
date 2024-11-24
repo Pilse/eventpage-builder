@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { hasChildrenMixin, hasDropRowMixin } from "@/util";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { BlockType, ParentBlockType, Offset } from "@/type";
 import { ChildrenMixinBlockType } from "../mixin";
 
@@ -19,14 +19,14 @@ export interface IBlock {
   pb?: number;
   pl?: number;
   widthType?: "fixed" | "fill";
-  heightType?: "fixed" | "fill";
+  heightType?: "fixed" | "fill" | "fit";
 }
 
 export class Block {
   public id: string;
   public type: BlockType;
   public widthType: "fixed" | "fill";
-  public heightType: "fixed" | "fill";
+  public heightType: "fixed" | "fill" | "fit";
   public position: "relative" | "absolute";
   public parent: ParentBlockType;
   public t: number;
@@ -112,6 +112,23 @@ export class Block {
         this._height = height;
         return height;
       }
+      case "fit": {
+        if (!hasChildrenMixin(this) || this.children.length === 0) {
+          return this._height;
+        }
+
+        const childrenTotalHeight = this.children.reduce((acc, child) => {
+          return acc + child.height;
+        }, 0);
+
+        const gapTotal =
+          hasDropRowMixin(this) || hasDropColMixin(this)
+            ? (this.children.length > 1 ? this.children.length - 1 : 0) * this.gap
+            : 0;
+        const paddingTotal = hasDropRowMixin(this) || hasDropColMixin(this) ? this.pt + this.pb : 0;
+
+        return childrenTotalHeight + gapTotal + paddingTotal;
+      }
     }
   }
 
@@ -170,7 +187,7 @@ export class Block {
     width: number;
     height: number;
     widthType: "fixed" | "fill";
-    heightType: "fixed" | "fill";
+    heightType: "fixed" | "fill" | "fit";
   } {
     return {
       id: this.id,

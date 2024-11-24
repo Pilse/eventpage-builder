@@ -64,7 +64,19 @@ export const useNewBlock = () => {
 
       const { width, height, widthType, heightType, ...position } = getInitalLayout(parent, currentBlock);
       const newBlock = BlockFactory.create(
-        { type, width, height, widthType, heightType, ...serialized, ...position },
+        {
+          type,
+          width,
+          height,
+          widthType,
+          heightType,
+          pt: 0,
+          pr: 0,
+          pb: 0,
+          pl: 0,
+          ...serialized,
+          ...position,
+        },
         parent
       );
       startCaptureSnapshot(`add-${parent.id}`);
