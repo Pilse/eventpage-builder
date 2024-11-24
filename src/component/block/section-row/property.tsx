@@ -1,4 +1,9 @@
-import { DefaultLayoutSpacing, DefaultLayoutType, SectionLayoutSize } from "@/component/property/layout";
+import {
+  DefaultLayoutAlignment,
+  DefaultLayoutSpacing,
+  DefaultLayoutType,
+  SectionLayoutSize,
+} from "@/component/property/layout";
 import { SectionRow as SectionRowBlock } from "@/domain/block";
 import { Box, Flex, Heading } from "@radix-ui/themes";
 
@@ -15,6 +20,7 @@ export const SectionRowProperties = <T extends SectionRowBlock = SectionRowBlock
           <DefaultLayoutType block={block} />
           <SectionLayoutSize block={block} />
           <DefaultLayoutSpacing block={block} />
+          <DefaultLayoutAlignment block={block} />
         </Flex>
       </Flex>
     </Box>

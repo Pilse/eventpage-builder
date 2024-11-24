@@ -78,9 +78,12 @@ export class Block {
         const fixedChildrenWidth = this.parent.children.reduce((acc, child) => {
           return acc + (child.widthType === "fixed" ? child.width : 0);
         }, 0);
+        const gapTotal = hasDropRowMixin(this.parent)
+          ? (this.parent.children.length > 1 ? this.parent.children.length - 1 : 0) * this.parent.gap
+          : 0;
         const parentWidth = this.parent.width - this.parent.pl - this.parent.pr;
         const width = hasDropRowMixin(this.parent)
-          ? Math.floor((parentWidth - fixedChildrenWidth) / fillChildrenCnt)
+          ? Math.floor((parentWidth - gapTotal - fixedChildrenWidth) / fillChildrenCnt)
           : parentWidth;
         this._width = width;
         return width;
@@ -102,13 +105,16 @@ export class Block {
         }
 
         const fillChildrenCnt = this.parent.children.filter((child) => child.heightType === "fill").length;
-        const fillChildrenHeight = this.parent.children.reduce((acc, child) => {
+        const fixedChildrenHeight = this.parent.children.reduce((acc, child) => {
           return acc + (child.heightType === "fixed" ? child.height : 0);
         }, 0);
+        const gapTotal = hasDropColMixin(this.parent)
+          ? (this.parent.children.length > 1 ? this.parent.children.length - 1 : 0) * this.parent.gap
+          : 0;
         const parentHeight = this.parent.height - this.parent.pt - this.parent.pb;
         const height = hasDropRowMixin(this.parent)
           ? parentHeight
-          : Math.floor((parentHeight - fillChildrenHeight) / fillChildrenCnt);
+          : Math.floor((parentHeight - gapTotal - fixedChildrenHeight) / fillChildrenCnt);
         this._height = height;
         return height;
       }
@@ -117,17 +123,26 @@ export class Block {
           return this._height;
         }
 
-        const childrenTotalHeight = this.children.reduce((acc, child) => {
-          return acc + child.height;
-        }, 0);
+        if (!hasDropRowMixin(this) && !hasDropColMixin(this)) {
+          return this._height;
+        }
 
-        const gapTotal =
-          hasDropRowMixin(this) || hasDropColMixin(this)
-            ? (this.children.length > 1 ? this.children.length - 1 : 0) * this.gap
-            : 0;
-        const paddingTotal = hasDropRowMixin(this) || hasDropColMixin(this) ? this.pt + this.pb : 0;
+        const gapTotal = hasDropColMixin(this)
+          ? (this.children.length > 1 ? this.children.length - 1 : 0) * this.gap
+          : 0;
+        const paddingTotal = this.pt + this.pb;
+        const childrenHeight = hasDropColMixin(this)
+          ? this.children.reduce((acc, child) => {
+              return acc + (child.heightType === "fill" ? this._height : child.height);
+            }, 0)
+          : Math.max(
+              ...this.children.map((child) =>
+                child.heightType === "fill" ? this._height - paddingTotal : child.height
+              )
+            );
 
-        return childrenTotalHeight + gapTotal + paddingTotal;
+        const height = childrenHeight + gapTotal + paddingTotal;
+        return height;
       }
     }
   }

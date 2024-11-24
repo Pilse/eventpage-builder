@@ -10,14 +10,22 @@ type ChildBlock =
 export class Container extends Block {
   public children: ChildBlock[];
   public gap: number = 0;
+  public alignHorizontal: "left" | "center" | "right" = "left";
+  public alignVertical: "top" | "center" | "bottom" = "top";
 
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
       children: ReturnType<ChildBlock["serialize"]>[];
+      gap: number;
+      alignHorizontal: "left" | "center" | "right";
+      alignVertical: "top" | "center" | "bottom";
     },
     deserialize = true
   ) {
     super({ ...initState, type: "CONTAINER", position: "relative" });
+    this.gap = initState.gap;
+    this.alignHorizontal = initState.alignHorizontal;
+    this.alignVertical = initState.alignVertical;
     this.children = (initState.children.map((child) =>
       deserialize ? BlockFactory.deserialize(child, this) : BlockFactory.create(child, this)
     ) ?? []) as ChildBlock[];
@@ -69,6 +77,8 @@ export class Container extends Block {
     return {
       ...super.serialize(),
       gap: this.gap,
+      alignHorizontal: this.alignHorizontal,
+      alignVertical: this.alignVertical,
       children: this.children.map((child) => child.serialize()) as ReturnType<ChildBlock["serialize"]>[],
       type: "CONTAINER" as const,
     };

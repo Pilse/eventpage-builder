@@ -6,13 +6,29 @@ import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 export type DropRowMixinBlockType = InstanceType<
   ReturnType<
     typeof DropRowMixin<
-      Constructor<Block & { gap: number; children: Block[]; getLayoutMap: () => LayoutMap }>
+      Constructor<
+        Block & {
+          gap: number;
+          children: Block[];
+          alignVertical: "top" | "bottom" | "center";
+          alignHorizontal: "left" | "right" | "center";
+          getLayoutMap: () => LayoutMap;
+        }
+      >
     >
   >
 >;
 
 export const DropRowMixin = <
-  TBase extends Constructor<Block & { gap: number; children: Block[]; getLayoutMap: () => LayoutMap }>
+  TBase extends Constructor<
+    Block & {
+      gap: number;
+      alignVertical: "top" | "bottom" | "center";
+      alignHorizontal: "left" | "right" | "center";
+      children: Block[];
+      getLayoutMap: () => LayoutMap;
+    }
+  >
 >(
   Base: TBase
 ) => {
@@ -26,15 +42,36 @@ export const DropRowMixin = <
     }
 
     public autoLayout() {
-      let childrenTotalWidth = 0;
-      this.childrenOffsetX = [this.pl];
+      const childrenTotalWidth = this.children.reduce((acc, child, idx) => {
+        return idx > 0 ? acc + child.width + this.gap : acc + child.width;
+      }, 0);
+      const initialL =
+        this.alignHorizontal === "left"
+          ? this.pl
+          : this.alignHorizontal === "center"
+          ? Math.floor((this.width - (this.pl + this.pr)) / 2) - Math.floor(childrenTotalWidth) / 2 + this.pl
+          : this.width - this.pr - childrenTotalWidth;
+
+      this.childrenOffsetX = [initialL];
       this.children.sort((chlid1, child2) => chlid1.l - child2.l);
       this.children.forEach((child, idx) => {
         this.childrenOffsetX.push(this.childrenOffsetX[idx] + child.width + this.gap);
         child.l = this.childrenOffsetX[idx];
-        child.t = this.pt;
-        childrenTotalWidth += child.width;
+        child.t =
+          this.alignVertical === "top"
+            ? this.pt
+            : this.alignVertical === "center"
+            ? Math.floor((this.height - (this.pt + this.pb)) / 2) - Math.floor(child.height / 2) + this.pt
+            : this.height - this.pb - child.height;
       });
+
+      if (
+        this.heightType === "fit" &&
+        this.parent &&
+        (hasDropRowMixin(this.parent) || hasDropColMixin(this.parent))
+      ) {
+        this.parent.autoLayout();
+      }
     }
 
     public dropped(

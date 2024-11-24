@@ -48,8 +48,14 @@ export const DefaultLayoutType = <
             </Flex>
           </Select.Trigger>
           <Select.Content>
-            <Select.Item value="stack">Stack</Select.Item>
-            <Select.Item value="free">Free</Select.Item>
+            {Object.entries(typeData).map(([key, { icon, label }]) => (
+              <Select.Item key={key} value={key}>
+                <Flex align="center" gap="2">
+                  {icon}
+                  {label}
+                </Flex>
+              </Select.Item>
+            ))}
           </Select.Content>
         </Select.Root>
       </Flex>
@@ -70,8 +76,14 @@ export const DefaultLayoutType = <
               </Flex>
             </Select.Trigger>
             <Select.Content>
-              <Select.Item value="column">Column</Select.Item>
-              <Select.Item value="row">Row</Select.Item>
+              {Object.entries(directionData).map(([key, { icon, label }]) => (
+                <Select.Item key={key} value={key}>
+                  <Flex align="center" gap="2">
+                    {icon}
+                    {label}
+                  </Flex>
+                </Select.Item>
+              ))}
             </Select.Content>
           </Select.Root>
         </Flex>

@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${inter.className} w-full flex justify-center relative`}>
         <Theme accentColor="blue" radius="large" appearance="dark">
-          <ThemePanel />
+          <ThemePanel defaultOpen={false} />
           {children}
         </Theme>
       </body>

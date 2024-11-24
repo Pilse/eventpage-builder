@@ -9,12 +9,12 @@ export const SectionLayoutSize = <T extends Section | SectionCol | SectionRow>({
 
   const handleHeightChange = (height: number) => {
     onHeightChange(height, () => {
-      if (hasDropColMixin(block)) {
+      if (hasDropColMixin(block) || hasDropRowMixin(block)) {
         block.autoLayout();
       }
 
       const parent = block.parent;
-      if (parent && hasDropColMixin(parent)) {
+      if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
         parent.autoLayout();
       }
     });
@@ -22,13 +22,12 @@ export const SectionLayoutSize = <T extends Section | SectionCol | SectionRow>({
 
   const handleHeightTypeChange = (heightType: Section["heightType"]) => {
     onHeightTypeChange(heightType, () => {
-      if (hasDropColMixin(block)) {
+      if (hasDropColMixin(block) || hasDropRowMixin(block)) {
         block.autoLayout();
       }
 
       const parent = block.parent;
-      console.log(parent);
-      if (parent && hasDropColMixin(parent)) {
+      if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
         parent.autoLayout();
       }
     });

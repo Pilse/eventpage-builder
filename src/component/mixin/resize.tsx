@@ -70,11 +70,12 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
         return;
       }
 
-      if (hasDropColMixin(block.parent) || hasDropRowMixin(block.parent)) {
-        block.parent.autoLayout();
-      }
       if (hasDropColMixin(block) || hasDropRowMixin(block)) {
         block.autoLayout();
+      }
+
+      if (hasDropColMixin(block.parent) || hasDropRowMixin(block.parent)) {
+        block.parent.autoLayout();
       }
 
       if (!sectionRect) {
