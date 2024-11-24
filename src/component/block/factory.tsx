@@ -26,6 +26,9 @@ import {
   SectionCanvasProperties,
   SectionRowProperties,
   SectionColProperties,
+  FrameCanvasProperties,
+  FrameRowProperties,
+  FrameColProperties,
 } from "@/component/block";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
@@ -65,6 +68,12 @@ export const PropertiesFactory = ({ block }: { block: Block }) => {
     <SectionRowProperties block={block as InstanceType<typeof SectionRowBlock>} />
   ) : block.type === "SECTION_COL" ? (
     <SectionColProperties block={block as InstanceType<typeof SectionColBlock>} />
+  ) : block.type === "FRAME_CANVAS" ? (
+    <FrameCanvasProperties block={block as InstanceType<typeof FrameBlock>} />
+  ) : block.type === "FRAME_ROW" ? (
+    <FrameRowProperties block={block as InstanceType<typeof FrameRowBlock>} />
+  ) : block.type === "FRAME_COL" ? (
+    <FrameColProperties block={block as InstanceType<typeof FrameColBlock>} />
   ) : (
     <></>
   );
