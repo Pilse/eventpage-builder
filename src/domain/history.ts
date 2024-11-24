@@ -1,4 +1,3 @@
-import { hasChildrenMixin } from "@/util";
 import { Block, BlockFactory } from "./block";
 
 type Snapshot = ReturnType<InstanceType<typeof Block>["serialize"]>;

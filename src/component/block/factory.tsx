@@ -23,6 +23,9 @@ import {
   Image as ImageComp,
   SectionRow,
   SectionCol,
+  SectionCanvasProperties,
+  SectionRowProperties,
+  SectionColProperties,
 } from "@/component/block";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
@@ -52,5 +55,17 @@ export const BlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
         <></>
       )}
     </>
+  );
+};
+
+export const PropertiesFactory = ({ block }: { block: Block }) => {
+  return block.type === "SECTION_CANVAS" ? (
+    <SectionCanvasProperties block={block as InstanceType<typeof SectionBlock>} />
+  ) : block.type === "SECTION_ROW" ? (
+    <SectionRowProperties block={block as InstanceType<typeof SectionRowBlock>} />
+  ) : block.type === "SECTION_COL" ? (
+    <SectionColProperties block={block as InstanceType<typeof SectionColBlock>} />
+  ) : (
+    <></>
   );
 };

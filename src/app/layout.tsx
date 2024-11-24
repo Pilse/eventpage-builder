@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "@radix-ui/themes/styles.css";
+import { Theme, ThemePanel } from "@radix-ui/themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,7 +14,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} w-full flex justify-center relative`}>{children}</body>
+      <body className={`${inter.className} w-full flex justify-center relative`}>
+        <Theme accentColor="blue" radius="large" appearance="dark">
+          <ThemePanel />
+          {children}
+        </Theme>
+      </body>
     </html>
   );
 }

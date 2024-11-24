@@ -34,7 +34,7 @@ const sampleSection2: ReturnType<InstanceType<typeof SectionBlock>["serialize"]>
   position: "absolute",
   width: 800,
   height: 800,
-  widthType: "fixed",
+  widthType: "fill",
   heightType: "fixed",
   children: [],
 };
