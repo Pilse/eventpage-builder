@@ -1,6 +1,6 @@
 import { TextBlock } from "@/domain/block";
 import { IUseDefaultBlockProps, useBlockHistory, useDefaultBlockProps } from "@/hooks";
-import { MouseEvent, useRef, useState } from "react";
+import { CSSProperties, MouseEvent, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 interface IUseTextBlockProps extends IUseDefaultBlockProps<InstanceType<typeof TextBlock>> {
@@ -8,6 +8,7 @@ interface IUseTextBlockProps extends IUseDefaultBlockProps<InstanceType<typeof T
   onBlur: () => void;
   onInput: (e: MouseEvent<HTMLParagraphElement>) => void;
   isEditing: boolean;
+  textStyle: CSSProperties;
 }
 
 export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTextBlockProps => {
@@ -45,11 +46,16 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
     endCaptureSnapshot(`input-${defaultProps.block.id}`);
   };
 
+  const textStyle: CSSProperties = {
+    padding: `${text.pt}px ${text.pr}px ${text.pb}px ${text.pl}px`,
+  };
+
   return {
     ...defaultProps,
     onDoubleClick: handleDoublicClick,
     onBlur: handleBlur,
     onInput: handleInput,
     isEditing,
+    textStyle,
   };
 };

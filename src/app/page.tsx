@@ -5,7 +5,7 @@ import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/blo
 import { useGlobalContext } from "@/hooks";
 import { BlockHistoryProvider } from "@/hooks/use-block-history";
 import { sampleContainer } from "@/mock";
-import { Flex, Box } from "@radix-ui/themes";
+import { Flex, Box, ScrollArea } from "@radix-ui/themes";
 
 export default function Home() {
   const globalContext = useGlobalContext();
@@ -37,6 +37,8 @@ export default function Home() {
                 width="100%"
                 justify="center"
                 flexShrink="1"
+                px="4"
+                py="8"
                 style={{ backgroundColor: "#D9EDFE25" }}
               >
                 <BlockFactory key={JSON.stringify(root.serialize())} block={root} />

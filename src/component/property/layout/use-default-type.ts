@@ -34,6 +34,17 @@ export const useDefaultLayoutType = <
 
       if (hasDropColMixin(newBlock) || hasDropRowMixin(newBlock)) {
         newBlock.autoLayout();
+      } else if (hasChildrenMixin(newBlock)) {
+        newBlock.children.forEach((child) => {
+          if (child.widthType === "fill") {
+            child.widthType = "fixed";
+          }
+          if (child.heightType === "fill") {
+            child.heightType = "fixed";
+          }
+          child.l -= newBlock.pl;
+          child.t -= newBlock.pt;
+        });
       }
 
       const parent = block.parent;

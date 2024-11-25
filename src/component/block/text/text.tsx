@@ -21,6 +21,7 @@ export const Text = ({ block, isPreview }: ITextProps) => {
     onBlur,
     onDoubleClick,
     onInput,
+    textStyle,
     ...blockProps
   } = useTextBlockProps(block);
   const [{ isDragging }, dragRef, previewRef] = useTextBlockDrag(text);
@@ -42,6 +43,7 @@ export const Text = ({ block, isPreview }: ITextProps) => {
       {!isEditing && !isSelected && !text.isSiblingResizing() && <HoverLayer />}
       {isSelected && element && <ResizeMixin element={element} block={text} />}
       <p
+        style={textStyle}
         id={`text-${block.id}`}
         spellCheck={false}
         onDoubleClick={onDoubleClick}

@@ -23,31 +23,32 @@ export const useContainerBlockProps = (
 ): IUseContainerBlockProps => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const { block: container, ...props } = useDefaultBlockProps(containerBlock);
-  const { currentBlock } = useGlobalContext();
+  const globalContext = useGlobalContext();
   const { isAddable, addNewBlock } = useNewBlock();
 
   useHotkeys("backspace", () => {
-    if (!currentBlock) {
+    if (!globalContext.currentBlock) {
       return;
     }
 
-    const parent = currentBlock.parent;
+    const parent = globalContext.currentBlock.parent;
     if (parent && hasChildrenMixin(parent)) {
       startCaptureSnapshot(`remove-${parent.id}`);
-      parent.removeChild(currentBlock);
+      parent.removeChild(globalContext.currentBlock);
       if (hasDropColMixin(parent) || hasDropRowMixin(parent)) {
         parent.autoLayout();
       }
+      globalContext.setCurrentBlock(null);
       endCaptureSnapshot(`remove-${parent.id}`);
     }
   });
 
   useHotkeys("mod+c", () => {
-    if (!currentBlock) {
+    if (!globalContext.currentBlock) {
       return;
     }
 
-    navigator.clipboard.writeText(JSON.stringify(currentBlock.serialize()));
+    navigator.clipboard.writeText(JSON.stringify(globalContext.currentBlock.serialize()));
   });
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export const useContainerBlockProps = (
       }
 
       try {
-        const parent = currentBlock?.getClosestParent();
+        const parent = globalContext.currentBlock?.getClosestParent();
         if (!parent) {
           return false;
         }
@@ -98,6 +99,7 @@ export const useContainerBlockProps = (
         widthType: "fixed",
         heightType: "fixed",
         url,
+        aspectRatio: Math.floor((width * 100) / height),
       } as const;
       addNewBlock("IMAGE", imageProps);
     };
@@ -115,7 +117,7 @@ export const useContainerBlockProps = (
     return () => {
       document.removeEventListener("paste", handlePaste);
     };
-  }, [addNewBlock, endCaptureSnapshot, isAddable, startCaptureSnapshot, currentBlock]);
+  }, [addNewBlock, endCaptureSnapshot, isAddable, startCaptureSnapshot, globalContext.currentBlock]);
 
   return { block: container, ...props };
 };

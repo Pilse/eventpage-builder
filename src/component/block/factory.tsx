@@ -30,6 +30,8 @@ import {
   FrameRowProperties,
   FrameColProperties,
 } from "@/component/block";
+import { TextProperties } from "./text/property";
+import { ImageProperties } from "./image/property";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
 
@@ -74,6 +76,10 @@ export const PropertiesFactory = ({ block }: { block: Block }) => {
     <FrameRowProperties block={block as InstanceType<typeof FrameRowBlock>} />
   ) : block.type === "FRAME_COL" ? (
     <FrameColProperties block={block as InstanceType<typeof FrameColBlock>} />
+  ) : block.type === "TEXT" ? (
+    <TextProperties block={block as InstanceType<typeof TextBlock>} />
+  ) : block.type === "IMAGE" ? (
+    <ImageProperties block={block as InstanceType<typeof ImageBlock>} />
   ) : (
     <></>
   );

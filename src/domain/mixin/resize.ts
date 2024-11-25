@@ -43,20 +43,20 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
         if (!isAutoLayouted(this)) {
           this.t = this.sizeMetric.getResizedTop(pos.pageY);
         }
-        this.height = this.sizeMetric.getResizedHeight("t", pos.pageY);
         this.heightType = "fixed";
+        this.height = this.sizeMetric.getResizedHeight("t", pos.pageY);
       }
 
       if (this.resizableDir.resizable("r")) {
         this.xDirection = "r";
-        this.width = this.sizeMetric.getResizedWidth("r", pos.pageX);
         this.widthType = "fixed";
+        this.width = this.sizeMetric.getResizedWidth("r", pos.pageX);
       }
 
       if (this.resizableDir.resizable("b")) {
         this.yDirection = "b";
-        this.height = this.sizeMetric.getResizedHeight("b", pos.pageY);
         this.heightType = "fixed";
+        this.height = this.sizeMetric.getResizedHeight("b", pos.pageY);
       }
 
       if (this.resizableDir.resizable("l")) {
@@ -64,8 +64,8 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
         if (!isAutoLayouted(this)) {
           this.l = this.sizeMetric.getResizedLeft(pos.pageX);
         }
-        this.width = this.sizeMetric.getResizedWidth("l", pos.pageX);
         this.widthType = "fixed";
+        this.width = this.sizeMetric.getResizedWidth("l", pos.pageX);
       }
     }
 

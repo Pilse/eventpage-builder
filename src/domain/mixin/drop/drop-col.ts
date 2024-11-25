@@ -68,8 +68,8 @@ export const DropColMixin = <
       });
 
       if (
-        this.heightType === "fit" &&
         this.parent &&
+        (this.heightType === "fit" || this.widthType === "fit") &&
         (hasDropRowMixin(this.parent) || hasDropColMixin(this.parent))
       ) {
         this.parent.autoLayout();
@@ -103,8 +103,13 @@ export const DropColMixin = <
       }
 
       if (hoveredBlock.parent.id !== this.id && hasChildrenMixin(hoveredBlock.parent)) {
-        hoveredBlock.widthType = "fixed";
-        hoveredBlock.heightType = "fixed";
+        if (hoveredBlock.widthType === "fill") {
+          hoveredBlock.widthType = "fixed";
+        }
+
+        if (hoveredBlock.heightType === "fill") {
+          hoveredBlock.heightType = "fixed";
+        }
         hoveredBlock.parent.removeChild(hoveredBlock);
         if (hasDropRowMixin(hoveredBlock.parent) || hasDropColMixin(hoveredBlock.parent)) {
           hoveredBlock.parent.autoLayout();

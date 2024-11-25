@@ -18,14 +18,14 @@ export interface IBlock {
   pr?: number;
   pb?: number;
   pl?: number;
-  widthType?: "fixed" | "fill";
+  widthType?: "fixed" | "fill" | "fit";
   heightType?: "fixed" | "fill" | "fit";
 }
 
 export class Block {
   public id: string;
   public type: BlockType;
-  public widthType: "fixed" | "fill";
+  public widthType: "fixed" | "fill" | "fit";
   public heightType: "fixed" | "fill" | "fit";
   public position: "relative" | "absolute";
   public parent: ParentBlockType;
@@ -39,9 +39,9 @@ export class Block {
   public pl: number;
   public xDirection: "l" | "r";
   public yDirection: "t" | "b";
+  public _width: number;
+  public _height: number;
   private prevOffset: Offset;
-  private _width: number;
-  private _height: number;
 
   constructor(initState: IBlock) {
     this.id = initState.id ?? uuidv4();
@@ -85,6 +85,33 @@ export class Block {
         const width = hasDropRowMixin(this.parent)
           ? Math.floor((parentWidth - gapTotal - fixedChildrenWidth) / fillChildrenCnt)
           : parentWidth;
+        this._width = width;
+        return width;
+      }
+      case "fit": {
+        if (!hasChildrenMixin(this) || this.children.length === 0) {
+          return this._width;
+        }
+
+        if (!hasDropRowMixin(this) && !hasDropColMixin(this)) {
+          return this._width;
+        }
+
+        const gapTotal = hasDropRowMixin(this)
+          ? (this.children.length > 1 ? this.children.length - 1 : 0) * this.gap
+          : 0;
+        const paddingTotal = this.pl + this.pr;
+        const childrenWidth = hasDropRowMixin(this)
+          ? this.children.reduce((acc, child) => {
+              return acc + (child.widthType === "fill" ? this._width : child.width);
+            }, 0)
+          : Math.max(
+              ...this.children.map((child) =>
+                child.widthType === "fill" ? this._width - paddingTotal : child.width
+              )
+            );
+
+        const width = childrenWidth + gapTotal + paddingTotal;
         this._width = width;
         return width;
       }
@@ -142,6 +169,7 @@ export class Block {
             );
 
         const height = childrenHeight + gapTotal + paddingTotal;
+        this._height = height;
         return height;
       }
     }
@@ -201,7 +229,7 @@ export class Block {
     position: "relative" | "absolute";
     width: number;
     height: number;
-    widthType: "fixed" | "fill";
+    widthType: "fixed" | "fill" | "fit";
     heightType: "fixed" | "fill" | "fit";
   } {
     return {

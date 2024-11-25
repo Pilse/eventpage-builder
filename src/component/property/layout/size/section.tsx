@@ -3,6 +3,7 @@ import { useDefaultLayoutSize } from "./use-default-size";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { BaseLayoutSize } from "./base";
 import { Select, TextField } from "@radix-ui/themes";
+import { HeightIcon, WidthIcon } from "@radix-ui/react-icons";
 
 export const SectionLayoutSize = <T extends Section | SectionCol | SectionRow>({ block }: { block: T }) => {
   const { onHeightChange, onHeightTypeChange } = useDefaultLayoutSize(block);
@@ -38,6 +39,9 @@ export const SectionLayoutSize = <T extends Section | SectionCol | SectionRow>({
       block={block}
       widthChildren={
         <TextField.Root value={block.width} id="width-input" disabled>
+          <TextField.Slot side="left">
+            <WidthIcon />
+          </TextField.Slot>
           <TextField.Slot side="right">
             <Select.Root value={block.widthType} size={"1"} disabled>
               <Select.Trigger variant="ghost" />
@@ -55,6 +59,9 @@ export const SectionLayoutSize = <T extends Section | SectionCol | SectionRow>({
           id="height-input"
           onChange={(e) => handleHeightChange(Number(e.target.value))}
         >
+          <TextField.Slot side="left">
+            <HeightIcon />
+          </TextField.Slot>
           <TextField.Slot side="right">
             <Select.Root
               value={block.heightType}
