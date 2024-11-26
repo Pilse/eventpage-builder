@@ -9,6 +9,38 @@ export class Text extends Block {
     this.content = initState?.content ?? "";
   }
 
+  get width() {
+    if (this.widthType === "fit") {
+      return this._width;
+    }
+
+    return super.width;
+  }
+
+  set width(value: number) {
+    super.width = value;
+  }
+
+  get height() {
+    if (this.heightType === "fit") {
+      return this._height;
+    }
+
+    return super.height;
+  }
+
+  set height(value: number) {
+    super.height = value;
+  }
+
+  public getStyle() {
+    const style = {
+      padding: `${this.pt}px ${this.pr}px ${this.pb}px ${this.pl}px`,
+    };
+
+    return style;
+  }
+
   public serialize() {
     return {
       ...super.serialize(),

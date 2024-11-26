@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDragLayer } from "react-dnd";
 import { Block, SectionBlock, BlockFactory, SectionColBlock, SectionRowBlock } from "@/domain/block";
 import { SNAP_THRESHOLD } from "@/constant";
-import { hasDragSnapMixin, isAutoLayouted } from "@/util";
+import { hasDragSnapMixin, hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";
 
 interface IUseSectionPreviewBlockProps {
   section:
@@ -56,8 +56,14 @@ export const useSectionPreviewBlock = (
     draggedBlock.parent.id !== previewBlock.parent.id
   ) {
     previewBlock.parent = draggedBlock.parent;
-    previewBlock.widthType = "fixed";
-    previewBlock.heightType = "fixed";
+    if (hasDropColMixin(previewBlock.parent) || hasDropRowMixin(previewBlock.parent)) {
+      if (previewBlock.widthType === "fill") {
+        previewBlock.widthType = "fixed";
+      }
+      if (previewBlock.heightType === "fill") {
+        previewBlock.heightType = "fixed";
+      }
+    }
     setSnappableDir({ x: false, y: false });
   }
 

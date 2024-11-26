@@ -1,6 +1,7 @@
 import { TextBlock } from "@/domain/block";
 import { IUseDefaultBlockProps, useBlockHistory, useDefaultBlockProps } from "@/hooks";
-import { CSSProperties, MouseEvent, useRef, useState } from "react";
+import { hasChildrenMixin } from "@/util";
+import { CSSProperties, DragEvent, MouseEvent, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 interface IUseTextBlockProps extends IUseDefaultBlockProps<InstanceType<typeof TextBlock>> {
@@ -9,16 +10,18 @@ interface IUseTextBlockProps extends IUseDefaultBlockProps<InstanceType<typeof T
   onInput: (e: MouseEvent<HTMLParagraphElement>) => void;
   isEditing: boolean;
   textStyle: CSSProperties;
+  setPargraphRef: (ref: HTMLParagraphElement | null) => void;
 }
 
 export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTextBlockProps => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
-  const defaultProps = useDefaultBlockProps(text);
+  const { block, style, onDragStart, ...defaultProps } = useDefaultBlockProps(text);
+  const [pargraphRef, setPargraphRef] = useState<HTMLParagraphElement | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const contentRef = useRef(text.content);
 
   const handleDoublicClick = () => {
-    const text = document.getElementById(`text-${defaultProps.block.id}`);
+    const text = document.getElementById(`text-${block.id}`);
     if (!text) {
       return;
     }
@@ -35,27 +38,51 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
   };
 
   const handleInput = (e: MouseEvent<HTMLParagraphElement>) => {
-    startCaptureSnapshot(`input-${defaultProps.block.id}`);
+    startCaptureSnapshot(`input-${block.id}`);
     const target = e.target as HTMLParagraphElement;
     contentRef.current = target.innerHTML;
   };
 
   const handleBlur = () => {
     setIsEditing(false);
-    defaultProps.block.content = contentRef.current;
-    endCaptureSnapshot(`input-${defaultProps.block.id}`);
+    if ((isEditing && contentRef.current === "") || contentRef.current === "<br>") {
+      if (block.parent && hasChildrenMixin(block.parent)) {
+        block.parent.removeChild(block);
+      }
+    }
+
+    if (block.widthType === "fit") {
+      block.width = Math.floor(pargraphRef?.offsetWidth ?? block._width);
+    }
+    if (block.heightType === "fit") {
+      block.height = Math.floor(pargraphRef?.offsetHeight ?? block._height);
+    }
+    block.content = contentRef.current;
+    endCaptureSnapshot(`input-${block.id}`);
   };
 
-  const textStyle: CSSProperties = {
-    padding: `${text.pt}px ${text.pr}px ${text.pb}px ${text.pl}px`,
+  const handleDragStart = (e: DragEvent) => {
+    handleBlur();
+    onDragStart(e);
   };
+
+  const styleOverride = {
+    ...style,
+    ...(block.widthType === "fit" ? { width: "fit-content" } : {}),
+    ...(block.heightType === "fit" ? { height: "fit-content" } : {}),
+  };
+  const textStyle: CSSProperties = block.getStyle();
 
   return {
+    block,
+    style: styleOverride,
     ...defaultProps,
     onDoubleClick: handleDoublicClick,
     onBlur: handleBlur,
     onInput: handleInput,
+    onDragStart: handleDragStart,
     isEditing,
     textStyle,
+    setPargraphRef,
   };
 };

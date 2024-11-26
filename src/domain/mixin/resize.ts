@@ -113,35 +113,43 @@ export class SizeMetric {
   }
 
   private getTopDelta(targetY: number) {
-    return this.srcY - targetY;
+    return Math.floor(this.srcY - targetY);
   }
 
   private getBottomDelta(targetY: number) {
-    return targetY - this.srcY;
+    return Math.floor(targetY - this.srcY);
   }
 
   private getLeftDelta(targetX: number) {
-    return this.srcX - targetX;
+    return Math.floor(this.srcX - targetX);
   }
 
   private getRightDelta(targetX: number) {
-    return targetX - this.srcX;
+    return Math.floor(targetX - this.srcX);
   }
 
   public getResizedLeft(targetX: number) {
-    return Math.min(this.l + this.domRect.width + this.scrollX, this.l - this.getLeftDelta(targetX));
+    return Math.floor(
+      Math.min(this.l + this.domRect.width + this.scrollX, this.l - this.getLeftDelta(targetX))
+    );
   }
 
   public getResizedTop(targetY: number) {
-    return Math.min(this.t + this.domRect.height + this.scrollY, this.t - this.getTopDelta(targetY));
+    return Math.floor(
+      Math.min(this.t + this.domRect.height + this.scrollY, this.t - this.getTopDelta(targetY))
+    );
   }
 
   public getResizedHeight(dir: "t" | "b", targetY: number) {
-    return this.domRect.height + (dir === "t" ? this.getTopDelta(targetY) : this.getBottomDelta(targetY));
+    return Math.floor(
+      this.domRect.height + (dir === "t" ? this.getTopDelta(targetY) : this.getBottomDelta(targetY))
+    );
   }
 
   public getResizedWidth(dir: "r" | "l", targetX: number) {
-    return this.domRect.width + (dir === "r" ? this.getRightDelta(targetX) : this.getLeftDelta(targetX));
+    return Math.floor(
+      this.domRect.width + (dir === "r" ? this.getRightDelta(targetX) : this.getLeftDelta(targetX))
+    );
   }
 }
 

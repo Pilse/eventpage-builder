@@ -67,6 +67,7 @@ export const TextLayoutSize = <T extends Text>({ block }: { block: T }) => {
               <Select.Content>
                 {isAutoLayouted(block) && <Select.Item value="fill">Fill</Select.Item>}
                 <Select.Item value="fixed">Fixed</Select.Item>
+                <Select.Item value="fit">Fit</Select.Item>
               </Select.Content>
             </Select.Root>
           </TextField.Slot>
@@ -92,6 +93,7 @@ export const TextLayoutSize = <T extends Text>({ block }: { block: T }) => {
               <Select.Content>
                 <Select.Item value="fixed">Fixed</Select.Item>
                 {isAutoLayouted(block) && <Select.Item value="fill">Fill</Select.Item>}
+                <Select.Item value="fit">Fit</Select.Item>
               </Select.Content>
             </Select.Root>
           </TextField.Slot>

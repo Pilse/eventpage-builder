@@ -22,6 +22,7 @@ export const Text = ({ block, isPreview }: ITextProps) => {
     onDoubleClick,
     onInput,
     textStyle,
+    setPargraphRef,
     ...blockProps
   } = useTextBlockProps(block);
   const [{ isDragging }, dragRef, previewRef] = useTextBlockDrag(text);
@@ -43,6 +44,15 @@ export const Text = ({ block, isPreview }: ITextProps) => {
       {!isEditing && !isSelected && !text.isSiblingResizing() && <HoverLayer />}
       {isSelected && element && <ResizeMixin element={element} block={text} />}
       <p
+        ref={(ele) => {
+          setPargraphRef(ele);
+          if (ele && text.widthType === "fit") {
+            text.width = Math.floor(ele.offsetWidth);
+          }
+          if (ele && text.heightType === "fit") {
+            text.height = Math.floor(ele.offsetHeight);
+          }
+        }}
         style={textStyle}
         id={`text-${block.id}`}
         spellCheck={false}
@@ -51,7 +61,7 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         onBlur={onBlur}
         onInput={onInput}
         contentEditable={isEditing}
-        className="w-full h-full outline-none [&>*]:pointer-events-none"
+        className="w-full h-full outline-none [&>*]:pointer-events-none text-black"
         dangerouslySetInnerHTML={{ __html: text.content }}
       ></p>
     </div>
