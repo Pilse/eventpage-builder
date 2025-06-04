@@ -20,7 +20,7 @@ const BlockHistoryContext = createContext<IHBlockistoryContext>({
 
 interface IBlockHistoryProviderProps {
   root: InstanceType<typeof Block>;
-  children: ({ root }: { root: InstanceType<typeof Block> }) => JSX.Element;
+  children: ({ root, historyId }: { root: InstanceType<typeof Block>; historyId: string }) => JSX.Element;
 }
 
 export const BlockHistoryProvider = ({ root, children }: IBlockHistoryProviderProps) => {
@@ -68,7 +68,7 @@ export const BlockHistoryProvider = ({ root, children }: IBlockHistoryProviderPr
         redo,
       }}
     >
-      {children({ root: history.getRoot() })}
+      {children({ root: history.getRoot(), historyId: history.historyId })}
     </BlockHistoryContext.Provider>
   );
 };

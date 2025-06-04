@@ -8,6 +8,7 @@ import { ResizeMixin } from "@/component/mixin";
 import { HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
 import { isAutoLayouted } from "@/util";
+import { useMemo } from "react";
 
 interface ITextProps extends IBlockProps<InstanceType<typeof TextBlock>> {}
 
@@ -34,6 +35,7 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         dragRef(ele);
         previewRef(getEmptyImage());
       }}
+      key={text.content}
       className={twMerge(
         "group bg-sky-200",
         !isPreview && isDragging && "opacity-0",
@@ -47,12 +49,13 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         ref={(ele) => {
           setPargraphRef(ele);
           if (ele && text.widthType === "fit") {
-            text.width = Math.floor(ele.offsetWidth);
+            text._width = Math.floor(ele.offsetWidth);
           }
           if (ele && text.heightType === "fit") {
-            text.height = Math.floor(ele.offsetHeight);
+            text._height = Math.floor(ele.offsetHeight);
           }
         }}
+        key={text.content}
         style={textStyle}
         id={`text-${block.id}`}
         spellCheck={false}
@@ -62,7 +65,9 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         onInput={onInput}
         contentEditable={isEditing}
         className="w-full h-full outline-none [&>*]:pointer-events-none text-black"
-        dangerouslySetInnerHTML={{ __html: text.content }}
+        // @see https://github.com/facebook/react/issues/31600
+        // @see https://github.com/facebook/react/pull/32773
+        dangerouslySetInnerHTML={useMemo(() => ({ __html: text.content }), [text.content])}
       ></p>
     </div>
   );

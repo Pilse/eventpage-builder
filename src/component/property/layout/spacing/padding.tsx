@@ -3,9 +3,32 @@ import { Block } from "@/domain/block";
 import { PaddingIcon } from "@radix-ui/react-icons";
 import { TbBorderBottom, TbBorderLeft, TbBorderRight, TbBorderSides } from "react-icons/tb";
 import { useSpacingPadding } from "./use-spacing-padding";
+import { hasDropColMixin, hasDropRowMixin } from "@/util";
 
 export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
   const { onPaddingChange, paddingValue } = useSpacingPadding(block);
+
+  const handlePaddingChange = (value: number, dirs: ("pr" | "pl" | "pb" | "pt")[]) => {
+    onPaddingChange(
+      value,
+      dirs,
+      () => {
+        if (hasDropColMixin(block) || hasDropRowMixin(block)) {
+          block.autoLayout();
+        }
+
+        const parent = block.parent;
+        if (
+          (block.widthType === "fit" || block.heightType === "fit") &&
+          parent &&
+          (hasDropRowMixin(parent) || hasDropColMixin(parent))
+        ) {
+          parent.autoLayout();
+        }
+      },
+      { flush: true }
+    );
+  };
 
   return (
     <Grid columns="2" gap="4">
@@ -22,7 +45,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
               e.target.select();
             }
           }}
-          onChange={(e) => onPaddingChange(Number(e.target.value), ["pt", "pr", "pb", "pl"])}
+          onChange={(e) => handlePaddingChange(Number(e.target.value), ["pt", "pr", "pb", "pl"])}
         >
           <TextField.Slot>
             <PaddingIcon />
@@ -45,7 +68,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
                       type="number"
                       value={block.pt}
                       id="padding-top-input"
-                      onChange={(e) => onPaddingChange(Number(e.target.value), ["pt"])}
+                      onChange={(e) => handlePaddingChange(Number(e.target.value), ["pt"])}
                     >
                       <TextField.Slot>
                         <TbBorderLeft />
@@ -61,7 +84,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
                       type="number"
                       value={block.pr}
                       id="padding-right-input"
-                      onChange={(e) => onPaddingChange(Number(e.target.value), ["pr"])}
+                      onChange={(e) => handlePaddingChange(Number(e.target.value), ["pr"])}
                     >
                       <TextField.Slot>
                         <TbBorderRight />
@@ -77,7 +100,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
                       type="number"
                       value={block.pb}
                       id="padding-bottom-input"
-                      onChange={(e) => onPaddingChange(Number(e.target.value), ["pb"])}
+                      onChange={(e) => handlePaddingChange(Number(e.target.value), ["pb"])}
                     >
                       <TextField.Slot>
                         <TbBorderBottom />
@@ -93,7 +116,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
                       type="number"
                       value={block.pl}
                       id="padding-left-input"
-                      onChange={(e) => onPaddingChange(Number(e.target.value), ["pl"])}
+                      onChange={(e) => handlePaddingChange(Number(e.target.value), ["pl"])}
                     >
                       <TextField.Slot>
                         <TbBorderLeft />

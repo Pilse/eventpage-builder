@@ -1,4 +1,5 @@
 import { Block, BlockFactory } from "./block";
+import { v4 as uuidv4 } from "uuid";
 
 type Snapshot = ReturnType<InstanceType<typeof Block>["serialize"]>;
 
@@ -7,6 +8,7 @@ export class BlockHistory {
   private redoq: Snapshot[] = [];
   private snapshotMap = new Map<string, Snapshot>();
   private root: InstanceType<typeof Block>;
+  public historyId: string = "initial";
 
   constructor(root: InstanceType<typeof Block>) {
     this.root = root;
@@ -44,6 +46,7 @@ export class BlockHistory {
 
     this.redoq = this.redoq.concat(this.root.serialize());
     this.root = BlockFactory.deserialize(snapshot, null);
+    this.historyId = uuidv4();
   }
 
   public redo() {
@@ -54,5 +57,6 @@ export class BlockHistory {
 
     this.undoq = this.undoq.concat(this.root.serialize());
     this.root = BlockFactory.deserialize(snapshot, null);
+    this.historyId = uuidv4();
   }
 }

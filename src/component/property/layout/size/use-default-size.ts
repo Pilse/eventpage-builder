@@ -1,14 +1,21 @@
 import { Block } from "@/domain/block";
 import { useBlockHistory } from "@/hooks";
 import { useCallback } from "react";
+import { flushSync } from "react-dom";
 
 export const useDefaultLayoutSize = <T extends Block = Block>(block: T) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
 
   const onWidthChange = useCallback(
-    (value: number, after?: () => void) => {
+    (value: number, after?: () => void, config?: { flush: boolean }) => {
       startCaptureSnapshot(`${block.id}-property-width`);
-      block.width = value;
+      if (config?.flush) {
+        flushSync(() => {
+          block.width = value;
+        });
+      } else {
+        block.width = value;
+      }
       after?.();
       endCaptureSnapshot(`${block.id}-property-width`);
     },
@@ -16,9 +23,15 @@ export const useDefaultLayoutSize = <T extends Block = Block>(block: T) => {
   );
 
   const onHeightChange = useCallback(
-    (value: number, after?: () => void) => {
+    (value: number, after?: () => void, config?: { flush: boolean }) => {
       startCaptureSnapshot(`${block.id}-property-height`);
-      block.height = value;
+      if (config?.flush) {
+        flushSync(() => {
+          block.height = value;
+        });
+      } else {
+        block.height = value;
+      }
       after?.();
       endCaptureSnapshot(`${block.id}-property-height`);
     },
@@ -26,9 +39,15 @@ export const useDefaultLayoutSize = <T extends Block = Block>(block: T) => {
   );
 
   const onWidthTypeChange = useCallback(
-    (value: Block["widthType"], after?: () => void) => {
+    (value: Block["widthType"], after?: () => void, config?: { flush: boolean }) => {
       startCaptureSnapshot(`${block.id}-property-width-type`);
-      block.widthType = value;
+      if (config?.flush) {
+        flushSync(() => {
+          block.widthType = value;
+        });
+      } else {
+        block.widthType = value;
+      }
       after?.();
       endCaptureSnapshot(`${block.id}-property-width-type`);
     },
@@ -36,9 +55,15 @@ export const useDefaultLayoutSize = <T extends Block = Block>(block: T) => {
   );
 
   const onHeightTypeChange = useCallback(
-    (value: Block["heightType"], after?: () => void) => {
+    (value: Block["heightType"], after?: () => void, config?: { flush: boolean }) => {
       startCaptureSnapshot(`${block.id}-property-height-type`);
-      block.heightType = value;
+      if (config?.flush) {
+        flushSync(() => {
+          block.heightType = value;
+        });
+      } else {
+        block.heightType = value;
+      }
       after?.();
       endCaptureSnapshot(`${block.id}-property-height-type`);
     },

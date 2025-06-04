@@ -14,7 +14,7 @@ export default function Home() {
     <BlockHistoryProvider
       root={BlockFactoryDomain.deserialize(sampleContainer, null) as InstanceType<typeof ContainerBlock>}
     >
-      {({ root }) => {
+      {({ root, historyId }) => {
         return (
           <Flex>
             <Box flexShrink="0" width="400px" height="fit-content" position="sticky" top="0" left="0"></Box>
@@ -41,10 +41,10 @@ export default function Home() {
                 py="8"
                 style={{ backgroundColor: "#D9EDFE25" }}
               >
-                <BlockFactory key={JSON.stringify(root.serialize())} block={root} />
+                <BlockFactory key={historyId} block={root} />
               </Flex>
             </Flex>
-            <Box flexShrink="0" width="400px" height="fit-content" position="sticky" top="0" left="0">
+            <Box flexShrink="0" width="300px" height="fit-content" position="sticky" top="0" left="0">
               {globalContext.currentBlock && <PropertiesFactory block={globalContext.currentBlock} />}
             </Box>
           </Flex>

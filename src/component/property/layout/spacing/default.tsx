@@ -4,6 +4,7 @@ import { ColumnSpacingIcon, PaddingIcon, RowSpacingIcon } from "@radix-ui/react-
 import { useDefaultLayoutType } from "../use-default-type";
 import { useDefaultLayoutSpacing } from "./use-default-spacing";
 import { TbBorderBottom, TbBorderLeft, TbBorderRight, TbBorderSides, TbBorderTop } from "react-icons/tb";
+import { hasDropColMixin, hasDropRowMixin } from "@/util";
 
 const gapData = {
   column: {
@@ -22,6 +23,35 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
   const { directionValue } = useDefaultLayoutType(block);
   const { onGapChange, onPaddingChange, paddingValue } = useDefaultLayoutSpacing(block);
 
+  const handleGapChange = (value: number) => {
+    onGapChange(value, () => {
+      if (hasDropColMixin(block) || hasDropRowMixin(block)) {
+        block.autoLayout();
+      }
+    });
+  };
+
+  const handlePaddingChange = (value: number, dirs: ("pr" | "pl" | "pb" | "pt")[]) => {
+    onPaddingChange(
+      value,
+      dirs,
+      () => {
+        if (hasDropColMixin(block) || hasDropRowMixin(block)) {
+          block.autoLayout();
+        }
+        const parent = block.parent;
+        if (
+          (block.widthType === "fit" || block.heightType === "fit") &&
+          parent &&
+          (hasDropRowMixin(parent) || hasDropColMixin(parent))
+        ) {
+          parent.autoLayout();
+        }
+      },
+      { flush: true }
+    );
+  };
+
   return (
     <Grid columns="2" gap="4">
       <Flex direction="column" gap="1">
@@ -32,7 +62,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
           type="number"
           value={block.gap}
           id="gap-input"
-          onChange={(e) => onGapChange(Number(e.target.value))}
+          onChange={(e) => handleGapChange(Number(e.target.value))}
         >
           <TextField.Slot>{gapData[directionValue].icon}</TextField.Slot>
         </TextField.Root>
@@ -51,7 +81,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
               e.target.select();
             }
           }}
-          onChange={(e) => onPaddingChange(Number(e.target.value), ["pt", "pr", "pb", "pl"])}
+          onChange={(e) => handlePaddingChange(Number(e.target.value), ["pt", "pr", "pb", "pl"])}
         >
           <TextField.Slot>
             <PaddingIcon />
@@ -74,7 +104,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
                       type="number"
                       value={block.pt}
                       id="padding-top-input"
-                      onChange={(e) => onPaddingChange(Number(e.target.value), ["pt"])}
+                      onChange={(e) => handlePaddingChange(Number(e.target.value), ["pt"])}
                     >
                       <TextField.Slot>
                         <TbBorderLeft />
@@ -90,7 +120,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
                       type="number"
                       value={block.pr}
                       id="padding-right-input"
-                      onChange={(e) => onPaddingChange(Number(e.target.value), ["pr"])}
+                      onChange={(e) => handlePaddingChange(Number(e.target.value), ["pr"])}
                     >
                       <TextField.Slot>
                         <TbBorderRight />
@@ -106,7 +136,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
                       type="number"
                       value={block.pb}
                       id="padding-bottom-input"
-                      onChange={(e) => onPaddingChange(Number(e.target.value), ["pb"])}
+                      onChange={(e) => handlePaddingChange(Number(e.target.value), ["pb"])}
                     >
                       <TextField.Slot>
                         <TbBorderBottom />
@@ -122,7 +152,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
                       type="number"
                       value={block.pl}
                       id="padding-left-input"
-                      onChange={(e) => onPaddingChange(Number(e.target.value), ["pl"])}
+                      onChange={(e) => handlePaddingChange(Number(e.target.value), ["pl"])}
                     >
                       <TextField.Slot>
                         <TbBorderLeft />

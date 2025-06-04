@@ -1,19 +1,24 @@
 import { Block } from "@/domain/block";
 import { useBlockHistory } from "@/hooks";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useCallback, useMemo } from "react";
+import { flushSync } from "react-dom";
 
 export const useSpacingPadding = <T extends Block>(block: T) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
 
   const onPaddingChange = useCallback(
-    (value: number, dir: ("pr" | "pl" | "pb" | "pt")[], after?: () => void) => {
+    (value: number, dir: ("pr" | "pl" | "pb" | "pt")[], after?: () => void, config?: { flush: boolean }) => {
       startCaptureSnapshot(`${block.id}-property-padding`);
-      dir.forEach((d) => {
-        block[d] = value;
-      });
-      if (hasDropColMixin(block) || hasDropRowMixin(block)) {
-        block.autoLayout();
+      if (config?.flush) {
+        flushSync(() => {
+          dir.forEach((d) => {
+            block[d] = value;
+          });
+        });
+      } else {
+        dir.forEach((d) => {
+          block[d] = value;
+        });
       }
       after?.();
       endCaptureSnapshot(`${block.id}-property-padding`);

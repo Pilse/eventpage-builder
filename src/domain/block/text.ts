@@ -3,10 +3,12 @@ import { Block } from "@/domain/block";
 
 export class Text extends Block {
   public content: string;
+  public _content: string;
 
   constructor(initState: Omit<ConstructorParameters<typeof Block>[0], "type"> & { content?: string }) {
     super({ ...initState, type: "TEXT" });
     this.content = initState?.content ?? "";
+    this._content = initState?.content ?? "";
   }
 
   get width() {
@@ -31,14 +33,6 @@ export class Text extends Block {
 
   set height(value: number) {
     super.height = value;
-  }
-
-  public getStyle() {
-    const style = {
-      padding: `${this.pt}px ${this.pr}px ${this.pb}px ${this.pl}px`,
-    };
-
-    return style;
   }
 
   public serialize() {

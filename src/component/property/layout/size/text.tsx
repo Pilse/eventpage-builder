@@ -19,12 +19,16 @@ export const TextLayoutSize = <T extends Text>({ block }: { block: T }) => {
   };
 
   const handleWidthTypeChange = (widthType: Text["widthType"]) => {
-    onWidthTypeChange(widthType, () => {
-      const parent = block.parent;
-      if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
-        parent.autoLayout();
-      }
-    });
+    onWidthTypeChange(
+      widthType,
+      () => {
+        const parent = block.parent;
+        if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
+          parent.autoLayout();
+        }
+      },
+      { flush: true }
+    );
   };
 
   const handleHeightChange = (height: number) => {
@@ -37,12 +41,16 @@ export const TextLayoutSize = <T extends Text>({ block }: { block: T }) => {
   };
 
   const handleHeightTypeChange = (heightType: Text["heightType"]) => {
-    onHeightTypeChange(heightType, () => {
-      const parent = block.parent;
-      if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
-        parent.autoLayout();
-      }
-    });
+    onHeightTypeChange(
+      heightType,
+      () => {
+        const parent = block.parent;
+        if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
+          parent.autoLayout();
+        }
+      },
+      { flush: true }
+    );
   };
 
   return (
