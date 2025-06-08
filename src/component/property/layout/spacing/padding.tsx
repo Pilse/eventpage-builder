@@ -2,7 +2,7 @@ import { Flex, Grid, IconButton, Popover, Text, TextField } from "@radix-ui/them
 import { Block } from "@/domain/block";
 import { PaddingIcon } from "@radix-ui/react-icons";
 import { TbBorderBottom, TbBorderLeft, TbBorderRight, TbBorderSides } from "react-icons/tb";
-import { useSpacingPadding } from "./use-spacing-padding";
+import { useSpacingPadding } from "./use-default-padding";
 import { hasDropColMixin, hasDropRowMixin } from "@/util";
 
 export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {

@@ -3,7 +3,18 @@ import { useBlockHistory } from "@/hooks";
 import { useCallback } from "react";
 import { flushSync } from "react-dom";
 
-export const useDefaultLayoutSize = <T extends Block = Block>(block: T) => {
+export interface IUseLayoutSize {
+  onWidthChange?: (value: number, after?: () => void, config?: { flush: boolean }) => void;
+  onHeightChange?: (value: number, after?: () => void, config?: { flush: boolean }) => void;
+  onWidthTypeChange?: (value: Block["widthType"], after?: () => void, config?: { flush: boolean }) => void;
+  onHeightTypeChange?: (value: Block["heightType"], after?: () => void, config?: { flush: boolean }) => void;
+  useHeight: boolean;
+  useWidth: boolean;
+  widthTypes: readonly Block["widthType"][];
+  heightTypes: readonly Block["heightType"][];
+}
+
+export const useDefaultLayoutSize = <T extends Block = Block>(block: T): IUseLayoutSize => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
 
   const onWidthChange = useCallback(
@@ -75,5 +86,9 @@ export const useDefaultLayoutSize = <T extends Block = Block>(block: T) => {
     onHeightChange,
     onWidthTypeChange,
     onHeightTypeChange,
+    useHeight: true,
+    useWidth: true,
+    widthTypes: ["fill", "fixed", "fit"] as const,
+    heightTypes: ["fill", "fixed", "fit"] as const,
   };
 };

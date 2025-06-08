@@ -1,8 +1,7 @@
 import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/block";
 import { useBlockHistory } from "@/hooks";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
-import { useCallback, useMemo } from "react";
-import { useSpacingPadding } from "./use-spacing-padding";
+import { useCallback } from "react";
+import { useSpacingPadding } from "./use-default-padding";
 
 export const useDefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCol | FrameRow>(
   block: T
