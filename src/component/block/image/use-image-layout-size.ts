@@ -1,6 +1,6 @@
 import { Image } from "@/domain/block";
 import { useCallback, useMemo } from "react";
-import { IUseLayoutSize, useDefaultLayoutSize } from "./use-default-size";
+import { IUseLayoutSize, useDefaultLayoutSize } from "../../property/layout/size/use-default-size";
 import { hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";
 
 export const useImageLayoutSize = <T extends Image = Image>(block: T): IUseLayoutSize => {

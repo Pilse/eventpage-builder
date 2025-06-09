@@ -132,7 +132,7 @@ export const DropColMixin = <
 
         if (this.children[idx]) {
           this.swapChildren(hoveredBlock, this.children[idx]);
-        } else {
+        } else if (this.children[idx - 1]) {
           this.swapChildren(hoveredBlock, this.children[idx - 1]);
         }
 

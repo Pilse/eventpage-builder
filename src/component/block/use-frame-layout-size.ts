@@ -1,6 +1,6 @@
 import { Block } from "@/domain/block";
 import { useCallback, useMemo } from "react";
-import { IUseLayoutSize, useDefaultLayoutSize } from "./use-default-size";
+import { IUseLayoutSize, useDefaultLayoutSize } from "@/component/property/layout/";
 import { hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";
 
 export const useFrameLayoutSize = <T extends Block = Block>(block: T): IUseLayoutSize => {
