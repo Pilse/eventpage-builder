@@ -22,7 +22,7 @@ export const DefaultLayoutSize = ({
   return (
     <Grid columns="2" gap="4">
       <Flex direction="column" gap="1">
-        <Text size="1" as="label" htmlFor="width-input" ml="1">
+        <Text size="1" as="label" htmlFor="width-input">
           Width
         </Text>
 
@@ -56,7 +56,7 @@ export const DefaultLayoutSize = ({
       </Flex>
 
       <Flex direction="column" gap="1">
-        <Text size="1" as="label" htmlFor="height-input" ml="1">
+        <Text size="1" as="label" htmlFor="height-input">
           Height
         </Text>
         <TextField.Root

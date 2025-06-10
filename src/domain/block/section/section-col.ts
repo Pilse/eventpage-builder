@@ -1,4 +1,4 @@
-import { DragMixin, DropColMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
+import { BackgroundMixin, DragMixin, DropColMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
 import {
   Block,
   BlockFactory,
@@ -99,4 +99,4 @@ export class SectionCol extends Block {
   }
 }
 
-export default ResizeSnapMixin(DropColMixin(DragMixin(ResizeMixin(SectionCol))));
+export default BackgroundMixin(ResizeSnapMixin(DropColMixin(DragMixin(ResizeMixin(SectionCol)))));

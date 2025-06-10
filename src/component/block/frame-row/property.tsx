@@ -4,15 +4,22 @@ import {
   DefaultLayoutSpacing,
   DefaultLayoutType,
 } from "@/component/property/layout";
-import { FrameRow } from "@/domain/block";
-import { Box, Flex, Heading } from "@radix-ui/themes";
+import { FrameRowBlock } from "@/domain/block";
+import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
+import { DefaultBgColor } from "@/component/property/appearance";
 
-export const FrameRowProperties = <T extends FrameRow = FrameRow>({ block }: { block: T }) => {
+export const FrameRowProperties = <
+  T extends InstanceType<typeof FrameRowBlock> = InstanceType<typeof FrameRowBlock>
+>({
+  block,
+}: {
+  block: T;
+}) => {
   const sizeProps = useFrameLayoutSize(block);
 
   return (
-    <Box p="4">
+    <Flex direction="column" gap="6" p="4">
       <Flex direction="column" gap="4">
         <Heading size="2">Layout</Heading>
         <Flex direction="column" gap="2">
@@ -22,6 +29,13 @@ export const FrameRowProperties = <T extends FrameRow = FrameRow>({ block }: { b
           <DefaultLayoutAlignment block={block} />
         </Flex>
       </Flex>
-    </Box>
+
+      <Flex direction="column" gap="4">
+        <Heading size="2">Apperance</Heading>
+        <Flex direction="column" gap="2">
+          <DefaultBgColor block={block} />
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };

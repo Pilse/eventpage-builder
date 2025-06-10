@@ -15,6 +15,7 @@ import { DragSourceMonitor } from "react-dnd";
 import { BlockType } from "@/type";
 import { useGlobalContext, useDomain } from "@/hooks";
 import { IS_PROXY } from "@/constant";
+import { rgbaToCss } from "@/util/color";
 
 export interface IUseDefaultBlockPropsProps<T extends InstanceType<typeof Block>> {
   block: T;
@@ -51,6 +52,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     left: block.l,
     right: block.r,
     bottom: block.b,
+    backgroundColor: rgbaToCss(block.backgroundColor),
   };
 
   const handleClick = (e: MouseEvent) => {

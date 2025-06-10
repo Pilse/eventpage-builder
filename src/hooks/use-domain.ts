@@ -17,11 +17,12 @@ export const useDomain = <T extends InstanceType<Constructor>>(domainInstance: T
             }
 
             Reflect.set(target, property, newValue, receiver);
+
             if (typeof property === "string" && property.startsWith("_")) {
               return true;
             }
 
-            domainInstanceRef.current = proxyObject(target);
+            domainInstanceRef.current = proxyObject(domainInstance);
             emitChange();
             return true;
           },

@@ -74,6 +74,8 @@ export const useNewBlock = () => {
           pr: 0,
           pb: 0,
           pl: 0,
+          backgroundType: "color",
+          backgroundColor: { r: 255, g: 255, b: 255, a: 1 },
           ...serialized,
           ...position,
         },

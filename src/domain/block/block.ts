@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
-import { BlockType, ParentBlockType, Offset } from "@/type";
+import { BlockType, ParentBlockType, Offset, Color } from "@/type";
 import { ChildrenMixinBlockType } from "../mixin";
 
 export interface IBlock {
@@ -20,6 +20,8 @@ export interface IBlock {
   pl?: number;
   widthType?: "fixed" | "fill" | "fit";
   heightType?: "fixed" | "fill" | "fit";
+  backgroundType: "color";
+  backgroundColor: Color;
 }
 
 export class Block {
@@ -39,6 +41,8 @@ export class Block {
   public pl: number;
   public xDirection: "l" | "r";
   public yDirection: "t" | "b";
+  public backgroundType: "color";
+  public backgroundColor: Color;
   public _width: number;
   public _height: number;
   private prevOffset: Offset;
@@ -63,6 +67,8 @@ export class Block {
     this.prevOffset = { x: 0, y: 0 };
     this.widthType = initState.widthType ?? "fixed";
     this.heightType = initState.heightType ?? "fixed";
+    this.backgroundType = initState.backgroundType;
+    this.backgroundColor = initState.backgroundColor;
   }
 
   get width() {
@@ -231,6 +237,8 @@ export class Block {
     height: number;
     widthType: "fixed" | "fill" | "fit";
     heightType: "fixed" | "fill" | "fit";
+    backgroundType: "color";
+    backgroundColor: Color;
   } {
     return {
       id: this.id,
@@ -248,6 +256,8 @@ export class Block {
       height: this.height,
       widthType: this.widthType,
       heightType: this.heightType,
+      backgroundType: this.backgroundType,
+      backgroundColor: this.backgroundColor,
     };
   }
 

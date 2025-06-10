@@ -1,5 +1,6 @@
 import { useNewBlock } from "@/hooks";
 import { BlockType } from "@/type";
+import { hexColorToRgba } from "@/util/color";
 import { FrameIcon, TextIcon } from "@radix-ui/react-icons";
 import { Card, Flex, IconButton, Inset, Separator } from "@radix-ui/themes";
 import { MouseEvent } from "react";
@@ -13,7 +14,12 @@ export const BlockToolbars = () => {
     if (!isAddable) {
       return;
     }
-    addNewBlock(type, {});
+    addNewBlock(type, {
+      backgroundColor:
+        type === "FRAME_CANVAS" || type === "FRAME_ROW" || type === "FRAME_COL"
+          ? hexColorToRgba("DDDDDD")
+          : hexColorToRgba("FFFFFF"),
+    });
   };
 
   return (

@@ -1,7 +1,6 @@
-import { DragMixin, DropCanvasMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
+import { DragMixin, DropCanvasMixin, ResizeMixin, ResizeSnapMixin, BackgroundMixin } from "@/domain/mixin";
 import { Block, BlockFactory, ImageBlock, TextBlock } from "@/domain/block";
 import { LayoutMap, Position } from "@/type";
-import { v4 as uuidv4 } from "uuid";
 
 type ChildBlock = InstanceType<typeof TextBlock> | InstanceType<typeof ImageBlock>;
 
@@ -85,4 +84,4 @@ export class FrameCanvas extends Block {
   }
 }
 
-export default ResizeSnapMixin(DragMixin(DropCanvasMixin(ResizeMixin(FrameCanvas))));
+export default BackgroundMixin(ResizeSnapMixin(DragMixin(DropCanvasMixin(ResizeMixin(FrameCanvas)))));

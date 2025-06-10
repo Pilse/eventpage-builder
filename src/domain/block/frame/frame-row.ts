@@ -1,4 +1,4 @@
-import { DragMixin, DropRowMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
+import { DragMixin, DropRowMixin, ResizeMixin, ResizeSnapMixin, BackgroundMixin } from "@/domain/mixin";
 import { Block, BlockFactory, ImageBlock, TextBlock } from "@/domain/block";
 import { LayoutMap, Position } from "@/type";
 
@@ -96,4 +96,4 @@ export class FrameRow extends Block {
   }
 }
 
-export default ResizeSnapMixin(DropRowMixin(DragMixin(ResizeMixin(FrameRow))));
+export default BackgroundMixin(ResizeSnapMixin(DropRowMixin(DragMixin(ResizeMixin(FrameRow)))));

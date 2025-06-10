@@ -7,7 +7,7 @@ import {
   ImageBlock,
   TextBlock,
 } from "@/domain/block";
-import { DropCanvasMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
+import { BackgroundMixin, DropCanvasMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
 import { LayoutMap } from "@/type";
 
 type ChildBlock =
@@ -87,4 +87,4 @@ export class Section extends Block {
   }
 }
 
-export default ResizeSnapMixin(DropCanvasMixin(ResizeMixin(Section)));
+export default BackgroundMixin(ResizeSnapMixin(DropCanvasMixin(ResizeMixin(Section))));

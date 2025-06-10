@@ -55,7 +55,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
   return (
     <Grid columns="2" gap="4">
       <Flex direction="column" gap="1">
-        <Text size="1" as="label" htmlFor="gap-input" ml="1">
+        <Text size="1" as="label" htmlFor="gap-input">
           Gap
         </Text>
         <TextField.Root
@@ -69,7 +69,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
       </Flex>
 
       <Flex direction="column" gap="1">
-        <Text size="1" as="label" htmlFor="padding-input" ml="1">
+        <Text size="1" as="label" htmlFor="padding-input">
           Padding
         </Text>
         <TextField.Root
@@ -97,7 +97,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
               <Popover.Content>
                 <Flex direction="column" gap="1">
                   <Flex direction="column" gap="1">
-                    <Text size="1" as="label" htmlFor="padding-top-input" ml="1">
+                    <Text size="1" as="label" htmlFor="padding-top-input">
                       Top
                     </Text>
                     <TextField.Root
@@ -113,7 +113,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
                   </Flex>
 
                   <Flex direction="column" gap="1">
-                    <Text size="1" as="label" htmlFor="padding-right-input" ml="1">
+                    <Text size="1" as="label" htmlFor="padding-right-input">
                       Right
                     </Text>
                     <TextField.Root
@@ -129,7 +129,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
                   </Flex>
 
                   <Flex direction="column" gap="1">
-                    <Text size="1" as="label" htmlFor="padding-bottom-input" ml="1">
+                    <Text size="1" as="label" htmlFor="padding-bottom-input">
                       Bottom
                     </Text>
                     <TextField.Root
@@ -145,7 +145,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
                   </Flex>
 
                   <Flex direction="column" gap="1">
-                    <Text size="1" as="label" htmlFor="padding-left-input" ml="1">
+                    <Text size="1" as="label" htmlFor="padding-left-input">
                       Left
                     </Text>
                     <TextField.Root

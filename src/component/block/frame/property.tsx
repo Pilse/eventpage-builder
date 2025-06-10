@@ -1,13 +1,20 @@
 import { DefaultLayoutType, DefaultLayoutSize } from "@/component/property/layout";
-import { FrameCanvas } from "@/domain/block";
-import { Box, Flex, Heading } from "@radix-ui/themes";
+import { FrameBlock } from "@/domain/block";
+import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
+import { DefaultBgColor } from "@/component/property/appearance";
 
-export const FrameCanvasProperties = <T extends FrameCanvas = FrameCanvas>({ block }: { block: T }) => {
+export const FrameCanvasProperties = <
+  T extends InstanceType<typeof FrameBlock> = InstanceType<typeof FrameBlock>
+>({
+  block,
+}: {
+  block: T;
+}) => {
   const sizeProps = useFrameLayoutSize(block);
 
   return (
-    <Box p="4">
+    <Flex direction="column" gap="6" p="4">
       <Flex direction="column" gap="4">
         <Heading size="2">Layout</Heading>
         <Flex direction="column" gap="2">
@@ -15,6 +22,13 @@ export const FrameCanvasProperties = <T extends FrameCanvas = FrameCanvas>({ blo
           <DefaultLayoutSize block={block} {...sizeProps} />
         </Flex>
       </Flex>
-    </Box>
+
+      <Flex direction="column" gap="4">
+        <Heading size="2">Apperance</Heading>
+        <Flex direction="column" gap="2">
+          <DefaultBgColor block={block} />
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };

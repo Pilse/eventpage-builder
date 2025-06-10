@@ -7,6 +7,7 @@ import {
   ResizeMixinBlockType,
   DragSnapMixinBlockType,
   ResizeSnapMixinBlockType,
+  BackgroundMixinBlockType,
 } from "@/domain/mixin";
 import { DropColMixinBlockType } from "@/domain/mixin/drop/drop-col";
 
@@ -40,6 +41,10 @@ export const hasDropRowMixin = (block: Block): block is DropRowMixinBlockType =>
 
 export const hasDropColMixin = (block: Block): block is DropColMixinBlockType => {
   return Object.hasOwn(block, "colDroppable");
+};
+
+export const hasBackgroundMixin = (block: Block): block is BackgroundMixinBlockType => {
+  return Object.hasOwn(block, "fillable");
 };
 
 export const isAutoLayouted = (block: Block) => {

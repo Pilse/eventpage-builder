@@ -20,6 +20,8 @@ const sampleSection1: ReturnType<InstanceType<typeof SectionColBlock>["serialize
   widthType: "fill",
   heightType: "fixed",
   children: [],
+  backgroundType: "color",
+  backgroundColor: { r: 255, g: 255, b: 255, a: 1 },
 };
 
 const sampleSection2: ReturnType<InstanceType<typeof SectionBlock>["serialize"]> = {
@@ -39,6 +41,8 @@ const sampleSection2: ReturnType<InstanceType<typeof SectionBlock>["serialize"]>
   widthType: "fill",
   heightType: "fixed",
   children: [],
+  backgroundType: "color",
+  backgroundColor: { r: 255, g: 255, b: 255, a: 1 },
 };
 
 const sampleSection3: ReturnType<InstanceType<typeof SectionRowBlock>["serialize"]> = {
@@ -61,6 +65,8 @@ const sampleSection3: ReturnType<InstanceType<typeof SectionRowBlock>["serialize
   widthType: "fill",
   heightType: "fixed",
   children: [],
+  backgroundType: "color",
+  backgroundColor: { r: 255, g: 255, b: 255, a: 1 },
 };
 
 export const sampleContainer: ReturnType<InstanceType<typeof ContainerBlock>["serialize"]> = {
@@ -83,4 +89,6 @@ export const sampleContainer: ReturnType<InstanceType<typeof ContainerBlock>["se
   widthType: "fixed",
   heightType: "fit",
   children: [sampleSection1, sampleSection2, sampleSection3],
+  backgroundType: "color",
+  backgroundColor: { r: 255, g: 255, b: 255, a: 1 },
 };

@@ -1,4 +1,4 @@
-import { DragMixin, ResizeMixin } from "@/domain/mixin";
+import { BackgroundMixin, DragMixin, ResizeMixin } from "@/domain/mixin";
 import { Block } from "@/domain/block";
 
 export class Text extends Block {
@@ -48,4 +48,4 @@ export class Text extends Block {
   }
 }
 
-export default ResizeMixin(DragMixin(Text));
+export default BackgroundMixin(ResizeMixin(DragMixin(Text)));

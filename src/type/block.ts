@@ -21,6 +21,8 @@ export type Size = { width: number; height: number };
 
 export type Layout = Position & Size;
 
+export type Color = { r: number; g: number; b: number; a: number };
+
 export type LayoutMap = Record<string, Layout>;
 
 export type Offset = XYCoord;

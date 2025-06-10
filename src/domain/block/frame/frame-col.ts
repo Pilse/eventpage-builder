@@ -1,5 +1,5 @@
-import { DragMixin, DropColMixin, ResizeMixin, ResizeSnapMixin } from "@/domain/mixin";
-import { Block, BlockFactory, FrameBlock, FrameRowBlock, ImageBlock, TextBlock } from "@/domain/block";
+import { DragMixin, DropColMixin, ResizeMixin, ResizeSnapMixin, BackgroundMixin } from "@/domain/mixin";
+import { Block, BlockFactory, ImageBlock, TextBlock } from "@/domain/block";
 import { LayoutMap, Position } from "@/type";
 
 type ChildBlock = InstanceType<typeof TextBlock> | InstanceType<typeof ImageBlock>;
@@ -97,4 +97,4 @@ export class FrameCol extends Block {
   }
 }
 
-export default ResizeSnapMixin(DropColMixin(DragMixin(ResizeMixin(FrameCol))));
+export default BackgroundMixin(ResizeSnapMixin(DropColMixin(DragMixin(ResizeMixin(FrameCol)))));

@@ -37,7 +37,7 @@ export const DefaultLayoutType = <
   return (
     <Grid columns="2" gap="4">
       <Flex direction="column" gap="1">
-        <Text size="1" as="label" htmlFor="width-input" ml="1">
+        <Text size="1" as="label" htmlFor="width-input">
           Type
         </Text>
         <Select.Root value={typeValue} onValueChange={(value: typeof typeValue) => onTypeChange(value)}>
@@ -62,7 +62,7 @@ export const DefaultLayoutType = <
 
       {typeValue === "stack" && (
         <Flex direction="column" gap="1">
-          <Text size="1" as="label" htmlFor="width-input" ml="1">
+          <Text size="1" as="label" htmlFor="width-input">
             Direction
           </Text>
           <Select.Root

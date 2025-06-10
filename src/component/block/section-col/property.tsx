@@ -4,11 +4,14 @@ import {
   DefaultLayoutSpacing,
   DefaultLayoutType,
 } from "@/component/property/layout";
-import { SectionCol as SectionColBlock } from "@/domain/block";
-import { Box, Flex, Heading } from "@radix-ui/themes";
+import { SectionColBlock } from "@/domain/block";
+import { Flex, Heading } from "@radix-ui/themes";
 import { useSectionLayoutSize } from "../use-section-layout-size";
+import { DefaultBgColor } from "@/component/property/appearance";
 
-export const SectionColProperties = <T extends SectionColBlock = SectionColBlock>({
+export const SectionColProperties = <
+  T extends InstanceType<typeof SectionColBlock> = InstanceType<typeof SectionColBlock>
+>({
   block,
 }: {
   block: T;
@@ -16,7 +19,7 @@ export const SectionColProperties = <T extends SectionColBlock = SectionColBlock
   const sizeProps = useSectionLayoutSize(block);
 
   return (
-    <Box p="4">
+    <Flex direction="column" gap="6" p="4">
       <Flex direction="column" gap="4">
         <Heading size="2">Layout</Heading>
         <Flex direction="column" gap="2">
@@ -26,6 +29,13 @@ export const SectionColProperties = <T extends SectionColBlock = SectionColBlock
           <DefaultLayoutAlignment block={block} />
         </Flex>
       </Flex>
-    </Box>
+
+      <Flex direction="column" gap="4">
+        <Heading size="2">Apperance</Heading>
+        <Flex direction="column" gap="2">
+          <DefaultBgColor block={block} />
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };

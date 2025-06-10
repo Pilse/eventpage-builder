@@ -33,7 +33,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
   return (
     <Grid columns="2" gap="4">
       <Flex direction="column" gap="1">
-        <Text size="1" as="label" htmlFor="padding-input" ml="1">
+        <Text size="1" as="label" htmlFor="padding-input">
           Padding
         </Text>
         <TextField.Root
@@ -61,7 +61,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
               <Popover.Content>
                 <Flex direction="column" gap="1">
                   <Flex direction="column" gap="1">
-                    <Text size="1" as="label" htmlFor="padding-top-input" ml="1">
+                    <Text size="1" as="label" htmlFor="padding-top-input">
                       Top
                     </Text>
                     <TextField.Root
@@ -77,7 +77,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
                   </Flex>
 
                   <Flex direction="column" gap="1">
-                    <Text size="1" as="label" htmlFor="padding-right-input" ml="1">
+                    <Text size="1" as="label" htmlFor="padding-right-input">
                       Right
                     </Text>
                     <TextField.Root
@@ -93,7 +93,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
                   </Flex>
 
                   <Flex direction="column" gap="1">
-                    <Text size="1" as="label" htmlFor="padding-bottom-input" ml="1">
+                    <Text size="1" as="label" htmlFor="padding-bottom-input">
                       Bottom
                     </Text>
                     <TextField.Root
@@ -109,7 +109,7 @@ export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
                   </Flex>
 
                   <Flex direction="column" gap="1">
-                    <Text size="1" as="label" htmlFor="padding-left-input" ml="1">
+                    <Text size="1" as="label" htmlFor="padding-left-input">
                       Left
                     </Text>
                     <TextField.Root

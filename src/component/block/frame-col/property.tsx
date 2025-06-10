@@ -4,15 +4,22 @@ import {
   DefaultLayoutSpacing,
   DefaultLayoutType,
 } from "@/component/property/layout";
-import { FrameCol } from "@/domain/block";
-import { Box, Flex, Heading } from "@radix-ui/themes";
+import { FrameColBlock } from "@/domain/block";
+import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
+import { DefaultBgColor } from "@/component/property/appearance";
 
-export const FrameColProperties = <T extends FrameCol = FrameCol>({ block }: { block: T }) => {
+export const FrameColProperties = <
+  T extends InstanceType<typeof FrameColBlock> = InstanceType<typeof FrameColBlock>
+>({
+  block,
+}: {
+  block: T;
+}) => {
   const sizeProps = useFrameLayoutSize(block);
 
   return (
-    <Box p="4">
+    <Flex direction="column" gap="6" p="4">
       <Flex direction="column" gap="4">
         <Heading size="2">Layout</Heading>
         <Flex direction="column" gap="2">
@@ -22,6 +29,13 @@ export const FrameColProperties = <T extends FrameCol = FrameCol>({ block }: { b
           <DefaultLayoutAlignment block={block} />
         </Flex>
       </Flex>
-    </Box>
+
+      <Flex direction="column" gap="4">
+        <Heading size="2">Apperance</Heading>
+        <Flex direction="column" gap="2">
+          <DefaultBgColor block={block} />
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
