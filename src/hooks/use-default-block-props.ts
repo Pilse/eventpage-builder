@@ -53,10 +53,12 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     right: block.r,
     bottom: block.b,
     backgroundColor: rgbaToCss(block.backgroundColor),
-    boxShadow: `${
+    boxShadow: `${block.shadow.x}px ${block.shadow.y}px ${block.shadow.blur}px ${
+      block.shadow.spread
+    }px ${rgbaToCss(block.shadow.color)} ${
       block.borderPosition === "inside"
-        ? `inset 0px 0px 0px ${block.borderWidth}px #${rgbaToHexColor(block.borderColor)}`
-        : "none"
+        ? `,inset 0px 0px 0px ${block.borderWidth}px #${rgbaToHexColor(block.borderColor)}`
+        : ""
     }`,
     outline:
       block.borderPosition === "outside"

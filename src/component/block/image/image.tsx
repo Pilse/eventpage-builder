@@ -23,7 +23,7 @@ export const Image = ({ block, isPreview }: IImageProps) => {
         previewRef(getEmptyImage());
       }}
       className={twMerge(
-        "group bg-yellow-200",
+        "group",
         !isPreview && isDragging && "opacity-0",
         isAutoLayouted(image) && "opacity-100"
       )}
@@ -36,6 +36,7 @@ export const Image = ({ block, isPreview }: IImageProps) => {
         src={image.url}
         alt="image"
         className="w-full h-full object-cover pointer-events-none"
+        style={{ borderRadius: blockProps.style.borderRadius }}
         draggable={false}
       />
     </div>

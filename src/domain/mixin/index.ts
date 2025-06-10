@@ -5,3 +5,4 @@ export * from "./children";
 export * from "./snap";
 export * from "./background";
 export * from "./border";
+export * from "./shadow";

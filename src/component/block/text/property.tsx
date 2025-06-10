@@ -2,7 +2,7 @@ import { DefaultPadding, DefaultLayoutSize } from "@/component/property/layout";
 import { TextBlock } from "@/domain/block";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useTextLayoutSize } from "./use-text-layout-size";
-import { DefaultBgColor, DefaultBorder } from "@/component/property/appearance";
+import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/component/property/appearance";
 
 export const TextProperties = <T extends InstanceType<typeof TextBlock> = InstanceType<typeof TextBlock>>({
   block,
@@ -26,6 +26,7 @@ export const TextProperties = <T extends InstanceType<typeof TextBlock> = Instan
         <Flex direction="column" gap="2">
           <DefaultBgColor block={block} />
           <DefaultBorder block={block} />
+          <DefaultShadow block={block} />
         </Flex>
       </Flex>
     </Flex>

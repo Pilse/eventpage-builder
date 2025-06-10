@@ -23,6 +23,8 @@ export type Layout = Position & Size;
 
 export type Color = { r: number; g: number; b: number; a: number };
 
+export type Shadow = { x: number; y: number; blur: number; spread: number; color: Color };
+
 export type LayoutMap = Record<string, Layout>;
 
 export type Offset = XYCoord;

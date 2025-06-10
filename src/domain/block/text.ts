@@ -1,5 +1,6 @@
 import { BackgroundMixin, BorderMixin, DragMixin, ResizeMixin } from "@/domain/mixin";
 import { Block } from "@/domain/block";
+import { ShadowMixin } from "../mixin/shadow";
 
 export class Text extends Block {
   public content: string;
@@ -48,4 +49,4 @@ export class Text extends Block {
   }
 }
 
-export default BorderMixin(BackgroundMixin(ResizeMixin(DragMixin(Text))));
+export default ShadowMixin(BorderMixin(BackgroundMixin(ResizeMixin(DragMixin(Text)))));

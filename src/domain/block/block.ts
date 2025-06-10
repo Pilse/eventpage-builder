@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
-import { BlockType, ParentBlockType, Offset, Color } from "@/type";
+import { BlockType, ParentBlockType, Offset, Color, Shadow } from "@/type";
 import { ChildrenMixinBlockType } from "../mixin";
 
 export interface IBlock {
@@ -29,6 +29,7 @@ export interface IBlock {
   borderRadiusR?: number;
   borderRadiusB?: number;
   borderRadiusL?: number;
+  shadow?: Shadow;
 }
 
 export class Block {
@@ -59,6 +60,7 @@ export class Block {
   public borderRadiusL: number;
   public _width: number;
   public _height: number;
+  public shadow: Shadow;
   private prevOffset: Offset;
 
   constructor(initState: IBlock) {
@@ -90,6 +92,7 @@ export class Block {
     this.borderRadiusB = initState.borderRadiusB ?? 0;
     this.borderRadiusL = initState.borderRadiusL ?? 0;
     this.borderColor = initState.borderColor ?? { r: 0, g: 0, b: 0, a: 1 };
+    this.shadow = initState.shadow ?? { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } };
   }
 
   get width() {
@@ -267,6 +270,7 @@ export class Block {
     borderRadiusR: number;
     borderRadiusB: number;
     borderRadiusL: number;
+    shadow: Shadow;
   } {
     return {
       id: this.id,
@@ -293,6 +297,7 @@ export class Block {
       borderRadiusR: this.borderRadiusR,
       borderRadiusB: this.borderRadiusB,
       borderRadiusL: this.borderRadiusL,
+      shadow: this.shadow,
     };
   }
 

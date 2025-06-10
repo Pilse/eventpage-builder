@@ -13,14 +13,14 @@ export const DefaultBgColor = <T extends BackgroundMixinBlockType>({ block }: { 
   return (
     <Grid columns="2" gap="4">
       <Flex direction="column" gap="1">
-        <Text size="1" as="label" htmlFor="bgcolor-input">
+        <Text size="1" as="label" htmlFor="bgcolor-type">
           Background Type
         </Text>
         <TextField.Root
           value={uppercaseFirstCharacter(block.backgroundType)}
           disabled
           onBlur={onHexCommit}
-          id="bgcolor-input"
+          id="bgcolor-type"
         >
           <TextField.Slot side="left">
             <TbBackground />

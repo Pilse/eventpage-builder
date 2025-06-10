@@ -2,7 +2,7 @@ import { DefaultLayoutSize, DefaultPadding } from "@/component/property/layout";
 import { ImageBlock } from "@/domain/block";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useImageLayoutSize } from "./use-image-layout-size";
-import { DefaultBorder } from "@/component/property/appearance";
+import { DefaultBorder, DefaultShadow } from "@/component/property/appearance";
 
 export const ImageProperties = <T extends InstanceType<typeof ImageBlock> = InstanceType<typeof ImageBlock>>({
   block,
@@ -25,6 +25,7 @@ export const ImageProperties = <T extends InstanceType<typeof ImageBlock> = Inst
         <Heading size="2">Apperance</Heading>
         <Flex direction="column" gap="2">
           <DefaultBorder block={block} />
+          <DefaultShadow block={block} />
         </Flex>
       </Flex>
     </Flex>

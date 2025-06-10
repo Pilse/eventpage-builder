@@ -1,4 +1,4 @@
-import { BorderMixin, DragMixin, ResizeMixin } from "@/domain/mixin";
+import { BorderMixin, DragMixin, ResizeMixin, ShadowMixin } from "@/domain/mixin";
 import { Block } from "@/domain/block";
 
 export class Image extends Block {
@@ -48,4 +48,4 @@ export class Image extends Block {
   }
 }
 
-export default BorderMixin(ResizeMixin(DragMixin(Image)));
+export default ShadowMixin(BorderMixin(ResizeMixin(DragMixin(Image))));

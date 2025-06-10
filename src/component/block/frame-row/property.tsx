@@ -7,7 +7,7 @@ import {
 import { FrameRowBlock } from "@/domain/block";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
-import { DefaultBgColor, DefaultBorder } from "@/component/property/appearance";
+import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/component/property/appearance";
 
 export const FrameRowProperties = <
   T extends InstanceType<typeof FrameRowBlock> = InstanceType<typeof FrameRowBlock>
@@ -35,6 +35,7 @@ export const FrameRowProperties = <
         <Flex direction="column" gap="2">
           <DefaultBgColor block={block} />
           <DefaultBorder block={block} />
+          <DefaultShadow block={block} />
         </Flex>
       </Flex>
     </Flex>
