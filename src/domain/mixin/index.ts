@@ -4,3 +4,4 @@ export * from "./resize";
 export * from "./children";
 export * from "./snap";
 export * from "./background";
+export * from "./border";

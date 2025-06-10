@@ -15,7 +15,7 @@ import { DragSourceMonitor } from "react-dnd";
 import { BlockType } from "@/type";
 import { useGlobalContext, useDomain } from "@/hooks";
 import { IS_PROXY } from "@/constant";
-import { rgbaToCss } from "@/util/color";
+import { rgbaToCss, rgbaToHexColor } from "@/util/color";
 
 export interface IUseDefaultBlockPropsProps<T extends InstanceType<typeof Block>> {
   block: T;
@@ -53,6 +53,16 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     right: block.r,
     bottom: block.b,
     backgroundColor: rgbaToCss(block.backgroundColor),
+    boxShadow: `${
+      block.borderPosition === "inside"
+        ? `inset 0px 0px 0px ${block.borderWidth}px #${rgbaToHexColor(block.borderColor)}`
+        : "none"
+    }`,
+    outline:
+      block.borderPosition === "outside"
+        ? `${block.borderWidth}px solid #${rgbaToHexColor(block.borderColor)}`
+        : "none",
+    borderRadius: `${block.borderRadiusT}px ${block.borderRadiusR}px ${block.borderRadiusB}px ${block.borderRadiusL}px`,
   };
 
   const handleClick = (e: MouseEvent) => {

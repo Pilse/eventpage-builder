@@ -3,7 +3,7 @@ import { useBlockHistory } from "@/hooks";
 import { Color } from "@/type";
 import { useCallback, useEffect, useState } from "react";
 
-export const useBgColor = (block: BackgroundMixinBlockType) => {
+export const useDefaultBgColor = (block: BackgroundMixinBlockType) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
 
   const [openColorPicker, setOpenColorPicker] = useState(false);

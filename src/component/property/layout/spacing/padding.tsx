@@ -2,11 +2,11 @@ import { Flex, Grid, IconButton, Popover, Text, TextField } from "@radix-ui/them
 import { Block } from "@/domain/block";
 import { PaddingIcon } from "@radix-ui/react-icons";
 import { TbBorderBottom, TbBorderLeft, TbBorderRight, TbBorderSides } from "react-icons/tb";
-import { useSpacingPadding } from "./use-default-padding";
+import { useDefaultPadding } from "./use-default-padding";
 import { hasDropColMixin, hasDropRowMixin } from "@/util";
 
-export const LayoutPadding = <T extends Block>({ block }: { block: T }) => {
-  const { onPaddingChange, paddingValue } = useSpacingPadding(block);
+export const DefaultPadding = <T extends Block>({ block }: { block: T }) => {
+  const { onPaddingChange, paddingValue } = useDefaultPadding(block);
 
   const handlePaddingChange = (value: number, dirs: ("pr" | "pl" | "pb" | "pt")[]) => {
     onPaddingChange(

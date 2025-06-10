@@ -37,7 +37,7 @@ export const Text = ({ block, isPreview }: ITextProps) => {
       }}
       key={text.content}
       className={twMerge(
-        "group bg-sky-200",
+        "group",
         !isPreview && isDragging && "opacity-0",
         isAutoLayouted(text) && "opacity-100"
       )}

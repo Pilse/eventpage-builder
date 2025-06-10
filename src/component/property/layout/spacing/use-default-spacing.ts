@@ -1,13 +1,11 @@
 import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/block";
 import { useBlockHistory } from "@/hooks";
 import { useCallback } from "react";
-import { useSpacingPadding } from "./use-default-padding";
+import { useDefaultPadding } from "./use-default-padding";
 
-export const useDefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCol | FrameRow>(
-  block: T
-) => {
+export const useDefaultSpacing = <T extends SectionRow | SectionCol | FrameCol | FrameRow>(block: T) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
-  const { onPaddingChange, paddingValue } = useSpacingPadding(block);
+  const { onPaddingChange, paddingValue } = useDefaultPadding(block);
 
   const onGapChange = useCallback(
     (value: number, after?: () => void) => {

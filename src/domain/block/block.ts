@@ -20,8 +20,15 @@ export interface IBlock {
   pl?: number;
   widthType?: "fixed" | "fill" | "fit";
   heightType?: "fixed" | "fill" | "fit";
-  backgroundType: "color";
-  backgroundColor: Color;
+  backgroundType?: "color";
+  backgroundColor?: Color;
+  borderPosition?: "inside" | "outside";
+  borderWidth?: number;
+  borderColor?: Color;
+  borderRadiusT?: number;
+  borderRadiusR?: number;
+  borderRadiusB?: number;
+  borderRadiusL?: number;
 }
 
 export class Block {
@@ -43,6 +50,13 @@ export class Block {
   public yDirection: "t" | "b";
   public backgroundType: "color";
   public backgroundColor: Color;
+  public borderPosition: "inside" | "outside";
+  public borderWidth: number;
+  public borderColor: Color;
+  public borderRadiusT: number;
+  public borderRadiusR: number;
+  public borderRadiusB: number;
+  public borderRadiusL: number;
   public _width: number;
   public _height: number;
   private prevOffset: Offset;
@@ -67,8 +81,15 @@ export class Block {
     this.prevOffset = { x: 0, y: 0 };
     this.widthType = initState.widthType ?? "fixed";
     this.heightType = initState.heightType ?? "fixed";
-    this.backgroundType = initState.backgroundType;
-    this.backgroundColor = initState.backgroundColor;
+    this.backgroundType = initState.backgroundType ?? "color";
+    this.backgroundColor = initState.backgroundColor ?? { r: 255, g: 255, b: 255, a: 1 };
+    this.borderPosition = initState.borderPosition ?? "inside";
+    this.borderWidth = initState.borderWidth ?? 0;
+    this.borderRadiusT = initState.borderRadiusT ?? 0;
+    this.borderRadiusR = initState.borderRadiusR ?? 0;
+    this.borderRadiusB = initState.borderRadiusB ?? 0;
+    this.borderRadiusL = initState.borderRadiusL ?? 0;
+    this.borderColor = initState.borderColor ?? { r: 0, g: 0, b: 0, a: 1 };
   }
 
   get width() {
@@ -239,6 +260,13 @@ export class Block {
     heightType: "fixed" | "fill" | "fit";
     backgroundType: "color";
     backgroundColor: Color;
+    borderPosition: "inside" | "outside";
+    borderWidth: number;
+    borderColor: Color;
+    borderRadiusT: number;
+    borderRadiusR: number;
+    borderRadiusB: number;
+    borderRadiusL: number;
   } {
     return {
       id: this.id,
@@ -258,6 +286,13 @@ export class Block {
       heightType: this.heightType,
       backgroundType: this.backgroundType,
       backgroundColor: this.backgroundColor,
+      borderPosition: this.borderPosition,
+      borderWidth: this.borderWidth,
+      borderColor: this.borderColor,
+      borderRadiusT: this.borderRadiusT,
+      borderRadiusR: this.borderRadiusR,
+      borderRadiusB: this.borderRadiusB,
+      borderRadiusL: this.borderRadiusL,
     };
   }
 

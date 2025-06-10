@@ -2,7 +2,7 @@ import { Flex, Grid, IconButton, Popover, Text, TextField } from "@radix-ui/them
 import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/block";
 import { ColumnSpacingIcon, PaddingIcon, RowSpacingIcon } from "@radix-ui/react-icons";
 import { useDefaultLayoutType } from "../use-default-type";
-import { useDefaultLayoutSpacing } from "./use-default-spacing";
+import { useDefaultSpacing } from "./use-default-spacing";
 import { TbBorderBottom, TbBorderLeft, TbBorderRight, TbBorderSides, TbBorderTop } from "react-icons/tb";
 import { hasDropColMixin, hasDropRowMixin } from "@/util";
 
@@ -21,7 +21,7 @@ export const DefaultLayoutSpacing = <T extends SectionRow | SectionCol | FrameCo
   block: T;
 }) => {
   const { directionValue } = useDefaultLayoutType(block);
-  const { onGapChange, onPaddingChange, paddingValue } = useDefaultLayoutSpacing(block);
+  const { onGapChange, onPaddingChange, paddingValue } = useDefaultSpacing(block);
 
   const handleGapChange = (value: number) => {
     onGapChange(value, () => {

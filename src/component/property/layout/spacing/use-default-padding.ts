@@ -3,7 +3,7 @@ import { useBlockHistory } from "@/hooks";
 import { useCallback, useMemo } from "react";
 import { flushSync } from "react-dom";
 
-export const useSpacingPadding = <T extends Block>(block: T) => {
+export const useDefaultPadding = <T extends Block>(block: T) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
 
   const onPaddingChange = useCallback(
