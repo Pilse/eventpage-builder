@@ -3,6 +3,7 @@ import { TextBlock } from "@/domain/block";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useTextLayoutSize } from "./use-text-layout-size";
 import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/component/property/appearance";
+import { DefaultFont } from "@/component/property/typography";
 
 export const TextProperties = <T extends InstanceType<typeof TextBlock> = InstanceType<typeof TextBlock>>({
   block,
@@ -27,6 +28,13 @@ export const TextProperties = <T extends InstanceType<typeof TextBlock> = Instan
           <DefaultBgColor block={block} />
           <DefaultBorder block={block} />
           <DefaultShadow block={block} />
+        </Flex>
+      </Flex>
+
+      <Flex direction="column" gap="4">
+        <Heading size="2">Typography</Heading>
+        <Flex direction="column" gap="2">
+          <DefaultFont block={block} />
         </Flex>
       </Flex>
     </Flex>

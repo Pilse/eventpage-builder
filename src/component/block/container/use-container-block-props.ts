@@ -38,7 +38,7 @@ export const useContainerBlockProps = (
       if (hasDropColMixin(parent) || hasDropRowMixin(parent)) {
         parent.autoLayout();
       }
-      globalContext.setCurrentBlock(null);
+      globalContext.setCurrentBlock(containerBlock);
       endCaptureSnapshot(`remove-${parent.id}`);
     }
   });

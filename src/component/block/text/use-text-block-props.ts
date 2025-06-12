@@ -113,6 +113,7 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
   };
   const textStyle: CSSProperties = {
     padding: `${block.pt}px ${block.pr}px ${block.pb}px ${block.pl}px`,
+    fontFamily: `${block.fontName}${block.fontWeight ? `-${block.fontWeight}` : ""}`,
   };
 
   if (!isEditing && !isSelected && block._content !== block.content) {

@@ -1,5 +1,5 @@
 import { Block, BlockFactory, SectionBlock, SectionColBlock, SectionRowBlock } from "@/domain/block";
-import { DropColMixin } from "../mixin";
+import { DropColMixin, ResizeMixin } from "../mixin";
 import { LayoutMap } from "@/type";
 
 type ChildBlock =
@@ -89,4 +89,4 @@ export class Container extends Block {
   }
 }
 
-export default DropColMixin(Container);
+export default ResizeMixin(DropColMixin(Container));

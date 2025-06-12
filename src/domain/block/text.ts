@@ -1,15 +1,25 @@
-import { BackgroundMixin, BorderMixin, DragMixin, ResizeMixin } from "@/domain/mixin";
+import { BackgroundMixin, BorderMixin, DragMixin, ResizeMixin, TypographyMixin } from "@/domain/mixin";
 import { Block } from "@/domain/block";
 import { ShadowMixin } from "../mixin/shadow";
 
 export class Text extends Block {
   public content: string;
   public _content: string;
+  public fontName: string;
+  public fontWeight: number;
 
-  constructor(initState: Omit<ConstructorParameters<typeof Block>[0], "type"> & { content?: string }) {
+  constructor(
+    initState: Omit<ConstructorParameters<typeof Block>[0], "type"> & {
+      content?: string;
+      fontName?: string;
+      fontWeight?: number;
+    }
+  ) {
     super({ ...initState, type: "TEXT" });
     this.content = initState?.content ?? "";
     this._content = initState?.content ?? "";
+    this.fontName = initState?.fontName ?? "Pretendard-400";
+    this.fontWeight = initState?.fontWeight ?? 400;
   }
 
   get width() {
@@ -40,6 +50,8 @@ export class Text extends Block {
     return {
       ...super.serialize(),
       content: this.content,
+      fontName: this.fontName,
+      fontWeight: this.fontWeight,
       type: "TEXT" as const,
     };
   }
@@ -49,4 +61,4 @@ export class Text extends Block {
   }
 }
 
-export default ShadowMixin(BorderMixin(BackgroundMixin(ResizeMixin(DragMixin(Text)))));
+export default TypographyMixin(ShadowMixin(BorderMixin(BackgroundMixin(ResizeMixin(DragMixin(Text))))));
