@@ -1,6 +1,7 @@
 import { TextBlock } from "@/domain/block";
 import { IUseDefaultBlockProps, useBlockHistory, useDefaultBlockProps } from "@/hooks";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { rgbaToCss } from "@/util/color";
 import { CSSProperties, DragEvent, MouseEvent, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
@@ -106,14 +107,24 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
     }
   }, [block.widthType, block.heightType, block, pargraphRef]);
 
-  const styleOverride = {
+  const wrapperStyle: CSSProperties = {
     ...style,
     ...(block.widthType === "fit" ? { width: "max-content" } : {}),
     ...(block.heightType === "fit" ? { height: "fit-content" } : {}),
+    display: "flex",
   };
   const textStyle: CSSProperties = {
     padding: `${block.pt}px ${block.pr}px ${block.pb}px ${block.pl}px`,
     fontFamily: `${block.fontName}${block.fontWeight ? `-${block.fontWeight}` : ""}`,
+    fontWeight: block.fontWeight,
+    fontSize: block.fontSize,
+    color: rgbaToCss(block.fontColor),
+    lineHeight: block.lineHeight,
+    letterSpacing: `${block.letterSpacing}px`,
+    textAlign: block.textAlign,
+    textShadow: `${block.textShadow.x}px ${block.textShadow.y}px ${block.textShadow.blur}px ${rgbaToCss(
+      block.textShadow.color
+    )}`,
   };
 
   if (!isEditing && !isSelected && block._content !== block.content) {
@@ -123,7 +134,7 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
   return {
     block,
     isSelected,
-    style: styleOverride,
+    style: wrapperStyle,
     ...defaultProps,
     onDoubleClick: handleDoublicClick,
     onBlur: handleBlur,

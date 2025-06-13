@@ -16,8 +16,8 @@ export default function Home() {
     >
       {({ root, historyId }) => {
         return (
-          <Flex>
-            <Box flexShrink="0" width="400px" height="fit-content" position="sticky" top="0" left="0"></Box>
+          <Flex maxHeight="100vh" overflow="hidden">
+            <Box flexShrink="0" width="300px" height="fit-content" position="sticky" top="0" left="0"></Box>
             <Flex
               direction="column"
               flexShrink="1"
@@ -27,13 +27,14 @@ export default function Home() {
               position="relative"
               width="100%"
               minWidth="0"
+              overflow="auto"
+              maxHeight="100%"
             >
               <Box position="sticky" top="2" left="0" width="fit-content" style={{ zIndex: 20 }}>
                 <BlockToolbars />
               </Box>
 
               <Flex
-                overflow="hidden"
                 width="100%"
                 justify="center"
                 flexShrink="1"
@@ -44,7 +45,7 @@ export default function Home() {
                 <BlockFactory key={historyId} block={root} />
               </Flex>
             </Flex>
-            <Box flexShrink="0" width="300px" height="fit-content" position="sticky" top="0" left="0">
+            <Box flexShrink="0" width="300px" top="0" left="0" overflow="auto" maxHeight="100%">
               {globalContext.currentBlock && <PropertiesFactory block={globalContext.currentBlock} />}
             </Box>
           </Flex>

@@ -77,7 +77,7 @@ export const useNewBlock = () => {
           backgroundType: "color",
           backgroundColor: { r: 255, g: 255, b: 255, a: 1 },
           borderPosition: "inside",
-          borderColor: { r: 255, g: 255, b: 255, a: 1 },
+          borderColor: { r: 0, g: 0, b: 0, a: 1 },
           borderRadiusT: 0,
           borderRadiusR: 0,
           borderRadiusB: 0,

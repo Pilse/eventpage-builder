@@ -1,9 +1,9 @@
 import { ShadowMixinBlockType } from "@/domain/mixin";
 import { rgbaToCss } from "@/util/color";
 import { Flex, Grid, Popover, Text, TextField } from "@radix-ui/themes";
-import { Colorful } from "@uiw/react-color";
 import { useDefaultShadow } from "./use-default-shadow";
 import { TbBlur, TbSun } from "react-icons/tb";
+import { RgbaColorPicker } from "react-colorful";
 
 export const DefaultShadow = <T extends ShadowMixinBlockType>({ block }: { block: T }) => {
   const { openColorPicker, setOpenColorPicker, onHexChange, onHexCommit, onRgbaCommit, onShadowChange } =
@@ -81,7 +81,7 @@ export const DefaultShadow = <T extends ShadowMixinBlockType>({ block }: { block
               </Popover.Trigger>
 
               <Popover.Content>
-                <Colorful color={block.shadowColorHex} onChange={(color) => onRgbaCommit(color.rgba)} />
+                <RgbaColorPicker color={block.shadow.color} onChange={(color) => onRgbaCommit(color)} />
               </Popover.Content>
             </Popover.Root>
           </TextField.Slot>

@@ -1,7 +1,6 @@
 import { BorderMixinBlockType } from "@/domain/mixin";
 import { rgbaToCss } from "@/util/color";
 import { Flex, Grid, IconButton, Popover, Select, Text, TextField } from "@radix-ui/themes";
-import { Colorful } from "@uiw/react-color";
 import { useDefaultBorder } from "./use-default-border";
 import { Block } from "@/domain/block";
 import {
@@ -13,6 +12,7 @@ import {
   CornerTopRightIcon,
 } from "@radix-ui/react-icons";
 import { TbBorderSides } from "react-icons/tb";
+import { RgbaColorPicker } from "react-colorful";
 
 export const DefaultBorder = <T extends BorderMixinBlockType>({ block }: { block: T }) => {
   const {
@@ -29,35 +29,6 @@ export const DefaultBorder = <T extends BorderMixinBlockType>({ block }: { block
 
   return (
     <Grid columns="2" gap="4">
-      <Flex direction="column" gap="1">
-        <Text size="1" as="label" htmlFor="border-color-input">
-          Border Color
-        </Text>
-        <TextField.Root
-          value={block.borderColorHex}
-          onChange={(e) => {
-            onHexChange(e.target.value);
-          }}
-          onBlur={onHexCommit}
-          id="border-color-input"
-        >
-          <TextField.Slot side="left">
-            <Popover.Root open={openColorPicker}>
-              <Popover.Trigger onClick={() => setOpenColorPicker(true)}>
-                <button
-                  className="w-3.5 h-3.5 rounded border border-gray-500"
-                  style={{ backgroundColor: rgbaToCss(block.borderColor) }}
-                ></button>
-              </Popover.Trigger>
-
-              <Popover.Content>
-                <Colorful color={block.borderColorHex} onChange={(color) => onRgbaCommit(color.rgba)} />
-              </Popover.Content>
-            </Popover.Root>
-          </TextField.Slot>
-        </TextField.Root>
-      </Flex>
-
       <Flex direction="column" gap="1">
         <Text size="1" as="label" htmlFor="border-width-input">
           Border Width
@@ -83,6 +54,35 @@ export const DefaultBorder = <T extends BorderMixinBlockType>({ block }: { block
                 <Select.Item value="outside">Outside</Select.Item>
               </Select.Content>
             </Select.Root>
+          </TextField.Slot>
+        </TextField.Root>
+      </Flex>
+
+      <Flex direction="column" gap="1">
+        <Text size="1" as="label" htmlFor="border-color-input">
+          Border Color
+        </Text>
+        <TextField.Root
+          value={block.borderColorHex}
+          onChange={(e) => {
+            onHexChange(e.target.value);
+          }}
+          onBlur={onHexCommit}
+          id="border-color-input"
+        >
+          <TextField.Slot side="left">
+            <Popover.Root open={openColorPicker}>
+              <Popover.Trigger onClick={() => setOpenColorPicker(true)}>
+                <button
+                  className="w-3.5 h-3.5 rounded border border-gray-500"
+                  style={{ backgroundColor: rgbaToCss(block.borderColor) }}
+                ></button>
+              </Popover.Trigger>
+
+              <Popover.Content>
+                <RgbaColorPicker color={block.borderColor} onChange={(color) => onRgbaCommit(color)} />
+              </Popover.Content>
+            </Popover.Root>
           </TextField.Slot>
         </TextField.Root>
       </Flex>

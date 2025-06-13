@@ -1,10 +1,10 @@
 import { BackgroundMixinBlockType } from "@/domain/mixin";
 import { rgbaToCss } from "@/util/color";
 import { Flex, Grid, Popover, Text, TextField } from "@radix-ui/themes";
-import { Colorful } from "@uiw/react-color";
 import { useDefaultBgColor } from "./use-default-bg-color";
 import { uppercaseFirstCharacter } from "@/util";
 import { TbBackground } from "react-icons/tb";
+import { RgbaColorPicker } from "react-colorful";
 
 export const DefaultBgColor = <T extends BackgroundMixinBlockType>({ block }: { block: T }) => {
   const { openColorPicker, setOpenColorPicker, onHexChange, onHexCommit, onRgbaCommit } =
@@ -50,7 +50,12 @@ export const DefaultBgColor = <T extends BackgroundMixinBlockType>({ block }: { 
               </Popover.Trigger>
 
               <Popover.Content>
-                <Colorful color={block.backgroundColorHex} onChange={(color) => onRgbaCommit(color.rgba)} />
+                <RgbaColorPicker
+                  color={block.backgroundColor}
+                  onChange={(color) => {
+                    onRgbaCommit(color);
+                  }}
+                />
               </Popover.Content>
             </Popover.Root>
           </TextField.Slot>

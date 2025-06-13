@@ -23,7 +23,11 @@ export type Layout = Position & Size;
 
 export type Color = { r: number; g: number; b: number; a: number };
 
+export type TextAlign = "left" | "center" | "right";
+
 export type Shadow = { x: number; y: number; blur: number; spread: number; color: Color };
+
+export type TextShadow = { x: number; y: number; blur: number; color: Color };
 
 export type LayoutMap = Record<string, Layout>;
 

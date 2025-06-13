@@ -39,7 +39,7 @@ export const useDefaultBgColor = (block: BackgroundMixinBlockType) => {
         return;
       }
 
-      if (target.closest("div.w-color-colorful")) {
+      if (target.closest("div.react-colorful")) {
         return;
       }
 

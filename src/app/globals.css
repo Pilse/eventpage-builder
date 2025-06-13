@@ -215,9 +215,24 @@ body {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Chosunilbo_gulim-600";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* 조선일보명조체 */
 @font-face {
   font-family: "Chosunilbo_myungjo-400";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Chosunilbo_myungjo-600";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff")
     format("woff");
   font-weight: normal;

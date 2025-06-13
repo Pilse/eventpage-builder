@@ -1,15 +1,24 @@
-import { Constructor } from "@/type";
+import { Color, Constructor, TextAlign } from "@/type";
 import { Text } from "../block";
+import {
+  isValidHexColor as _isValidHexColor,
+  hexColorToRgba as _hexColorToRgba,
+  rgbaToHexColor as _rgbaToHexColor,
+} from "@/util/color";
 
 export type TypographyMixinBlockType = InstanceType<ReturnType<typeof TypographyMixin<Constructor<Text>>>>;
 
 export const TypographyMixin = <TBase extends Constructor<Text>>(Base: TBase) => {
   return class extends Base {
     public writable = true;
+    public fontColorHex: string;
+    public textShadowColorHex: string;
 
     constructor(...args: any[]) {
       super(...args);
       this.setFontName(this.fontName);
+      this.fontColorHex = _rgbaToHexColor(this.borderColor);
+      this.textShadowColorHex = _rgbaToHexColor(this.textShadow.color);
     }
 
     public getFont() {
@@ -37,6 +46,62 @@ export const TypographyMixin = <TBase extends Constructor<Text>>(Base: TBase) =>
 
     public setFontWeight(fontWeight: number) {
       this.fontWeight = fontWeight;
+    }
+
+    public setFontSize(fontSize: number) {
+      this.fontSize = fontSize;
+    }
+
+    public updateFontColorHex(hex: string) {
+      this.fontColorHex = hex;
+      if (_isValidHexColor(hex)) {
+        this.fontColor = _hexColorToRgba(hex);
+        this.fontColorHex = _rgbaToHexColor(this.fontColor);
+      }
+    }
+
+    public commitUpdateFontColorHex() {
+      if (_isValidHexColor(this.fontColorHex)) {
+        this.fontColor = _hexColorToRgba(this.fontColorHex);
+      }
+      this.fontColorHex = _rgbaToHexColor(this.fontColor);
+    }
+
+    public commitUpdateFontColorRgba(rgba: Color) {
+      this.fontColor = rgba;
+      this.fontColorHex = _rgbaToHexColor(this.fontColor);
+    }
+
+    public setLetterSpacing(letterSpacing: number) {
+      this.letterSpacing = letterSpacing;
+    }
+
+    public setLineHeight(lineHeight: number) {
+      this.lineHeight = lineHeight;
+    }
+
+    public setTextAlign(textAlign: TextAlign) {
+      this.textAlign = textAlign;
+    }
+
+    public updateTextShadowColorHex(hex: string) {
+      this.textShadowColorHex = hex;
+      if (_isValidHexColor(hex)) {
+        this.textShadow.color = _hexColorToRgba(hex);
+        this.textShadowColorHex = _rgbaToHexColor(this.textShadow.color);
+      }
+    }
+
+    public commitUpdateShadowColorHex() {
+      if (_isValidHexColor(this.textShadowColorHex)) {
+        this.textShadow.color = _hexColorToRgba(this.textShadowColorHex);
+      }
+      this.textShadowColorHex = _rgbaToHexColor(this.textShadow.color);
+    }
+
+    public commitUpdateShadowColorRgba(rgba: Color) {
+      this.textShadow.color = rgba;
+      this.textShadowColorHex = _rgbaToHexColor(this.textShadow.color);
     }
   };
 };
@@ -75,12 +140,12 @@ const fonts = [
   {
     fontName: "Chosunilbo_gulim",
     thumbnail: "/image/chosunilbo_gulim.png",
-    weights: [400],
+    weights: [400, 600],
   },
   {
     fontName: "Chosunilbo_myungjo",
     thumbnail: "/image/chosunilbo_myungjo.png",
-    weights: [400],
+    weights: [400, 600],
   },
   {
     fontName: "Danjo",
