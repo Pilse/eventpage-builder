@@ -103,7 +103,7 @@ const fonts = [
     weights: [100, 400, 700],
   },
   {
-    fontName: "SDKukdetopokki",
+    fontName: "sdkukdetopoki",
     thumbnail: "/image/sdkukdetokki.png",
     weights: [400],
   },
