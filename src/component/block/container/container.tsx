@@ -20,9 +20,9 @@ export const Container = ({ block }: IContainerProps) => {
         {...blockProps}
       >
         {isSelected && element && <ResizeMixin element={element} block={container} />}
-        <DndProvider backend={HTML5Backend}>
-          <ChildrenMixin block={container} />
-        </DndProvider>
+        {/* <DndProvider backend={HTML5Backend}> */}
+        <ChildrenMixin block={container} />
+        {/* </DndProvider> */}
       </main>
     </>
   );

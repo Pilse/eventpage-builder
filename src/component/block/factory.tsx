@@ -29,9 +29,19 @@ import {
   FrameCanvasProperties,
   FrameRowProperties,
   FrameColProperties,
+  ImageProperties,
+  TextProperties,
+  FrameCanvasTreeNode,
+  FrameRowTreeNode,
+  FrameColTreeNode,
+  ImageTreeNode,
+  SectionCanvasTreeNode,
+  SectionRowTreeNode,
+  SectionColTreeNode,
+  TextTreeNode,
+  ContainerTreeNode,
 } from "@/component/block";
-import { TextProperties } from "./text/property";
-import { ImageProperties } from "./image/property";
+import { DefaultTreeNode } from "../tree";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
 
@@ -80,6 +90,30 @@ export const PropertiesFactory = ({ block }: { block: Block }) => {
     <TextProperties block={block as InstanceType<typeof TextBlock>} />
   ) : block.type === "IMAGE" ? (
     <ImageProperties block={block as InstanceType<typeof ImageBlock>} />
+  ) : (
+    <></>
+  );
+};
+
+export const TreeNodeFactory = ({ block, depth }: { block: Block; depth: number }) => {
+  return block.type === "CONTAINER" ? (
+    <ContainerTreeNode block={block as InstanceType<typeof ContainerBlock>} depth={depth} />
+  ) : block.type === "SECTION_CANVAS" ? (
+    <SectionCanvasTreeNode block={block as InstanceType<typeof SectionBlock>} depth={depth} />
+  ) : block.type === "SECTION_ROW" ? (
+    <SectionRowTreeNode block={block as InstanceType<typeof SectionRowBlock>} depth={depth} />
+  ) : block.type === "SECTION_COL" ? (
+    <SectionColTreeNode block={block as InstanceType<typeof SectionColBlock>} depth={depth} />
+  ) : block.type === "FRAME_CANVAS" ? (
+    <FrameCanvasTreeNode block={block as InstanceType<typeof FrameBlock>} depth={depth} />
+  ) : block.type === "FRAME_ROW" ? (
+    <FrameRowTreeNode block={block as InstanceType<typeof FrameRowBlock>} depth={depth} />
+  ) : block.type === "FRAME_COL" ? (
+    <FrameColTreeNode block={block as InstanceType<typeof FrameColBlock>} depth={depth} />
+  ) : block.type === "TEXT" ? (
+    <TextTreeNode block={block as InstanceType<typeof TextBlock>} depth={depth} />
+  ) : block.type === "IMAGE" ? (
+    <ImageTreeNode block={block as InstanceType<typeof ImageBlock>} depth={depth} />
   ) : (
     <></>
   );

@@ -43,6 +43,28 @@ export const ChildrenMixin = <TBase extends Constructor<Block & { children: Inst
       this.children = this.children.concat(child);
     }
 
+    public addChildBefore(child: InstanceType<typeof Block>, before: InstanceType<typeof Block>) {
+      const beforeIdx = this.children.findIndex((child) => child.id === before.id);
+
+      if (beforeIdx === -1) {
+        return this.addChild(child);
+      }
+
+      this.children = this.children.slice(0, beforeIdx).concat(child).concat(this.children.slice(beforeIdx));
+    }
+
+    public addChildAfter(child: InstanceType<typeof Block>, after: InstanceType<typeof Block>) {
+      const afterIdx = this.children.findIndex((child) => child.id === after.id);
+      if (afterIdx === -1) {
+        return this.addChild(child);
+      }
+
+      this.children = this.children
+        .slice(0, afterIdx + 1)
+        .concat(child)
+        .concat(this.children.slice(afterIdx + 1));
+    }
+
     public removeChild(child: InstanceType<typeof Block>) {
       this.children = this.children.filter((c) => c.id !== child.id);
     }

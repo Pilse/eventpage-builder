@@ -1,32 +1,33 @@
 import { Block } from "@/domain/block";
-import { hasDragMixin } from "@/util";
 import { useDrag } from "react-dnd";
-import { useGlobalContext } from "@/hooks";
+import { useBlockHistory, useGlobalContext } from "@/hooks";
 import { BlockDragOptions } from "@/type";
-import { useBlockHistory } from "./use-block-history";
 
 interface IUseDefaultBlockDragProps {
   block: InstanceType<typeof Block>;
+  dragType?: string;
   options?: BlockDragOptions;
 }
 
-export const useDefaultBlockDrag = ({ block, options }: IUseDefaultBlockDragProps, dependencies?: any[]) => {
+export const useDefaultTreeDrag = (
+  { block, dragType = "TREE", options }: IUseDefaultBlockDragProps,
+  dependencies?: any[]
+) => {
   const { setCurrentBlock } = useGlobalContext();
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const { canDrag, ...restOptions } = options ?? {};
 
   return useDrag(
     () => ({
-      type: "BLOCK",
+      type: dragType,
       item: block,
       end() {
         setCurrentBlock(block);
         endCaptureSnapshot(`drag-${block.id}`);
       },
-      canDrag: canDrag ? canDrag : () => hasDragMixin(block),
       collect: (monitor) => {
         const itemType = monitor.getItemType();
-        if (itemType !== "BLOCK") {
+        if (itemType !== dragType) {
           return { isDragging: false };
         }
         const isDragging = monitor.isDragging() || monitor.getItem()?.id === block.id;

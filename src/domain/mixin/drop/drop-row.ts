@@ -41,7 +41,7 @@ export const DropRowMixin = <
       this.autoLayout();
     }
 
-    public autoLayout() {
+    public autoLayout(sort: "order" | "posX" = "posX") {
       const childrenTotalWidth = this.children.reduce((acc, child, idx) => {
         return idx > 0 ? acc + child.width + this.gap : acc + child.width;
       }, 0);
@@ -53,7 +53,9 @@ export const DropRowMixin = <
           : this.width - this.pr - childrenTotalWidth;
 
       this.childrenOffsetX = [initialL];
-      this.children.sort((chlid1, child2) => chlid1.l - child2.l);
+      if (sort === "posX") {
+        this.children.sort((chlid1, child2) => chlid1.l - child2.l);
+      }
       this.children.forEach((child, idx) => {
         this.childrenOffsetX.push(this.childrenOffsetX[idx] + child.width + this.gap);
         child.l = this.childrenOffsetX[idx];

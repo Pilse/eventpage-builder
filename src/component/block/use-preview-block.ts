@@ -25,7 +25,13 @@ export const useSectionPreviewBlock = (
   element: IUseSectionPreviewBlockProps["element"]
 ): IUseSectionPreviewBlock => {
   const { draggedBlock, currentOffset } = useDragLayer((monitor) => ({
-    draggedBlock: monitor.getItem<InstanceType<typeof Block> | null>(),
+    draggedBlock: (() => {
+      const itemType = monitor.getItemType();
+      if (itemType !== "BLOCK") {
+        return null;
+      }
+      return monitor.getItem<InstanceType<typeof Block> | null>();
+    })(),
     currentOffset: monitor.getSourceClientOffset(),
   }));
 

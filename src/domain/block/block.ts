@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
-import { BlockType, ParentBlockType, Offset, Color, Shadow } from "@/type";
+import { BlockType, ParentBlockType, Offset, Color, Shadow, HoveredDir } from "@/type";
 import { ChildrenMixinBlockType } from "../mixin";
 
 export interface IBlock {
@@ -59,8 +59,12 @@ export class Block {
   public borderRadiusB: number;
   public borderRadiusL: number;
   public _width: number;
-  public _height: number;
   public shadow: Shadow;
+  public _height: number;
+  public _listeners: Function[];
+  public hoveredDir: HoveredDir | null;
+  public isHovered: boolean;
+  public isSelected: boolean;
   private prevOffset: Offset;
 
   constructor(initState: IBlock) {
@@ -93,6 +97,10 @@ export class Block {
     this.borderRadiusL = initState.borderRadiusL ?? 0;
     this.borderColor = initState.borderColor ?? { r: 0, g: 0, b: 0, a: 1 };
     this.shadow = initState.shadow ?? { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } };
+    this.hoveredDir = null;
+    this.isHovered = false;
+    this.isSelected = false;
+    this._listeners = [];
   }
 
   get width() {

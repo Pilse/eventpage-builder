@@ -32,6 +32,8 @@ export interface IUseDefaultBlockProps<T> {
   style: CSSProperties;
   onClick: MouseEventHandler;
   onMouseDown: MouseEventHandler;
+  onMouseEnter: MouseEventHandler;
+  onMouseLeave: MouseEventHandler;
   onDragStart: DragEventHandler;
   isSelected: boolean;
 }
@@ -42,7 +44,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
   const [element, setElement] = useState<HTMLElement | null>(null);
 
   const { currentBlock, setCurrentBlock } = useGlobalContext();
-  const block = useDomain(blockInstance);
+  const block = useDomain(blockInstance, blockInstance._listeners);
 
   const style: CSSProperties = {
     width: block.width,
@@ -77,6 +79,14 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     e.stopPropagation();
   };
 
+  const handleMouseEnter = () => {
+    block.isHovered = true;
+  };
+
+  const handleMouseLeave = () => {
+    block.isHovered = false;
+  };
+
   const handleDragStart = () => {
     if (!hasResizeMixin(block) || block.isResizing()) {
       return;
@@ -100,6 +110,8 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     onClick: handleClick,
     onMouseDown: handleMouseDown,
     onDragStart: handleDragStart,
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
     setElement,
     style,
     block,

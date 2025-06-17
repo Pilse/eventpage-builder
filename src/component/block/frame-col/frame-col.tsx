@@ -38,7 +38,12 @@ export const FrameCol = ({ block, isPreview }: IFrameColProps) => {
       )}
       {...blockProps}
     >
-      {!isSelected && <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />}
+      {!isSelected && (
+        <HoverLayer
+          useProgrammaticHovered={isDragging || block.isHovered}
+          programmaticHovered={isCurrentOver || block.isHovered}
+        />
+      )}
       {isSelected && element && <ResizeMixin element={element} block={frameCol} />}
       <ChildrenMixin block={frameCol} />
     </div>

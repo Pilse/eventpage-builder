@@ -32,6 +32,9 @@ export type TextShadow = { x: number; y: number; blur: number; color: Color };
 export type LayoutMap = Record<string, Layout>;
 
 export type Offset = XYCoord;
+
+export type HoveredDir = "top" | "center" | "bottom";
+
 export interface IBlockProps<T extends InstanceType<typeof Block>> {
   block: T;
   isPreview?: boolean;
