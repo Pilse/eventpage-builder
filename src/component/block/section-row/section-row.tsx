@@ -35,7 +35,12 @@ export const SectionRow = ({ block }: ISectionRowProps) => {
       className={twMerge("group bg-green-300", isAutoLayouted(sectionRow) && "opacity-100")}
       {...blockProps}
     >
-      {!isSelected && <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />}
+      {!isSelected && (
+        <HoverLayer
+          useProgrammaticHovered={isDragging || block.isHovered}
+          programmaticHovered={isCurrentOver || block.isHovered}
+        />
+      )}
       {isSelected && element && <ResizeMixin vertical element={element} block={sectionRow} />}
       {previewBlock && !isAutoLayouted(previewBlock) && element && (
         <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />

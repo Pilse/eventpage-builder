@@ -1,4 +1,4 @@
-import { BlockFactory, ContainerBlock } from "@/domain/block";
+import { BlockFactory, ContainerBlock, Image } from "@/domain/block";
 import {
   IUseDefaultBlockProps,
   useBlockHistory,
@@ -100,7 +100,9 @@ export const useContainerBlockProps = (
         heightType: "fixed",
         url,
         aspectRatio: Math.floor((width * 100) / height),
-      } as const;
+        backgroundType: "color",
+        backgroundColor: { r: 0, g: 0, b: 0, a: 0 },
+      } satisfies Partial<ReturnType<Image["serialize"]>>;
       addNewBlock("IMAGE", imageProps);
     };
 

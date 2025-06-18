@@ -53,7 +53,7 @@ export const TreeNode = ({
       return block.isHovered;
     }
 
-    return block.isHovered && ![...block].some((child) => child.isHovered);
+    return block.isHovered && ![...block].slice(1).some((child) => child.isHovered);
   }, [block]);
 
   return (

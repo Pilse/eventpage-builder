@@ -43,7 +43,12 @@ export const Text = ({ block, isPreview }: ITextProps) => {
       )}
       {...blockProps}
     >
-      {!isEditing && !isSelected && !text.isSiblingResizing() && <HoverLayer />}
+      {!isEditing && !isSelected && !text.isSiblingResizing() && (
+        <HoverLayer
+          useProgrammaticHovered={isDragging || block.isHovered}
+          programmaticHovered={block.isHovered}
+        />
+      )}
       {isSelected && element && <ResizeMixin element={element} block={text} />}
       <p
         ref={(ele) => {

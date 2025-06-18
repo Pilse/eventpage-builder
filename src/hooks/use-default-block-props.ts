@@ -33,6 +33,7 @@ export interface IUseDefaultBlockProps<T> {
   onClick: MouseEventHandler;
   onMouseDown: MouseEventHandler;
   onMouseEnter: MouseEventHandler;
+  onMouseMove: MouseEventHandler;
   onMouseLeave: MouseEventHandler;
   onDragStart: DragEventHandler;
   isSelected: boolean;
@@ -81,6 +82,24 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
 
   const handleMouseEnter = () => {
     block.isHovered = true;
+    let parent = block.parent;
+    while (parent) {
+      if (parent.isHovered) {
+        parent.isHovered = false;
+      }
+      parent = parent.parent;
+    }
+  };
+
+  const handleMouseMove = () => {
+    block.isHovered = true;
+    let parent = block.parent;
+    while (parent) {
+      if (parent.isHovered) {
+        parent.isHovered = false;
+      }
+      parent = parent.parent;
+    }
   };
 
   const handleMouseLeave = () => {
@@ -111,6 +130,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     onMouseDown: handleMouseDown,
     onDragStart: handleDragStart,
     onMouseEnter: handleMouseEnter,
+    onMouseMove: handleMouseMove,
     onMouseLeave: handleMouseLeave,
     setElement,
     style,

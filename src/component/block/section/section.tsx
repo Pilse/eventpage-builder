@@ -38,7 +38,10 @@ export const Section = ({ block }: ISectionProps) => {
         {...blockProps}
       >
         {!isSelected && (
-          <HoverLayer useProgrammaticHovered={isDragging} programmaticHovered={isCurrentOver} />
+          <HoverLayer
+            useProgrammaticHovered={isDragging || block.isHovered}
+            programmaticHovered={isCurrentOver || block.isHovered}
+          />
         )}
         {isSelected && element && <ResizeMixin element={element} block={section} vertical />}
         {previewBlock && !isAutoLayouted(previewBlock) && element && (
