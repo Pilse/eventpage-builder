@@ -1,5 +1,5 @@
 import { Block } from "@/domain/block";
-import { hasChildrenMixin, hasResizeMixin } from "@/util";
+import { hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/util";
 import {
   CSSProperties,
   Dispatch,
@@ -47,12 +47,15 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
   const { currentBlock, setCurrentBlock } = useGlobalContext();
   const block = useDomain(blockInstance, blockInstance._listeners);
 
+  const isSelected = currentBlock?.id === block.id;
+  const useConstraint = block.parent && !isAutoLayouted(block) && !isSelected;
+
   const style: CSSProperties = {
     width: block.width,
     height: block.height,
     position: block.position,
-    top: block.t,
-    left: block.l,
+    top: useConstraint ? (block.parent?.height ?? 0) / 2 - (block._centerY + block.height / 2) : block.t,
+    left: useConstraint ? (block.parent?.width ?? 0) / 2 - (block._centerX + block.width / 2) : block.l,
     right: block.r,
     bottom: block.b,
     backgroundColor: rgbaToCss(block.backgroundColor),
@@ -77,6 +80,10 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
 
   const handleMouseDown = (e: MouseEvent) => {
     setCurrentBlock(block);
+    if (useConstraint) {
+      block.t = (block.parent?.height ?? 0) / 2 - (block._centerY + block.height / 2);
+      block.l = (block.parent?.width ?? 0) / 2 - (block._centerX + block.width / 2);
+    }
     e.stopPropagation();
   };
 

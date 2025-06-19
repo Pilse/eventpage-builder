@@ -32,6 +32,11 @@ export const useDefaultLayoutType = <
         type === "stack" ? `${currentBaseType}_COL` : `${currentBaseType}_CANVAS`;
       const newBlock = BlockFactory.create({ ...block.serialize(), type: newType }, block.parent);
 
+      if (block.parent && !hasDropColMixin(block.parent) && !hasDropRowMixin(block.parent)) {
+        newBlock.l -= block.parent.pl;
+        newBlock.t -= block.parent.pt;
+      }
+
       if (hasDropColMixin(newBlock) || hasDropRowMixin(newBlock)) {
         newBlock.autoLayout();
       } else if (hasChildrenMixin(newBlock)) {

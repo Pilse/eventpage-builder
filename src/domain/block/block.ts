@@ -29,6 +29,8 @@ export interface IBlock {
   borderRadiusR?: number;
   borderRadiusB?: number;
   borderRadiusL?: number;
+  centerX?: number;
+  centerY?: number;
   shadow?: Shadow;
 }
 
@@ -39,10 +41,10 @@ export class Block {
   public heightType: "fixed" | "fill" | "fit";
   public position: "relative" | "absolute";
   public parent: ParentBlockType;
-  public t: number;
-  public r: number;
-  public b: number;
-  public l: number;
+  public _t: number;
+  public _r: number;
+  public _b: number;
+  public _l: number;
   public pt: number;
   public pr: number;
   public pb: number;
@@ -65,14 +67,16 @@ export class Block {
   public hoveredDir: HoveredDir | null;
   public isHovered: boolean;
   public isSelected: boolean;
+  public _centerX: number;
+  public _centerY: number;
   private prevOffset: Offset;
 
   constructor(initState: IBlock) {
     this.id = initState.id ?? uuidv4();
-    this.t = (initState.t ?? 0) + (initState.parent?.pt ?? 0);
-    this.r = (initState.r ?? 0) + (initState.parent?.pr ?? 0);
-    this.b = (initState.b ?? 0) + (initState.parent?.pb ?? 0);
-    this.l = (initState.l ?? 0) + (initState.parent?.pl ?? 0);
+    this._t = (initState.t ?? 0) + (initState.parent?.pt ?? 0);
+    this._r = (initState.r ?? 0) + (initState.parent?.pr ?? 0);
+    this._b = (initState.b ?? 0) + (initState.parent?.pb ?? 0);
+    this._l = (initState.l ?? 0) + (initState.parent?.pl ?? 0);
     this.pt = initState.pt ?? 0;
     this.pr = initState.pr ?? 0;
     this.pb = initState.pb ?? 0;
@@ -100,6 +104,8 @@ export class Block {
     this.hoveredDir = null;
     this.isHovered = false;
     this.isSelected = false;
+    this._centerX = initState.centerX ?? this.getCenterX();
+    this._centerY = initState.centerY ?? this.getCenterY();
     this._listeners = [];
   }
 
@@ -213,8 +219,58 @@ export class Block {
     }
   }
 
+  public getCenterY() {
+    if (!this.parent) {
+      return this.height / 2;
+    }
+
+    return this.parent.height / 2 - (this.t + this.height / 2);
+  }
+
+  public getCenterX() {
+    if (!this.parent) {
+      return this.width / 2;
+    }
+
+    return this.parent.width / 2 - (this.l + this.width / 2);
+  }
+
   set height(value: number) {
     this._height = value;
+  }
+
+  get t() {
+    return this._t;
+  }
+
+  set t(value: number) {
+    this._t = value;
+    this._centerY = this.getCenterY();
+  }
+
+  get l() {
+    return this._l;
+  }
+
+  set l(value: number) {
+    this._l = value;
+    this._centerX = this.getCenterX();
+  }
+
+  get r() {
+    return this._r;
+  }
+
+  set r(value: number) {
+    this._r = value;
+  }
+
+  get b() {
+    return this._b;
+  }
+
+  set b(value: number) {
+    this._b = value;
   }
 
   public updateCoords(currentOffset: Offset, parentOffset?: Offset) {
@@ -279,6 +335,8 @@ export class Block {
     borderRadiusB: number;
     borderRadiusL: number;
     shadow: Shadow;
+    centerX?: number;
+    centerY?: number;
   } {
     return {
       id: this.id,
@@ -306,6 +364,8 @@ export class Block {
       borderRadiusB: this.borderRadiusB,
       borderRadiusL: this.borderRadiusL,
       shadow: this.shadow,
+      centerX: this._centerX,
+      centerY: this._centerY,
     };
   }
 

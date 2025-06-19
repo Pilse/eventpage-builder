@@ -1,6 +1,6 @@
 import { Block } from "@/domain/block";
 import { useGlobalContext } from "@/hooks";
-import { hasChildrenMixin } from "@/util";
+import { hasChildrenMixin, isAutoLayouted } from "@/util";
 import { Box, Button, Flex, Text } from "@radix-ui/themes";
 import {
   MouseEvent,
@@ -48,6 +48,9 @@ export const TreeNode = ({
   const { currentBlock, setCurrentBlock } = useGlobalContext();
   const [showChildren, setShowChildren] = useState(true);
 
+  const isSelected = currentBlock?.id === block.id;
+  const useConstraint = block.parent && !isAutoLayouted(block) && !isSelected;
+
   const isCurrentHovered = useMemo(() => {
     if (!hasChildrenMixin(block)) {
       return block.isHovered;
@@ -86,6 +89,10 @@ export const TreeNode = ({
           if ((e.target as HTMLElement).closest(".arrow-down")) {
             setShowChildren((prev) => !prev);
           } else {
+            if (useConstraint) {
+              block.t = (block.parent?.height ?? 0) / 2 - (block._centerY + block.height / 2);
+              block.l = (block.parent?.width ?? 0) / 2 - (block._centerX + block.width / 2);
+            }
             setCurrentBlock(block);
           }
         }}
