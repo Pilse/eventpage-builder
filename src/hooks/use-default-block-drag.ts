@@ -21,7 +21,6 @@ export const useDefaultBlockDrag = ({ block, options }: IUseDefaultBlockDragProp
       item: block,
       end() {
         setCurrentBlock(block);
-        endCaptureSnapshot(`drag-${block.id}`);
       },
       canDrag: canDrag ? canDrag : () => hasDragMixin(block),
       collect: (monitor) => {

@@ -17,7 +17,7 @@ export const TypographyMixin = <TBase extends Constructor<Text>>(Base: TBase) =>
     constructor(...args: any[]) {
       super(...args);
       this.setFontName(this.fontName);
-      this.fontColorHex = _rgbaToHexColor(this.borderColor);
+      this.fontColorHex = _rgbaToHexColor(this.fontColor);
       this.textShadowColorHex = _rgbaToHexColor(this.textShadow.color);
     }
 
