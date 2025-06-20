@@ -29,7 +29,12 @@ export const Image = ({ block, isPreview }: IImageProps) => {
       )}
       {...blockProps}
     >
-      {!isSelected && !image.isSiblingResizing() && <HoverLayer />}
+      {!isSelected && !image.isSiblingResizing() && (
+        <HoverLayer
+          useProgrammaticHovered={block.isHovered || isDragging}
+          programmaticHovered={block.isHovered}
+        />
+      )}
       {isSelected && element && <ResizeMixin element={element} block={image} />}
       {/*  eslint-disable-next-line @next/next/no-img-element */}
       <img
