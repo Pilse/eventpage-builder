@@ -37,6 +37,7 @@ export default function Home() {
               width="100%"
               minWidth="0"
               maxHeight="100%"
+              minHeight="100vh"
               style={{ backgroundColor: "#D9EDFE25" }}
             >
               <Box
