@@ -1,7 +1,7 @@
 import { ContainerBlock } from "@/domain/block";
 import { IBlockProps } from "@/type";
 import { useContainerBlockProps } from "./use-container-block-props";
-import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
+import { ChildrenMixin, ResizeContainerMixin, ResizeMixin } from "@/component/mixin";
 
 interface IContainerProps extends IBlockProps<InstanceType<typeof ContainerBlock>> {}
 
@@ -17,7 +17,7 @@ export const Container = ({ block }: IContainerProps) => {
         className="flex flex-col items-center justify-center mx-auto"
         {...blockProps}
       >
-        {isSelected && element && <ResizeMixin element={element} block={container} />}
+        {element && <ResizeContainerMixin element={element} block={container} />}
         {/* <DndProvider backend={HTML5Backend}> */}
         <ChildrenMixin block={container} />
         {/* </DndProvider> */}

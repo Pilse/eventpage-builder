@@ -11,7 +11,6 @@ import { ResizeSnapLineLayer } from "@/component/layer";
 import { MouseEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useBlockHistory } from "@/hooks";
-import { twMerge } from "tailwind-merge";
 
 interface IResizableDirection {
   t: boolean;
