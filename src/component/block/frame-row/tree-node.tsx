@@ -2,7 +2,7 @@ import { FrameRowBlock } from "@/domain/block";
 import { useFrameTreeDrop } from "../use-frame-tree-drop";
 import { useDomain } from "@/hooks";
 import { TreeNode, useDefaultTreeDrag } from "@/component/tree";
-import { FrameIcon } from "@radix-ui/react-icons";
+import { TbLayoutList } from "react-icons/tb";
 
 interface IFrameRowNodeTreeProps {
   block: InstanceType<typeof FrameRowBlock>;
@@ -17,7 +17,7 @@ export const FrameRowTreeNode = ({ block: blockInstance, depth }: IFrameRowNodeT
   return (
     <TreeNode
       block={block}
-      icon={<FrameIcon />}
+      icon={<TbLayoutList className="rotate-90" />}
       name="Frame"
       depth={depth}
       dragRef={dragRef}

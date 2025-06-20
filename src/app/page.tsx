@@ -1,7 +1,6 @@
 "use client";
 
 import { BlockFactory, BlockToolbars, PropertiesFactory, TreeNodeFactory } from "@/component/block";
-import { Tree } from "@/component/tree";
 import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/block";
 import { useGlobalContext } from "@/hooks";
 import { BlockHistoryProvider } from "@/hooks/use-block-history";
@@ -37,25 +36,36 @@ export default function Home() {
               position="relative"
               width="100%"
               minWidth="0"
-              overflow="auto"
               maxHeight="100%"
+              style={{ backgroundColor: "#D9EDFE25" }}
             >
-              <Box position="sticky" top="2" left="0" width="fit-content" style={{ zIndex: 20 }}>
+              <Box
+                position="absolute"
+                top="2"
+                width="fit-content"
+                style={{ zIndex: 20, left: "50%", transform: "translateX(-50%)" }}
+              >
                 <BlockToolbars />
               </Box>
 
-              <Flex
+              <Box
                 width="100%"
-                justify="center"
                 flexShrink="1"
-                px="4"
+                overflow="auto"
+                px="8"
                 py="8"
-                style={{ backgroundColor: "#D9EDFE25" }}
+                mt="9"
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  if (!target.closest("[data-block-type]")) {
+                    globalContext.setCurrentBlock(root);
+                  }
+                }}
               >
                 <DndProvider backend={HTML5Backend}>
                   <BlockFactory key={historyId} block={root} />
                 </DndProvider>
-              </Flex>
+              </Box>
             </Flex>
             <Box flexShrink="0" width="300px" top="0" left="0" overflow="auto" maxHeight="100%">
               {globalContext.currentBlock && <PropertiesFactory block={globalContext.currentBlock} />}

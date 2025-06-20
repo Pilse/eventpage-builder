@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { Montserrat, Roboto } from "next/font/google";
 import "@radix-ui/themes/styles.css";
+import "./globals.css";
 import { Theme, ThemePanel } from "@radix-ui/themes";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+  variable: "--font-montserrat",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col`}>
+      <body className={`${montserrat.className} flex flex-col`}>
         <Theme accentColor="blue" radius="large" appearance="dark">
           <ThemePanel defaultOpen={false} />
           {children}

@@ -101,7 +101,7 @@ export const useNewBlock = () => {
   );
 
   return {
-    isAddable: !!currentBlock,
+    isAddable: !!currentBlock && currentBlock.type !== "CONTAINER",
     addNewBlock,
   };
 };

@@ -1,4 +1,4 @@
-import { BorderMixin, DragMixin, ResizeMixin, ShadowMixin } from "@/domain/mixin";
+import { BackgroundMixin, BorderMixin, DragMixin, ResizeMixin, ShadowMixin } from "@/domain/mixin";
 import { Block } from "@/domain/block";
 
 export class Image extends Block {
@@ -20,17 +20,26 @@ export class Image extends Block {
   }
 
   get height() {
-    if (this.heightType === "fit") {
-      const height = Math.floor((this.width / this.aspectRatio) * 100);
-      this._height = height;
-      return height;
-    }
-
     return super.height;
   }
 
   set height(value: number) {
     super.height = value;
+  }
+
+  get width() {
+    return super.width;
+  }
+
+  set width(value: number) {
+    super.width = value;
+    if (this.heightType === "fit") {
+      this.setAspectRatioHeight();
+    }
+  }
+
+  public setAspectRatioHeight() {
+    this.height = Math.floor((this.width / this.aspectRatio) * 100);
   }
 
   public serialize() {
@@ -48,4 +57,4 @@ export class Image extends Block {
   }
 }
 
-export default ShadowMixin(BorderMixin(ResizeMixin(DragMixin(Image))));
+export default BackgroundMixin(ShadowMixin(BorderMixin(ResizeMixin(DragMixin(Image)))));

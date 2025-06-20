@@ -101,9 +101,11 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
 
     if (block.widthType === "fit") {
       block._width = Math.floor(pargraphRef.offsetWidth);
+      block._centerX = block.getCenterX();
     }
     if (block.heightType === "fit") {
       block._height = Math.floor(pargraphRef.offsetHeight);
+      block._centerY = block.getCenterY();
     }
   }, [block.widthType, block.heightType, block, pargraphRef]);
 

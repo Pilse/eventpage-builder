@@ -4,7 +4,6 @@ import {
   CSSProperties,
   Dispatch,
   DragEventHandler,
-  FocusEventHandler,
   MouseEvent,
   MouseEventHandler,
   SetStateAction,

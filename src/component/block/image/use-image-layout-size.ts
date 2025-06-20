@@ -62,6 +62,9 @@ export const useImageLayoutSize = <T extends Image = Image>(block: T): IUseLayou
           if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
             parent.autoLayout();
           }
+          if (heightType === "fit") {
+            block.setAspectRatioHeight();
+          }
         },
         { flush: true }
       );

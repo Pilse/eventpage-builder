@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasChildrenMixin, hasDropCanvasMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { BlockType, ParentBlockType, Offset, Color, Shadow, HoveredDir } from "@/type";
 import { ChildrenMixinBlockType } from "../mixin";
 
@@ -118,9 +118,13 @@ export class Block {
           return this._width;
         }
 
+        if (hasDropCanvasMixin(this.parent)) {
+          return this.parent.width;
+        }
+
         const fillChildrenCnt = this.parent.children.filter((child) => child.widthType === "fill").length;
         const fixedChildrenWidth = this.parent.children.reduce((acc, child) => {
-          return acc + (child.widthType === "fixed" ? child.width : 0);
+          return acc + (child.widthType === "fixed" || child.widthType === "fit" ? child.width : 0);
         }, 0);
         const gapTotal = hasDropRowMixin(this.parent)
           ? (this.parent.children.length > 1 ? this.parent.children.length - 1 : 0) * this.parent.gap
@@ -130,6 +134,7 @@ export class Block {
           ? Math.floor((parentWidth - gapTotal - fixedChildrenWidth) / fillChildrenCnt)
           : parentWidth;
         this._width = width;
+
         return width;
       }
       case "fit": {
@@ -147,7 +152,7 @@ export class Block {
         const paddingTotal = this.pl + this.pr;
         const childrenWidth = hasDropRowMixin(this)
           ? this.children.reduce((acc, child) => {
-              return acc + (child.widthType === "fill" ? this._width : child.width);
+              return acc + (child.widthType === "fill" ? child._width : child.width);
             }, 0)
           : Math.max(
               ...this.children.map((child) =>
@@ -164,6 +169,7 @@ export class Block {
 
   set width(value: number) {
     this._width = value;
+    this._centerX = this.getCenterX();
   }
 
   get height() {
@@ -175,9 +181,13 @@ export class Block {
           return this._height;
         }
 
+        if (hasDropCanvasMixin(this.parent)) {
+          return this.parent.height;
+        }
+
         const fillChildrenCnt = this.parent.children.filter((child) => child.heightType === "fill").length;
         const fixedChildrenHeight = this.parent.children.reduce((acc, child) => {
-          return acc + (child.heightType === "fixed" ? child.height : 0);
+          return acc + (child.heightType === "fixed" || child.heightType === "fit" ? child.height : 0);
         }, 0);
         const gapTotal = hasDropColMixin(this.parent)
           ? (this.parent.children.length > 1 ? this.parent.children.length - 1 : 0) * this.parent.gap
@@ -204,7 +214,7 @@ export class Block {
         const paddingTotal = this.pt + this.pb;
         const childrenHeight = hasDropColMixin(this)
           ? this.children.reduce((acc, child) => {
-              return acc + (child.heightType === "fill" ? this._height : child.height);
+              return acc + (child.heightType === "fill" ? child._height : child.height);
             }, 0)
           : Math.max(
               ...this.children.map((child) =>
@@ -237,6 +247,7 @@ export class Block {
 
   set height(value: number) {
     this._height = value;
+    this._centerY = this.getCenterY();
   }
 
   get t() {

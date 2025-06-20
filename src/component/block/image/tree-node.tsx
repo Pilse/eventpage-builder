@@ -1,10 +1,8 @@
 import { ImageBlock } from "@/domain/block";
-import { useFrameTreeDrop } from "../use-frame-tree-drop";
 import { useDomain } from "@/hooks";
 import { TreeNode, useDefaultTreeDrag } from "@/component/tree";
-import { FrameIcon } from "@radix-ui/react-icons";
+import { ImageIcon } from "@radix-ui/react-icons";
 import { useLeafTreeDrop } from "../use-leaf-tree-drop";
-import { LuImage } from "react-icons/lu";
 
 interface IImageNodeTreeProps {
   block: InstanceType<typeof ImageBlock>;
@@ -19,7 +17,7 @@ export const ImageTreeNode = ({ block: blockInstance, depth }: IImageNodeTreePro
   return (
     <TreeNode
       block={block}
-      icon={<LuImage />}
+      icon={<ImageIcon width={14} height={14} />}
       name="Image"
       depth={depth}
       dragRef={dragRef}
