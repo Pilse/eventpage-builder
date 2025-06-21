@@ -4,7 +4,7 @@ import { getEmptyImage } from "react-dnd-html5-backend";
 import { twMerge } from "tailwind-merge";
 import { FrameRowBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
-import { HoverLayer } from "@/component/layer";
+import { FrameBlockTypeLayer, HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
 import { useFrameRowBlockDrag, useFrameRowBlockDrop, useFrameRowBlockProps } from "@/component/block";
 import { isAutoLayouted } from "@/util";
@@ -45,6 +45,7 @@ export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
         />
       )}
       {isSelected && element && <ResizeMixin element={element} block={frameRow} />}
+      {(block.isHovered || isSelected || isCurrentOver) && <FrameBlockTypeLayer block={frameRow} />}
       <ChildrenMixin block={frameRow} />
     </div>
   );

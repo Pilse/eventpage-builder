@@ -4,7 +4,7 @@ import { getEmptyImage } from "react-dnd-html5-backend";
 import { twMerge } from "tailwind-merge";
 import { FrameColBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
-import { HoverLayer } from "@/component/layer";
+import { FrameBlockTypeLayer, HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
 import { useFrameColBlockDrag, useFrameColBlockDrop, useFrameColBlockProps } from "@/component/block";
 import { isAutoLayouted } from "@/util";
@@ -45,6 +45,7 @@ export const FrameCol = ({ block, isPreview }: IFrameColProps) => {
         />
       )}
       {isSelected && element && <ResizeMixin element={element} block={frameCol} />}
+      {(block.isHovered || isSelected || isCurrentOver) && <FrameBlockTypeLayer block={frameCol} />}
       <ChildrenMixin block={frameCol} />
     </div>
   );

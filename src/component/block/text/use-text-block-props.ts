@@ -99,14 +99,14 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
       return;
     }
 
-    if (block.widthType === "fit") {
+    if (block.widthType === "fit" && block._width !== Math.floor(pargraphRef.offsetWidth)) {
       block._width = Math.floor(pargraphRef.offsetWidth);
-      block._centerX = block.getCenterX();
     }
-    if (block.heightType === "fit") {
+    if (block.heightType === "fit" && block._height !== Math.floor(pargraphRef.offsetHeight)) {
       block._height = Math.floor(pargraphRef.offsetHeight);
-      block._centerY = block.getCenterY();
     }
+    block._centerX = block.getCenterX();
+    block._centerY = block.getCenterY();
   }, [block.widthType, block.heightType, block, pargraphRef]);
 
   const wrapperStyle: CSSProperties = {

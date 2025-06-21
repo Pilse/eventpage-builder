@@ -3,7 +3,7 @@
 import { twMerge } from "tailwind-merge";
 import { SectionRowBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
-import { DragSnapLineLayer, HoverLayer } from "@/component/layer";
+import { DragSnapLineLayer, HoverLayer, SectionBlockTypeLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
 import {
   PreviewBlock,
@@ -45,6 +45,7 @@ export const SectionRow = ({ block }: ISectionRowProps) => {
       {previewBlock && !isAutoLayouted(previewBlock) && element && (
         <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />
       )}
+      <SectionBlockTypeLayer block={sectionRow} />
       <ChildrenMixin block={sectionRow} />
       {previewBlock && <PreviewBlock block={previewBlock} />}
     </section>

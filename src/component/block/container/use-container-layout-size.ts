@@ -3,8 +3,10 @@ import { useCallback, useMemo } from "react";
 import { hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useDefaultLayoutSize } from "@/component/property/layout";
 import { Device } from "@/domain/mixin/";
+import { useBlockHistory } from "@/hooks";
 
 export const useContainerLayoutSize = <T extends InstanceType<typeof ContainerBlock>>(block: T) => {
+  const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const { onWidthChange: handleWidthChange, onWidthTypeChange: handleWidthTypeChange } =
     useDefaultLayoutSize(block);
 
@@ -42,9 +44,11 @@ export const useContainerLayoutSize = <T extends InstanceType<typeof ContainerBl
 
   const onDeviceChange = useCallback(
     (device: Device) => {
+      startCaptureSnapshot(`${block.id}-device`);
       block.setDevice(device);
+      endCaptureSnapshot(`${block.id}-device`);
     },
-    [block]
+    [block, endCaptureSnapshot, startCaptureSnapshot]
   );
 
   return {

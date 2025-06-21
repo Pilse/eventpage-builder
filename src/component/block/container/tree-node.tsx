@@ -1,10 +1,11 @@
 import { ContainerBlock } from "@/domain/block";
-import { useDomain, useNewBlock } from "@/hooks";
+import { useDomain, useGlobalContext, useNewBlock } from "@/hooks";
 import { TreeNode } from "@/component/tree";
 import { MdOutlineWebAsset } from "react-icons/md";
 import { useRef } from "react";
 import { Button, Flex, Text } from "@radix-ui/themes";
 import { TbPlus } from "react-icons/tb";
+import { flushSync } from "react-dom";
 
 interface IContainerTreeNodeProps {
   block: InstanceType<typeof ContainerBlock>;
@@ -35,7 +36,7 @@ export const ContainerTreeNode = ({ block: blockInstance, depth }: IContainerTre
         color="gray"
         className="-mx-2"
         onClick={() => {
-          addNewBlock("SECTION_CANVAS", {});
+          addNewBlock("SECTION_CANVAS", { height: 300 }, blockInstance);
         }}
       >
         <Flex align="center" gap="1">

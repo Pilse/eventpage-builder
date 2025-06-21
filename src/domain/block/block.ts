@@ -92,7 +92,7 @@ export class Block {
     this.widthType = initState.widthType ?? "fixed";
     this.heightType = initState.heightType ?? "fixed";
     this.backgroundType = initState.backgroundType ?? "color";
-    this.backgroundColor = initState.backgroundColor ?? { r: 255, g: 255, b: 255, a: 1 };
+    this.backgroundColor = initState.backgroundColor ?? { r: 255, g: 255, b: 255, a: 0 };
     this.borderPosition = initState.borderPosition ?? "inside";
     this.borderWidth = initState.borderWidth ?? 0;
     this.borderRadiusT = initState.borderRadiusT ?? 0;

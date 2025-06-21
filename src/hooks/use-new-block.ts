@@ -48,12 +48,15 @@ export const useNewBlock = () => {
   }, []);
 
   const addNewBlock = useCallback(
-    <T extends Omit<ReturnType<Block["serialize"]>, "id">>(type: T["type"], serialized: Partial<T>) => {
+    <T extends Omit<ReturnType<Block["serialize"]>, "id">>(
+      type: T["type"],
+      serialized: Partial<T>,
+      _parent?: ChildrenMixinBlockType
+    ) => {
       if (!currentBlock) {
         return null;
       }
-
-      let parent: ChildrenMixinBlockType | null = currentBlock.getClosestParent();
+      let parent: ChildrenMixinBlockType | null = _parent || currentBlock.getClosestParent();
       if (parent?.type.startsWith("SECTION") && type.startsWith("SECTION")) {
         parent = parent.parent?.getClosestParent() ?? null;
       }
@@ -92,7 +95,7 @@ export const useNewBlock = () => {
       startCaptureSnapshot(`add-${parent.id}`);
       parent.addChild(newBlock);
       if (hasDropRowMixin(parent) || hasDropColMixin(parent)) {
-        parent.autoLayout();
+        parent.autoLayout("order");
       }
       setCurrentBlock(newBlock);
       endCaptureSnapshot(`add-${parent.id}`);

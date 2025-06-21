@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { FrameBlock } from "@/domain/block";
 import { ChildrenMixin, ResizeMixin } from "@/component/mixin";
 import { useFrameBlockDrag, useFrameBlockDrop, useFrameBlockProps } from "@/component/block";
-import { HoverLayer } from "@/component/layer";
+import { FrameBlockTypeLayer, HoverLayer } from "@/component/layer";
 import { IBlockProps } from "@/type";
 import { isAutoLayouted } from "@/util";
 
@@ -45,6 +45,7 @@ export const Frame = ({ block, isPreview }: IFrameProps) => {
         />
       )}
       {isSelected && element && <ResizeMixin element={element} block={frame} />}
+      {(block.isHovered || isSelected || isCurrentOver) && <FrameBlockTypeLayer block={frame} />}
       <ChildrenMixin block={frame} />
     </div>
   );

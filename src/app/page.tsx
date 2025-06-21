@@ -39,6 +39,12 @@ export default function Home() {
               maxHeight="100%"
               minHeight="100vh"
               style={{ backgroundColor: "#D9EDFE25" }}
+              onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (!target.closest("[data-block-type]")) {
+                  globalContext.setCurrentBlock(root);
+                }
+              }}
             >
               <Box
                 position="absolute"
@@ -49,20 +55,7 @@ export default function Home() {
                 <BlockToolbars />
               </Box>
 
-              <Box
-                width="100%"
-                flexShrink="1"
-                overflow="auto"
-                px="8"
-                py="8"
-                mt="9"
-                onClick={(e) => {
-                  const target = e.target as HTMLElement;
-                  if (!target.closest("[data-block-type]")) {
-                    globalContext.setCurrentBlock(root);
-                  }
-                }}
-              >
+              <Box width="100%" flexShrink="1" overflow="auto" px="9" py="8" mt="9">
                 <DndProvider backend={HTML5Backend}>
                   <BlockFactory key={historyId} block={root} />
                 </DndProvider>

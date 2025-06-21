@@ -9,7 +9,7 @@ import {
   useSectionPreviewBlock,
 } from "@/component/block";
 import { IBlockProps } from "@/type";
-import { HoverLayer, DragSnapLineLayer } from "@/component/layer";
+import { HoverLayer, DragSnapLineLayer, SectionBlockTypeLayer } from "@/component/layer";
 import { isAutoLayouted } from "@/util";
 
 interface ISectionProps extends IBlockProps<InstanceType<typeof SectionBlock>> {}
@@ -47,6 +47,7 @@ export const Section = ({ block }: ISectionProps) => {
         {previewBlock && !isAutoLayouted(previewBlock) && element && (
           <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />
         )}
+        <SectionBlockTypeLayer block={block} />
         <ChildrenMixin block={section} />
         {previewBlock && <PreviewBlock block={previewBlock} />}
       </section>

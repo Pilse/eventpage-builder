@@ -26,42 +26,53 @@ export const BlockToolbars = () => {
   return (
     <Card style={{ boxShadow: "var(--shadow-5)", backgroundColor: "#131314", paddingTop: 8 }}>
       <Flex gap="1" align="center">
-        {isAddable && (
-          <>
-            <Flex direction="column" gap="2" align="center">
-              <Text size="1" color="gray">
-                Frame
-              </Text>
-              <IconButton
-                size="3"
-                variant="soft"
-                color="gray"
-                onClick={(e) => handleClick(e, "FRAME_CANVAS")}
-              >
-                <FrameIcon width={20} height={20} />
-              </IconButton>
-            </Flex>
+        <Flex direction="column" gap="2" align="center">
+          <Text size="1" color="gray">
+            Frame
+          </Text>
+          <IconButton
+            size="3"
+            variant="soft"
+            color="gray"
+            disabled={!isAddable}
+            onClick={(e) => handleClick(e, "FRAME_CANVAS")}
+          >
+            <FrameIcon width={20} height={20} />
+          </IconButton>
+        </Flex>
 
-            <Flex direction="column" gap="2" align="center">
-              <Text size="1" color="gray">
-                Text
-              </Text>
-              <IconButton size="3" variant="soft" color="gray" onClick={(e) => handleClick(e, "TEXT")}>
-                <TextIcon width={20} height={20} />
-              </IconButton>
-            </Flex>
+        <Flex direction="column" gap="2" align="center">
+          <Text size="1" color="gray">
+            Text
+          </Text>
+          <IconButton
+            size="3"
+            variant="soft"
+            color="gray"
+            disabled={!isAddable}
+            onClick={(e) => handleClick(e, "TEXT")}
+          >
+            <TextIcon width={20} height={20} />
+          </IconButton>
+        </Flex>
 
-            <Flex direction="column" gap="2" align="center">
-              <Text size="1" color="gray">
-                Image
-              </Text>
-              <IconButton size="3" variant="soft" color="gray" onClick={(e) => handleClick(e, "IMAGE")}>
-                <ImageIcon width={20} height={20} />
-              </IconButton>
-            </Flex>
-            <Separator orientation="vertical" size="2" mx="2" />
-          </>
-        )}
+        <Flex direction="column" gap="2" align="center">
+          <Text size="1" color="gray">
+            Image
+          </Text>
+          <IconButton
+            size="3"
+            variant="soft"
+            color="gray"
+            disabled={!isAddable}
+            onClick={(e) => handleClick(e, "IMAGE")}
+          >
+            <ImageIcon width={20} height={20} />
+          </IconButton>
+        </Flex>
+
+        <Separator orientation="vertical" size="2" mx="2" />
+
         <Flex direction="column" gap="2" align="center">
           <Text size="1" color="gray">
             Undo

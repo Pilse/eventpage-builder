@@ -55,9 +55,13 @@ export const useDefaultLayoutSize = <T extends Block = Block>(block: T): IUseLay
       if (config?.flush) {
         flushSync(() => {
           block.widthType = value;
+          block._centerX = block.getCenterX();
+          block._centerY = block.getCenterY();
         });
       } else {
         block.widthType = value;
+        block._centerX = block.getCenterX();
+        block._centerY = block.getCenterY();
       }
       after?.();
       endCaptureSnapshot(`${block.id}-property-width-type`);
@@ -71,9 +75,13 @@ export const useDefaultLayoutSize = <T extends Block = Block>(block: T): IUseLay
       if (config?.flush) {
         flushSync(() => {
           block.heightType = value;
+          block._centerX = block.getCenterX();
+          block._centerY = block.getCenterY();
         });
       } else {
         block.heightType = value;
+        block._centerX = block.getCenterX();
+        block._centerY = block.getCenterY();
       }
       after?.();
       endCaptureSnapshot(`${block.id}-property-height-type`);
