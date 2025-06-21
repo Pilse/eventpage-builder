@@ -68,6 +68,7 @@ export class BlockFactory {
           alignVertical: "top",
           ...serialized,
           parent,
+          device: "iPhone Pro Max",
         });
       case "BLOCK":
         return new Block({ ...serialized, parent });
@@ -149,6 +150,7 @@ export class BlockFactory {
             ...serialized,
             parent,
             id: uuidv4(),
+            device: "iPhone Pro Max",
           },
           false
         );
