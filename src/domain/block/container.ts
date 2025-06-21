@@ -1,5 +1,5 @@
 import { Block, BlockFactory, SectionBlock, SectionColBlock, SectionRowBlock } from "@/domain/block";
-import { DropColMixin, ResizeMixin } from "../mixin";
+import { BackgroundMixin, DeviceMixin, DropColMixin, ResizeMixin } from "../mixin";
 import { LayoutMap } from "@/type";
 
 type ChildBlock =
@@ -12,6 +12,7 @@ export class Container extends Block {
   public gap: number = 0;
   public alignHorizontal: "left" | "center" | "right" = "left";
   public alignVertical: "top" | "center" | "bottom" = "top";
+  public device: string | null;
 
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type" | "position"> & {
@@ -19,6 +20,7 @@ export class Container extends Block {
       gap: number;
       alignHorizontal: "left" | "center" | "right";
       alignVertical: "top" | "center" | "bottom";
+      device: string | null;
     },
     deserialize = true
   ) {
@@ -26,9 +28,19 @@ export class Container extends Block {
     this.gap = initState.gap;
     this.alignHorizontal = initState.alignHorizontal;
     this.alignVertical = initState.alignVertical;
+    this.device = initState.device;
     this.children = (initState.children.map((child) =>
       deserialize ? BlockFactory.deserialize(child, this) : BlockFactory.create(child, this)
     ) ?? []) as ChildBlock[];
+  }
+
+  get width() {
+    return this._width;
+  }
+
+  set width(value: number) {
+    super.width = value;
+    this.device = null;
   }
 
   public getLayoutMap() {
@@ -79,6 +91,7 @@ export class Container extends Block {
       gap: this.gap,
       alignHorizontal: this.alignHorizontal,
       alignVertical: this.alignVertical,
+      device: this.device,
       children: this.children.map((child) => child.serialize()) as ReturnType<ChildBlock["serialize"]>[],
       type: "CONTAINER" as const,
     };
@@ -89,4 +102,4 @@ export class Container extends Block {
   }
 }
 
-export default ResizeMixin(DropColMixin(Container));
+export default DeviceMixin(BackgroundMixin(ResizeMixin(DropColMixin(Container))));

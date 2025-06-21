@@ -121,5 +121,11 @@ export const useContainerBlockProps = (
     };
   }, [addNewBlock, endCaptureSnapshot, isAddable, startCaptureSnapshot, globalContext.currentBlock]);
 
+  useEffect(() => {
+    if (globalContext.currentBlock === null) {
+      globalContext.setCurrentBlock(container);
+    }
+  }, [container, globalContext]);
+
   return { block: container, ...props };
 };

@@ -40,6 +40,7 @@ import {
   SectionColTreeNode,
   TextTreeNode,
   ContainerTreeNode,
+  ContainerProperties,
 } from "@/component/block";
 import { DefaultTreeNode } from "../tree";
 
@@ -74,7 +75,9 @@ export const BlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
 };
 
 export const PropertiesFactory = ({ block }: { block: Block }) => {
-  return block.type === "SECTION_CANVAS" ? (
+  return block.type === "CONTAINER" ? (
+    <ContainerProperties block={block as InstanceType<typeof ContainerBlock>} />
+  ) : block.type === "SECTION_CANVAS" ? (
     <SectionCanvasProperties block={block as InstanceType<typeof SectionBlock>} />
   ) : block.type === "SECTION_ROW" ? (
     <SectionRowProperties block={block as InstanceType<typeof SectionRowBlock>} />
