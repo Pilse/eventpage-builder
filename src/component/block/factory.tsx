@@ -41,7 +41,16 @@ import {
   TextTreeNode,
   ContainerTreeNode,
   ContainerProperties,
+  ContainerRenderer,
+  SectionRenderer,
+  FrameRenderer,
+  FrameRowRenderer,
+  FrameColRenderer,
+  TextRenderer,
+  ImageRenderer,
 } from "@/component/block";
+import { SectionRowRenderer } from "./section-row/renderer";
+import { SectionColRenderer } from "./section-col/renderer";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
 
@@ -116,6 +125,30 @@ export const TreeNodeFactory = ({ block, depth }: { block: Block; depth: number 
     <TextTreeNode block={block as InstanceType<typeof TextBlock>} depth={depth} />
   ) : block.type === "IMAGE" ? (
     <ImageTreeNode block={block as InstanceType<typeof ImageBlock>} depth={depth} />
+  ) : (
+    <></>
+  );
+};
+
+export const RendererFactory = ({ block }: { block: Block }) => {
+  return block.type === "CONTAINER" ? (
+    <ContainerRenderer block={block as InstanceType<typeof ContainerBlock>} />
+  ) : block.type === "SECTION_CANVAS" ? (
+    <SectionRenderer block={block as InstanceType<typeof SectionBlock>} />
+  ) : block.type === "SECTION_ROW" ? (
+    <SectionRowRenderer block={block as InstanceType<typeof SectionRowBlock>} />
+  ) : block.type === "SECTION_COL" ? (
+    <SectionColRenderer block={block as InstanceType<typeof SectionColBlock>} />
+  ) : block.type === "FRAME_CANVAS" ? (
+    <FrameRenderer block={block as InstanceType<typeof FrameBlock>} />
+  ) : block.type === "FRAME_ROW" ? (
+    <FrameRowRenderer block={block as InstanceType<typeof FrameRowBlock>} />
+  ) : block.type === "FRAME_COL" ? (
+    <FrameColRenderer block={block as InstanceType<typeof FrameColBlock>} />
+  ) : block.type === "TEXT" ? (
+    <TextRenderer block={block as InstanceType<typeof TextBlock>} />
+  ) : block.type === "IMAGE" ? (
+    <ImageRenderer block={block as InstanceType<typeof ImageBlock>} />
   ) : (
     <></>
   );

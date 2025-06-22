@@ -4,6 +4,7 @@ import { hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useBlockHistory } from "./use-block-history";
 import { useCallback } from "react";
 import { ChildrenMixinBlockType } from "@/domain/mixin";
+import { flushSync } from "react-dom";
 
 export const useNewBlock = () => {
   const { setCurrentBlock, currentBlock } = useGlobalContext();
@@ -154,13 +155,15 @@ export const useNewBlock = () => {
           borderRadiusL: 0,
           borderWidth: 0,
           shadow: { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } },
-          ...serialized,
           ...props,
+          ...serialized,
         },
         parent
       );
       startCaptureSnapshot(`add-${parent.id}`);
-      parent.addChild(newBlock);
+      flushSync(() => {
+        parent.addChild(newBlock);
+      });
       if (hasDropRowMixin(parent) || hasDropColMixin(parent)) {
         parent.autoLayout("order");
       }

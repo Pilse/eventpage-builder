@@ -1,5 +1,5 @@
 import { Block } from "@/domain/block";
-import { hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/util";
+import { getBlockStyle, hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/util";
 import {
   CSSProperties,
   Dispatch,
@@ -49,28 +49,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
   const isSelected = currentBlock?.id === block.id;
   const useConstraint = block.parent && !isAutoLayouted(block) && !isSelected;
 
-  const style: CSSProperties = {
-    width: block.width,
-    height: block.height,
-    position: block.position,
-    top: useConstraint ? (block.parent?.height ?? 0) / 2 - (block._centerY + block.height / 2) : block.t,
-    left: useConstraint ? (block.parent?.width ?? 0) / 2 - (block._centerX + block.width / 2) : block.l,
-    right: block.r,
-    bottom: block.b,
-    backgroundColor: rgbaToCss(block.backgroundColor),
-    boxShadow: `${block.shadow.x}px ${block.shadow.y}px ${block.shadow.blur}px ${
-      block.shadow.spread
-    }px ${rgbaToCss(block.shadow.color)} ${
-      block.borderPosition === "inside"
-        ? `,inset 0px 0px 0px ${block.borderWidth}px #${rgbaToHexColor(block.borderColor)}`
-        : ""
-    }`,
-    outline:
-      block.borderPosition === "outside"
-        ? `${block.borderWidth}px solid #${rgbaToHexColor(block.borderColor)}`
-        : "none",
-    borderRadius: `${block.borderRadiusT}px ${block.borderRadiusR}px ${block.borderRadiusB}px ${block.borderRadiusL}px`,
-  };
+  const style: CSSProperties = getBlockStyle(block, isSelected);
 
   const handleClick = (e: MouseEvent) => {
     setCurrentBlock(block);

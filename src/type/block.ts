@@ -40,6 +40,10 @@ export interface IBlockProps<T extends InstanceType<typeof Block>> {
   isPreview?: boolean;
 }
 
+export interface IRendererBlockProps<T> {
+  block: T;
+}
+
 export type BlockDragOptions = Parameters<
   typeof useDrag<Block, unknown, { isDragging: boolean }>
 >[0] extends infer T

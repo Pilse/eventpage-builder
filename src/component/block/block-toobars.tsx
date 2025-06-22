@@ -1,12 +1,15 @@
 import { useBlockHistory, useNewBlock } from "@/hooks";
 import { BlockType } from "@/type";
-import { hexColorToRgba } from "@/util/color";
 import { FrameIcon, ImageIcon, TextIcon } from "@radix-ui/react-icons";
 import { Card, Flex, IconButton, Separator, Text } from "@radix-ui/themes";
+import { useSearchParams, useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 import { GrRedo, GrUndo } from "react-icons/gr";
+import { TbPlayerPlayFilled } from "react-icons/tb";
 
 export const BlockToolbars = () => {
+  const search = useSearchParams();
+  const router = useRouter();
   const { isAddable, addNewBlock } = useNewBlock();
   const { redo, undo } = useBlockHistory();
 
@@ -82,6 +85,25 @@ export const BlockToolbars = () => {
           </Text>
           <IconButton size="3" variant="soft" color="gray" onClick={redo}>
             <GrRedo size={20} />
+          </IconButton>
+        </Flex>
+
+        <Separator orientation="vertical" size="2" mx="2" />
+
+        <Flex direction="column" gap="2" align="center">
+          <Text size="1" color="gray">
+            Preview
+          </Text>
+          <IconButton
+            size="3"
+            variant="soft"
+            color="gray"
+            onClick={() => {
+              const preview = search.get("preview");
+              router.replace(`?preview=${preview === "true" ? "false" : "true"}`);
+            }}
+          >
+            <TbPlayerPlayFilled size={20} />
           </IconButton>
         </Flex>
       </Flex>

@@ -4,6 +4,7 @@ import { CgArrowLongDownE, CgArrowLongRightE } from "react-icons/cg";
 import { RxMix } from "react-icons/rx";
 import { useDefaultLayoutType } from "../property/layout";
 import { twMerge } from "tailwind-merge";
+import { useGlobalContext } from "@/hooks";
 
 interface IFrameBlockTypeLayer {
   block:
@@ -44,8 +45,10 @@ export const FrameBlockTypeLayer = ({ block }: IFrameBlockTypeLayer) => {
           size="1"
           radius="none"
           variant={block.type !== "FRAME_CANVAS" ? "soft" : "solid"}
-          onClick={() => {
+          onClick={(e) => {
             onTypeChange("free");
+            e.stopPropagation();
+            e.stopPropagation();
           }}
         >
           <RxMix />
@@ -54,8 +57,10 @@ export const FrameBlockTypeLayer = ({ block }: IFrameBlockTypeLayer) => {
           size="1"
           radius="none"
           variant={block.type !== "FRAME_COL" ? "soft" : "solid"}
-          onClick={() => {
+          onClick={(e) => {
             onDirectionChange("column");
+            e.stopPropagation();
+            e.stopPropagation();
           }}
         >
           <CgArrowLongDownE />
@@ -64,8 +69,10 @@ export const FrameBlockTypeLayer = ({ block }: IFrameBlockTypeLayer) => {
           size="1"
           radius="none"
           variant={block.type !== "FRAME_ROW" ? "soft" : "solid"}
-          onClick={() => {
+          onClick={(e) => {
             onDirectionChange("row");
+            e.stopPropagation();
+            e.stopPropagation();
           }}
         >
           <CgArrowLongRightE />

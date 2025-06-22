@@ -35,9 +35,10 @@ export const SectionBlockTypeLayer = ({ block }: ISectionBlockTypeLayer) => {
           <IconButton
             radius="none"
             variant={block.type !== "SECTION_CANVAS" ? "soft" : "solid"}
-            onClick={() => {
-              setCurrentBlock(block);
+            onClick={(e) => {
               onTypeChange("free");
+              e.stopPropagation();
+              e.preventDefault();
             }}
           >
             <RxMix />
@@ -45,9 +46,10 @@ export const SectionBlockTypeLayer = ({ block }: ISectionBlockTypeLayer) => {
           <IconButton
             radius="none"
             variant={block.type !== "SECTION_COL" ? "soft" : "solid"}
-            onClick={() => {
-              setCurrentBlock(block);
+            onClick={(e) => {
               onDirectionChange("column");
+              e.stopPropagation();
+              e.preventDefault();
             }}
           >
             <CgArrowLongDownE />
@@ -55,9 +57,10 @@ export const SectionBlockTypeLayer = ({ block }: ISectionBlockTypeLayer) => {
           <IconButton
             radius="none"
             variant={block.type !== "SECTION_ROW" ? "soft" : "solid"}
-            onClick={() => {
-              setCurrentBlock(block);
+            onClick={(e) => {
               onDirectionChange("row");
+              e.stopPropagation();
+              e.preventDefault();
             }}
           >
             <CgArrowLongRightE />

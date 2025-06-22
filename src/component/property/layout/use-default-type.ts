@@ -70,6 +70,7 @@ export const useDefaultLayoutType = <
       globalContext.setCurrentBlock(newBlock);
       after?.();
       endCaptureSnapshot(`${block.id}-property-layout-type`);
+      return newBlock;
     },
     [block, endCaptureSnapshot, startCaptureSnapshot, globalContext]
   );
@@ -113,6 +114,7 @@ export const useDefaultLayoutType = <
       globalContext.setCurrentBlock(newBlock);
       after?.();
       endCaptureSnapshot(`${block.id}-property-layout-direction`);
+      return newBlock;
     },
     [block, endCaptureSnapshot, startCaptureSnapshot, globalContext]
   );

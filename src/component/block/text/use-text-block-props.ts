@@ -1,6 +1,12 @@
 import { TextBlock } from "@/domain/block";
 import { IUseDefaultBlockProps, useBlockHistory, useDefaultBlockProps } from "@/hooks";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import {
+  getTextStyle,
+  getTextWrapperStyle,
+  hasChildrenMixin,
+  hasDropColMixin,
+  hasDropRowMixin,
+} from "@/util";
 import { rgbaToCss } from "@/util/color";
 import { CSSProperties, DragEvent, MouseEvent, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
@@ -99,6 +105,16 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
       return;
     }
 
+    const paragraphRect = pargraphRef.getBoundingClientRect();
+    if (
+      paragraphRect.width === 0 &&
+      paragraphRect.height === 0 &&
+      paragraphRect.top === 0 &&
+      paragraphRect.left === 0
+    ) {
+      return;
+    }
+
     if (block.widthType === "fit" && block._width !== Math.floor(pargraphRef.offsetWidth)) {
       block._width = Math.floor(pargraphRef.offsetWidth);
       block._centerX = block.getCenterX();
@@ -107,27 +123,14 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
       block._height = Math.floor(pargraphRef.offsetHeight);
       block._centerY = block.getCenterY();
     }
-  }, [block.widthType, block.heightType, block, pargraphRef]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [block.widthType, block.heightType, block.content, pargraphRef]);
 
   const wrapperStyle: CSSProperties = {
     ...style,
-    ...(block.widthType === "fit" ? { width: "max-content" } : {}),
-    ...(block.heightType === "fit" ? { height: "fit-content" } : {}),
-    display: "flex",
+    ...getTextWrapperStyle(block),
   };
-  const textStyle: CSSProperties = {
-    padding: `${block.pt}px ${block.pr}px ${block.pb}px ${block.pl}px`,
-    fontFamily: `${block.fontName}${block.fontWeight ? `-${block.fontWeight}` : ""}`,
-    fontWeight: block.fontWeight,
-    fontSize: block.fontSize,
-    color: rgbaToCss(block.fontColor),
-    lineHeight: block.lineHeight,
-    letterSpacing: `${block.letterSpacing}px`,
-    textAlign: block.textAlign,
-    textShadow: `${block.textShadow.x}px ${block.textShadow.y}px ${block.textShadow.blur}px ${rgbaToCss(
-      block.textShadow.color
-    )}`,
-  };
+  const textStyle: CSSProperties = getTextStyle(block);
 
   if (!isEditing && !isSelected && block._content !== block.content) {
     handleBlur();

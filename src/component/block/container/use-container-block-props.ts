@@ -60,13 +60,16 @@ export const useContainerBlockProps = (
       }
 
       try {
-        const parent = globalContext.currentBlock?.getClosestParent();
+        const parent =
+          globalContext.currentBlock && hasChildrenMixin(globalContext.currentBlock)
+            ? globalContext.currentBlock.parent?.getClosestParent()
+            : globalContext.currentBlock?.getClosestParent();
         if (!parent) {
           return false;
         }
 
         const block = BlockFactory.create(JSON.parse(text), parent);
-        addNewBlock(block.type, block.serialize());
+        addNewBlock(block.type, block.serialize(), parent);
         return true;
       } catch {
         console.error("Failed to paste text block");
