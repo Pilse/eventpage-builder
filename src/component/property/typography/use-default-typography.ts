@@ -46,9 +46,9 @@ export const useDefaultTypography = <T extends TypographyMixinBlockType>(block: 
       startCaptureSnapshot(`${block.id}.font-weight`);
       flushSync(() => {
         block.setFontSize(fontSize);
-        block._centerX = block.getCenterX();
-        block._centerY = block.getCenterY();
       });
+      block._centerX = block.getCenterX();
+      block._centerY = block.getCenterY();
       const parent = block.parent;
       if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
         parent.autoLayout();
@@ -87,9 +87,9 @@ export const useDefaultTypography = <T extends TypographyMixinBlockType>(block: 
       startCaptureSnapshot(`${block.id}-property-letter-spacing`);
       flushSync(() => {
         block.setLetterSpacing(letterSpacing);
-        block._centerX = block.getCenterX();
-        block._centerY = block.getCenterY();
       });
+      block._centerX = block.getCenterX();
+      block._centerY = block.getCenterY();
       const parent = block.parent;
       if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
         parent.autoLayout();
@@ -104,9 +104,9 @@ export const useDefaultTypography = <T extends TypographyMixinBlockType>(block: 
       startCaptureSnapshot(`${block.id}-property-line-height`);
       flushSync(() => {
         block.setLineHeight(lineHeight);
-        block._centerX = block.getCenterX();
-        block._centerY = block.getCenterY();
       });
+      block._centerX = block.getCenterX();
+      block._centerY = block.getCenterY();
       const parent = block.parent;
       if (parent && (hasDropColMixin(parent) || hasDropRowMixin(parent))) {
         parent.autoLayout();

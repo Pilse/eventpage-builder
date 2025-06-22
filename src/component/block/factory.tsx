@@ -42,7 +42,6 @@ import {
   ContainerTreeNode,
   ContainerProperties,
 } from "@/component/block";
-import { DefaultTreeNode } from "../tree";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
 

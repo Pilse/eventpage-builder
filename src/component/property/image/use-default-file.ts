@@ -12,6 +12,14 @@ export const useDefaultFile = <T extends InstanceType<typeof ImageBlock>>(block:
       startCaptureSnapshot(`${block.id}-file-upload`);
       const tempUrl = getImageUrlFromBlobFile(file);
       block.url = tempUrl;
+
+      const { width, height } = await getImageSizeFromBlobFile(file);
+      block.filename = file.name;
+      block.aspectRatio = Math.floor((width * 100) / height);
+      block.heightType = "fit";
+      block.setAspectRatioHeight();
+      block._centerY = block.getCenterY();
+
       const imageUrl = await uploadImage(file);
       if (!imageUrl) {
         block.url = "";
@@ -19,13 +27,7 @@ export const useDefaultFile = <T extends InstanceType<typeof ImageBlock>>(block:
         return;
       }
 
-      const { width, height } = await getImageSizeFromBlobFile(file);
       block.url = imageUrl || "";
-      block.filename = file.name;
-      block.aspectRatio = Math.floor((width * 100) / height);
-      block.heightType = "fit";
-      block.setAspectRatioHeight();
-      block._centerY = block.getCenterY();
       endCaptureSnapshot(`${block.id}-file-upload`);
     },
     [block, endCaptureSnapshot, startCaptureSnapshot]

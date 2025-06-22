@@ -9,7 +9,72 @@ export const useNewBlock = () => {
   const { setCurrentBlock, currentBlock } = useGlobalContext();
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
 
-  const getInitalLayout = useCallback((parent: Block, current: Block) => {
+  const getInitalProps = useCallback((parent: Block, current: Block, type: Block["type"]) => {
+    switch (type) {
+      case "FRAME_CANVAS":
+      case "FRAME_ROW":
+      case "FRAME_COL": {
+        return {
+          position: "absolute",
+          t: hasDropColMixin(parent) ? (current.id === parent.id ? parent.height : current.t + 1) : 0,
+          l: hasDropRowMixin(parent) ? (current.id === parent.id ? parent.width : current.l + 1) : 0,
+          b: 0,
+          r: 0,
+          width: 250,
+          height: 250,
+          widthType: hasDropRowMixin(parent) ? "fill" : "fixed",
+          heightType: hasDropColMixin(parent) ? "fill" : "fixed",
+          backgroundColor: { r: 239, g: 239, b: 239, a: 1 },
+        };
+      }
+      case "SECTION_CANVAS":
+      case "SECTION_ROW":
+      case "SECTION_COL": {
+        return {
+          position: "absolute",
+          t: hasDropColMixin(parent) ? (current.id === parent.id ? parent.height : current.t + 1) : 0,
+          l: hasDropRowMixin(parent) ? (current.id === parent.id ? parent.width : current.l + 1) : 0,
+          b: 0,
+          r: 0,
+          width: 300,
+          height: 300,
+          widthType: hasDropRowMixin(parent) ? "fill" : "fixed",
+          heightType: hasDropColMixin(parent) ? "fill" : "fixed",
+          backgroundColor: { r: 255, g: 255, b: 255, a: 0 },
+        };
+      }
+      case "TEXT": {
+        return {
+          position: "absolute",
+          t: hasDropColMixin(parent) ? (current.id === parent.id ? parent.height : current.t + 1) : 0,
+          l: hasDropRowMixin(parent) ? (current.id === parent.id ? parent.width : current.l + 1) : 0,
+          b: 0,
+          r: 0,
+          width: 200,
+          height: 100,
+          widthType: "fit",
+          heightType: "fit",
+          content: "Double click to edit",
+          backgroundColor: { r: 255, g: 255, b: 255, a: 0 },
+        };
+      }
+      case "IMAGE": {
+        return {
+          position: "absolute",
+          t: hasDropColMixin(parent) ? (current.id === parent.id ? parent.height : current.t + 1) : 0,
+          l: hasDropRowMixin(parent) ? (current.id === parent.id ? parent.width : current.l + 1) : 0,
+          b: 0,
+          r: 0,
+          width: 200,
+          height: 200,
+          widthType: "fit",
+          heightType: "fit",
+          url: `${process.env.NEXT_PUBLIC_AWS_CF_DOMAIN}/images/default-image.png`,
+          backgroundColor: { r: 255, g: 255, b: 255, a: 0 },
+        };
+      }
+    }
+
     return hasDropRowMixin(parent)
       ? {
           position: "absolute",
@@ -56,16 +121,17 @@ export const useNewBlock = () => {
       if (!currentBlock) {
         return null;
       }
+
       let parent: ChildrenMixinBlockType | null = _parent || currentBlock.getClosestParent();
       if (parent?.type.startsWith("SECTION") && type.startsWith("SECTION")) {
         parent = parent.parent?.getClosestParent() ?? null;
       }
-
       if (!parent) {
         return null;
       }
 
-      const { width, height, widthType, heightType, ...position } = getInitalLayout(parent, currentBlock);
+      const { width, height, widthType, heightType, ...props } = getInitalProps(parent, currentBlock, type);
+
       const newBlock = BlockFactory.create(
         {
           type,
@@ -88,7 +154,7 @@ export const useNewBlock = () => {
           borderWidth: 0,
           shadow: { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } },
           ...serialized,
-          ...position,
+          ...props,
         },
         parent
       );
@@ -101,7 +167,7 @@ export const useNewBlock = () => {
       endCaptureSnapshot(`add-${parent.id}`);
       return newBlock;
     },
-    [currentBlock, endCaptureSnapshot, getInitalLayout, setCurrentBlock, startCaptureSnapshot]
+    [currentBlock, endCaptureSnapshot, getInitalProps, setCurrentBlock, startCaptureSnapshot]
   );
 
   return {

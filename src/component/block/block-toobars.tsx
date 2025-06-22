@@ -15,12 +15,7 @@ export const BlockToolbars = () => {
     if (!isAddable) {
       return;
     }
-    addNewBlock(type, {
-      backgroundColor:
-        type === "FRAME_CANVAS" || type === "FRAME_ROW" || type === "FRAME_COL"
-          ? hexColorToRgba("DDDDDD")
-          : hexColorToRgba("FFFFFF"),
-    });
+    addNewBlock(type, {});
   };
 
   return (
