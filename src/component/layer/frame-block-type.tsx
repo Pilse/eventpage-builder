@@ -1,5 +1,5 @@
 import { FrameBlock, FrameColBlock, FrameRowBlock } from "@/domain/block";
-import { Flex, IconButton } from "@radix-ui/themes";
+import { Flex, IconButton, Text } from "@radix-ui/themes";
 import { CgArrowLongDownE, CgArrowLongRightE } from "react-icons/cg";
 import { RxMix } from "react-icons/rx";
 import { useDefaultLayoutType } from "../property/layout";
@@ -21,30 +21,24 @@ export const FrameBlockTypeLayer = ({ block }: IFrameBlockTypeLayer) => {
     <Flex
       position="absolute"
       style={{
-        ...(isSectionDirectChild
-          ? { bottom: "calc(100% + 5px)", minWidth: "100%" }
-          : { right: "calc(100% + 5px)" }),
+        ...(isSectionDirectChild ? { bottom: "calc(100%)", minWidth: "100%" } : { left: "calc(100%)" }),
       }}
       align="center"
       gap="2"
-      justify="end"
-      onMouseDown={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-      }}
-      onDragStart={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-      }}
+      justify="between"
       direction={isSectionDirectChild ? "row" : "column"}
     >
+      {isSectionDirectChild && (
+        <Text size="1" color="blue" weight="medium">
+          Frame
+        </Text>
+      )}
       <Flex
         direction={isSectionDirectChild ? "row" : "column"}
-        className="rounded-full overflow-hidden backdrop-blur-md bg-white/80"
+        className={twMerge(
+          "overflow-hidden backdrop-blur-md bg-white/80 ",
+          isSectionDirectChild ? "rounded-t-md" : "rounded-r-md"
+        )}
       >
         <IconButton
           size="1"
