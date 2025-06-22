@@ -3,12 +3,14 @@ import { Block } from "@/domain/block";
 
 export class Image extends Block {
   public url: string;
+  public filename: string;
   public source: "URL" | "FILE" = "URL";
   public aspectRatio: number = 0;
 
   constructor(
     initState: Omit<ConstructorParameters<typeof Block>[0], "type"> & {
       url?: string;
+      filename?: string;
       source?: Image["source"];
       aspectRatio?: number;
     }
@@ -16,6 +18,7 @@ export class Image extends Block {
     super({ ...initState, type: "IMAGE" });
     this.source = initState?.source ?? "URL";
     this.url = initState?.url ?? "";
+    this.filename = initState?.filename ?? "";
     this.aspectRatio = initState?.aspectRatio ?? 0;
   }
 
@@ -47,6 +50,7 @@ export class Image extends Block {
       ...super.serialize(),
       source: this.source,
       url: this.url,
+      filename: this.filename,
       aspectRatio: this.aspectRatio,
       type: "IMAGE" as const,
     };

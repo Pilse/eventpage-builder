@@ -1,4 +1,4 @@
-import { BlockFactory, ContainerBlock, Image } from "@/domain/block";
+import { BlockFactory, ContainerBlock, Image, ImageBlock } from "@/domain/block";
 import {
   IUseDefaultBlockProps,
   useBlockHistory,
@@ -6,6 +6,7 @@ import {
   useGlobalContext,
   useNewBlock,
 } from "@/hooks";
+import { uploadImage } from "@/service/image";
 import {
   getImageSizeFromBlobFile,
   getImageUrlFromBlobFile,
@@ -86,24 +87,28 @@ export const useContainerBlockProps = (
         return;
       }
 
-      const url = getImageUrlFromBlobFile(blob);
-      if (!url) {
-        return;
-      }
-
+      const tempUrl = getImageUrlFromBlobFile(blob);
       const { width, height } = await getImageSizeFromBlobFile(blob);
       const imageProps = {
         position: "absolute",
         width,
         height,
         widthType: "fixed",
-        heightType: "fixed",
-        url,
+        heightType: "fit",
+        filename: blob.name,
+        url: tempUrl,
         aspectRatio: Math.floor((width * 100) / height),
         backgroundType: "color",
         backgroundColor: { r: 0, g: 0, b: 0, a: 0 },
       } satisfies Partial<ReturnType<Image["serialize"]>>;
-      addNewBlock("IMAGE", imageProps);
+
+      const imageBlock = addNewBlock("IMAGE", imageProps) as InstanceType<typeof ImageBlock> | null;
+      if (!imageBlock) {
+        return;
+      }
+
+      const imageUrl = await uploadImage(blob);
+      imageBlock.url = imageUrl || "";
     };
 
     const handlePaste = async (e: ClipboardEvent) => {

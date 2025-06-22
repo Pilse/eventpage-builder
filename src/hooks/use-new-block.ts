@@ -99,6 +99,7 @@ export const useNewBlock = () => {
       }
       setCurrentBlock(newBlock);
       endCaptureSnapshot(`add-${parent.id}`);
+      return newBlock;
     },
     [currentBlock, endCaptureSnapshot, getInitalLayout, setCurrentBlock, startCaptureSnapshot]
   );

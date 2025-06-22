@@ -1,16 +1,7 @@
-import { SNAP_THRESHOLD } from "@/constant";
 import { ResizeMixin } from "@/domain/mixin";
-import {
-  getBlockEleById,
-  getClosestSectionBlockEle,
-  hasDropColMixin,
-  hasDropRowMixin,
-  hasResizeSnapMixin,
-} from "@/util";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { MouseEvent, useEffect, useRef } from "react";
 import { useBlockHistory } from "@/hooks";
-import { Card, Flex } from "@radix-ui/themes";
-import { ColumnsIcon } from "@radix-ui/react-icons";
 
 interface IResizableDirection {
   t: boolean;
@@ -60,38 +51,16 @@ export const ResizeContainerMixin = ({ element, block }: IResizeMixinProps) => {
     const handleMouseMove = (e: globalThis.MouseEvent) => {
       block.resize(e);
 
-      const elementRect = element.getBoundingClientRect();
-      sectionElement.current = getClosestSectionBlockEle(element) as HTMLElement | null;
-      const sectionRect = sectionElement.current?.getBoundingClientRect();
-
-      if (!block.parent) {
-        return;
-      }
-
       if (hasDropColMixin(block) || hasDropRowMixin(block)) {
         block.autoLayout();
       }
 
-      if (hasDropColMixin(block.parent) || hasDropRowMixin(block.parent)) {
-        block.parent.autoLayout();
-      }
-
-      if (!sectionRect) {
-        return;
-      }
-
-      parentElement.current = getBlockEleById(block.parent.id) as HTMLElement | null;
-      const parentRect = parentElement.current?.getBoundingClientRect();
-
-      if (hasResizeSnapMixin(block.parent)) {
-        const { snappedToX, snappedToY } = block.parent.resizeSnap(
-          block,
-          elementRect,
-          sectionRect,
-          parentRect ?? sectionRect,
-          SNAP_THRESHOLD
-        );
-        snappableDir.current = { x: snappedToX, y: snappedToY };
+      if (hasChildrenMixin(block)) {
+        for (const child of block.children) {
+          if (hasDropColMixin(child) || hasDropRowMixin(child)) {
+            child.autoLayout();
+          }
+        }
       }
     };
 
