@@ -31,7 +31,11 @@ export class Image extends Block {
   }
 
   get width() {
-    return super.width;
+    const width = super.width;
+    if (this.heightType === "fit") {
+      this._height = Math.floor((this._width / this.aspectRatio) * 100);
+    }
+    return width;
   }
 
   set width(value: number) {
@@ -42,7 +46,7 @@ export class Image extends Block {
   }
 
   public setAspectRatioHeight() {
-    this.height = Math.floor((this.width / this.aspectRatio) * 100);
+    this.height = Math.floor((this._width / this.aspectRatio) * 100);
   }
 
   public serialize() {
