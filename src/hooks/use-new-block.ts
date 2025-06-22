@@ -162,7 +162,7 @@ export const useNewBlock = () => {
       );
       startCaptureSnapshot(`add-${parent.id}`);
       flushSync(() => {
-        parent.addChild(newBlock);
+        parent?.addChild(newBlock);
       });
       if (hasDropRowMixin(parent) || hasDropColMixin(parent)) {
         parent.autoLayout("order");
