@@ -1,5 +1,5 @@
 import { Block } from "@/domain/block";
-import { createContext, useCallback, useContext } from "react";
+import { createContext, useCallback, useContext, type JSX } from "react";
 import { BlockHistory } from "@/domain/history";
 import { useGlobalContext, useDomain } from "@/hooks";
 import { useHotkeys } from "react-hotkeys-hook";
