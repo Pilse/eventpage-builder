@@ -1,71 +1,28 @@
-"use client";
+import { AppSidebar } from "@/components/app-sidebar";
+import { ChartAreaInteractive } from "@/components/chart-area-interactive";
+import { DataTable } from "@/components/data-table";
+import { SectionCards } from "@/components/section-cards";
+import { SiteHeader } from "@/components/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-import { BlockFactory, BlockToolbars, PropertiesFactory, TreeNodeFactory } from "@/component/block";
-import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/block";
-import { useGlobalContext } from "@/hooks";
-import { BlockHistoryProvider } from "@/hooks/use-block-history";
-import { sampleContainer } from "@/mock";
-import { Flex, Box, Heading } from "@radix-ui/themes";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import data from "./data.json";
+import { ThemeProvider } from "@/components/theme-provider";
 
-export default function Home() {
-  const globalContext = useGlobalContext();
-
+export default function Page() {
   return (
-    <BlockHistoryProvider
-      root={BlockFactoryDomain.deserialize(sampleContainer, null) as InstanceType<typeof ContainerBlock>}
-    >
-      {({ root, historyId }) => {
-        return (
-          <Flex maxHeight="100vh" overflow="hidden">
-            <Box flexShrink="0" width="250px" height="fit-content" position="sticky" top="0" left="0" p="4">
-              <DndProvider backend={HTML5Backend}>
-                <Flex direction="column" gap="4">
-                  <Heading size="2">Layer</Heading>
-                  <TreeNodeFactory key={historyId} block={root} depth={1} />
-                </Flex>
-              </DndProvider>
-            </Box>
-            <Flex
-              direction="column"
-              flexShrink="1"
-              flexGrow="1"
-              gap="4"
-              align="center"
-              position="relative"
-              width="100%"
-              minWidth="0"
-              maxHeight="100%"
-              minHeight="100vh"
-              style={{ backgroundColor: "#D9EDFE25" }}
-              onClick={(e) => {
-                const target = e.target as HTMLElement;
-                if (!target.closest("[data-block-type]")) {
-                  globalContext.setCurrentBlock(root);
-                }
-              }}
-            >
-              <Box
-                position="absolute"
-                top="2"
-                width="fit-content"
-                style={{ zIndex: 20, left: "50%", transform: "translateX(-50%)" }}
-              >
-                <BlockToolbars />
-              </Box>
-              <Box width="100%" flexShrink="1" overflow="auto" px="9" py="8" mt="9" flexGrow="1">
-                <DndProvider backend={HTML5Backend}>
-                  <BlockFactory key={historyId} block={root} />
-                </DndProvider>
-              </Box>
-            </Flex>
-            <Box flexShrink="0" width="300px" top="0" left="0" overflow="auto" maxHeight="100%">
-              {globalContext.currentBlock && <PropertiesFactory block={globalContext.currentBlock} />}
-            </Box>
-          </Flex>
-        );
-      }}
-    </BlockHistoryProvider>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+      <SidebarProvider>
+        <AppSidebar variant="inset" />
+        <SidebarInset>
+          <div className="flex flex-1 flex-col">
+            <div className="@container/main flex flex-1 flex-col gap-2">
+              <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                <DataTable data={data} />
+              </div>
+            </div>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </ThemeProvider>
   );
 }

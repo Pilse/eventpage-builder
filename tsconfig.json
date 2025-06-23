@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/component/block/frame-row/frame-row.tsx"
+    "src/editor/block/frame-row/frame-row.tsx"
   ],
   "exclude": ["node_modules"]
 }

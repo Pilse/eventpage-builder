@@ -5,11 +5,11 @@ export default function Home() {
   return (
     <div className="relative bg-black">
       <nav className="h-16 backdrop-blur-md w-full fixed bg-white/10 flex justify-between items-center z-10">
-        <div className="flex items-center gap-2 ml-4">
-          <Image src="/image/pageio.svg" width={25} height={25} alt="logo" />
-          <span className="text-white text-lg font-medium">PageIO</span>
+        <div className="flex items-center gap-2 ml-6">
+          <Image src="/image/pageio.svg" width={15} height={15} alt="logo" />
+          <span className="text-white text-base font-semibold">PageIO</span>
         </div>
-        <div className="flex items-center gap-6 mr-4">
+        <div className="flex items-center gap-6 mr-6">
           <Link
             href="/pages"
             className="text-white hover:text-blue-400 bg-gray-600/30 py-2 px-4 rounded-lg text-sm hover:bg-blue-500/30 transition-all"
