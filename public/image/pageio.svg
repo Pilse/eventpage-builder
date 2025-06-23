@@ -1,6 +1,6 @@
-<svg width="88" height="87" viewBox="0 0 88 87" fill="none" xmlns="http://www.w3.org/2000/svg">
-<ellipse cx="59.7107" cy="27.5037" rx="27.5974" ry="27.5" fill="white"/>
-<rect x="69.8379" y="12.0034" width="75" height="19.8356" rx="6" transform="rotate(90 69.8379 12.0034)" fill="white"/>
-<rect x="75.375" y="37.0044" width="75.3754" height="20" rx="6" transform="rotate(-180 75.375 37.0044)" fill="white"/>
-<circle cx="59.5" cy="26.5034" r="17.5" fill="black"/>
+<svg width="53" height="52" viewBox="0 0 53 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="47" y="7" width="45" height="21" rx="6" transform="rotate(90 47 7)" fill="white"/>
+<rect x="45" y="27" width="45" height="21" rx="6" transform="rotate(-180 45 27)" fill="white"/>
+<ellipse cx="35.9961" cy="17" rx="16.998" ry="17" fill="white"/>
+<ellipse cx="35.9953" cy="17" rx="10.9543" ry="10.9556" fill="black"/>
 </svg>
