@@ -1,82 +1,32 @@
-"use client";
-
-import {
-  BlockFactory,
-  BlockToolbars,
-  PropertiesFactory,
-  RendererFactory,
-  TreeNodeFactory,
-} from "@/component/block";
-import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/block";
-import { useGlobalContext } from "@/hooks";
-import { BlockHistoryProvider } from "@/hooks/use-block-history";
-import { sampleContainer } from "@/mock";
-import { Flex, Box, Heading } from "@radix-ui/themes";
-import { useSearchParams } from "next/navigation";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
-  const search = useSearchParams();
-  const isPreview = search.get("preview") === "true";
-  const globalContext = useGlobalContext();
-
   return (
-    <BlockHistoryProvider
-      root={BlockFactoryDomain.deserialize(sampleContainer, null) as InstanceType<typeof ContainerBlock>}
-    >
-      {({ root, historyId }) => {
-        return isPreview ? (
-          <RendererFactory block={root} />
-        ) : (
-          <Flex maxHeight="100vh" overflow="hidden">
-            <Box flexShrink="0" width="250px" height="fit-content" position="sticky" top="0" left="0" p="4">
-              <DndProvider backend={HTML5Backend}>
-                <Flex direction="column" gap="4">
-                  <Heading size="2">Layer</Heading>
-                  <TreeNodeFactory key={historyId} block={root} depth={1} />
-                </Flex>
-              </DndProvider>
-            </Box>
-            <Flex
-              direction="column"
-              flexShrink="1"
-              flexGrow="1"
-              gap="4"
-              align="center"
-              position="relative"
-              width="100%"
-              minWidth="0"
-              maxHeight="100%"
-              minHeight="100vh"
-              style={{ backgroundColor: "#D9EDFE25" }}
-              onClick={(e) => {
-                const target = e.target as HTMLElement;
-                if (!target.closest("[data-block-type]")) {
-                  globalContext.setCurrentBlock(root);
-                }
-              }}
-            >
-              <Box
-                position="absolute"
-                top="2"
-                width="fit-content"
-                style={{ zIndex: 20, left: "50%", transform: "translateX(-50%)" }}
-              >
-                <BlockToolbars />
-              </Box>
-              <Box width="100%" flexShrink="1" overflow="auto" px="9" py="8" mt="9" flexGrow="1">
-                <DndProvider backend={HTML5Backend}>
-                  <BlockFactory key={historyId} block={root} />
-                </DndProvider>
-              </Box>
-            </Flex>
-            <Box flexShrink="0" width="300px" top="0" left="0" overflow="auto" maxHeight="100%">
-              {globalContext.currentBlock && <PropertiesFactory block={globalContext.currentBlock} />}
-            </Box>
-          </Flex>
-        );
-      }}
-    </BlockHistoryProvider>
+    <div className="relative bg-black">
+      <nav className="h-16 backdrop-blur-md w-full fixed bg-white/10 flex justify-between items-center z-10">
+        <div className="flex items-center gap-2 ml-4">
+          <Image src="/image/pageio.svg" width={30} height={30} alt="logo" />
+          <span className="text-white text-lg font-medium">PageIO</span>
+        </div>
+        <div className="flex items-center gap-6 mr-4">
+          <Link
+            href="/pages"
+            className="text-white hover:text-blue-400 bg-gray-600/30 py-2 px-4 rounded-lg text-sm hover:bg-blue-500/30 transition-all"
+          >
+            Start For Free
+          </Link>
+        </div>
+      </nav>
+      <div
+        className="min-h-dvh object-cover w-full flex flex-col justify-center md:justify-start items-center p-4 pt-20 md:p-8 md:pt-36"
+        style={{ background: "url(/image/hero-bg.png)" }}
+      >
+        <h1 className="text-4xl md:text-6xl font-bold text-white mb-12 md:mb-40 whitespace-pre-line">{`The Easiest Way 
+To Create Your
+Mobile Webpage`}</h1>
+        <Image src="/image/hero.png" width={1400} height={1200} alt="hero" className="object-cover" />
+      </div>
+    </div>
   );
 }

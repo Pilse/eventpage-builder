@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat, Roboto } from "next/font/google";
 import "@radix-ui/themes/styles.css";
 import "./globals.css";
-import { Theme, ThemePanel } from "@radix-ui/themes";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -18,12 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} flex flex-col`}>
-        <Theme accentColor="blue" radius="large" appearance="dark">
-          <ThemePanel defaultOpen={false} />
-          {children}
-        </Theme>
-      </body>
+      <body className={`${montserrat.className} flex flex-col`}>{children}</body>
     </html>
   );
 }
