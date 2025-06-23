@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <meta name="theme-color" content="#000"></meta>
       <body className={`${montserrat.className} flex flex-col`}>{children}</body>
     </html>
   );
