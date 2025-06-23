@@ -2,14 +2,10 @@ import { useBlockHistory, useNewBlock } from "@/hooks";
 import { BlockType } from "@/type";
 import { FrameIcon, ImageIcon, TextIcon } from "@radix-ui/react-icons";
 import { Card, Flex, IconButton, Separator, Text } from "@radix-ui/themes";
-import { useSearchParams, useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 import { GrRedo, GrUndo } from "react-icons/gr";
-import { TbPlayerPlayFilled } from "react-icons/tb";
 
 export const BlockToolbars = () => {
-  const search = useSearchParams();
-  const router = useRouter();
   const { isAddable, addNewBlock } = useNewBlock();
   const { redo, undo } = useBlockHistory();
 
@@ -90,7 +86,7 @@ export const BlockToolbars = () => {
 
         <Separator orientation="vertical" size="2" mx="2" />
 
-        <Flex direction="column" gap="2" align="center">
+        {/* <Flex direction="column" gap="2" align="center">
           <Text size="1" color="gray">
             Preview
           </Text>
@@ -105,7 +101,7 @@ export const BlockToolbars = () => {
           >
             <TbPlayerPlayFilled size={20} />
           </IconButton>
-        </Flex>
+        </Flex> */}
       </Flex>
     </Card>
   );

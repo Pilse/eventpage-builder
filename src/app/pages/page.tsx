@@ -1,24 +1,15 @@
 "use client";
 
-import {
-  BlockFactory,
-  BlockToolbars,
-  PropertiesFactory,
-  RendererFactory,
-  TreeNodeFactory,
-} from "@/component/block";
+import { BlockFactory, BlockToolbars, PropertiesFactory, TreeNodeFactory } from "@/component/block";
 import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/block";
 import { useGlobalContext } from "@/hooks";
 import { BlockHistoryProvider } from "@/hooks/use-block-history";
 import { sampleContainer } from "@/mock";
 import { Flex, Box, Heading } from "@radix-ui/themes";
-import { useSearchParams } from "next/navigation";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 export default function Home() {
-  const search = useSearchParams();
-  const isPreview = search.get("preview") === "true";
   const globalContext = useGlobalContext();
 
   return (
@@ -26,9 +17,7 @@ export default function Home() {
       root={BlockFactoryDomain.deserialize(sampleContainer, null) as InstanceType<typeof ContainerBlock>}
     >
       {({ root, historyId }) => {
-        return isPreview ? (
-          <RendererFactory block={root} />
-        ) : (
+        return (
           <Flex maxHeight="100vh" overflow="hidden">
             <Box flexShrink="0" width="250px" height="fit-content" position="sticky" top="0" left="0" p="4">
               <DndProvider backend={HTML5Backend}>
