@@ -1,24 +1,10 @@
 "use client";
 
 import * as React from "react";
-import {
-  DndContext,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-  type UniqueIdentifier,
-} from "@dnd-kit/core";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+
 import {
   ColumnDef,
   ColumnFiltersState,
-  Row,
   SortingState,
   VisibilityState,
   flexRender,
@@ -64,6 +50,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/console/ui/table";
 import { Tabs, TabsContent } from "@/components/console/ui/tabs";
 import { useRouter } from "next/navigation";
+import { Button as RadixButton } from "@radix-ui/themes";
 
 export const schema = z.object({
   id: z.number(),
@@ -74,26 +61,6 @@ export const schema = z.object({
   limit: z.string(),
   reviewer: z.string(),
 });
-
-// Create a separate component for the drag handle
-function DragHandle({ id }: { id: number }) {
-  const { attributes, listeners } = useSortable({
-    id,
-  });
-
-  return (
-    <Button
-      {...attributes}
-      {...listeners}
-      variant="ghost"
-      size="icon"
-      className="size-7 text-muted-foreground hover:bg-transparent"
-    >
-      <GripVerticalIcon className="size-3 text-muted-foreground" />
-      <span className="sr-only">Drag to reorder</span>
-    </Button>
-  );
-}
 
 const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
@@ -271,14 +238,15 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
   });
 
   return (
-    <Tabs defaultValue="outline" className="flex w-full flex-col justify-start gap-6">
+    <Tabs defaultValue="pages" className="flex w-full flex-col justify-start gap-6">
       <div className="flex items-center gap-2 justify-end px-4 lg:px-6">
-        <Button variant="outline" size="lg" onClick={() => router.push("/pages/new")}>
-          <PlusIcon />
+        <RadixButton variant="surface" onClick={() => router.push("/page/new")}>
+          <PlusIcon size={14} />
           <span className="hidden lg:inline">Add Page</span>
-        </Button>
+        </RadixButton>
       </div>
-      <TabsContent value="outline" className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
+
+      <TabsContent value="pages" className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
         <div className="overflow-hidden rounded-lg border">
           <Table>
             <TableHeader className="sticky top-0 z-10 bg-muted">
@@ -395,15 +363,6 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
             </div>
           </div>
         </div>
-      </TabsContent>
-      <TabsContent value="past-performance" className="flex flex-col px-4 lg:px-6">
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
-      </TabsContent>
-      <TabsContent value="key-personnel" className="flex flex-col px-4 lg:px-6">
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
-      </TabsContent>
-      <TabsContent value="focus-documents" className="flex flex-col px-4 lg:px-6">
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
       </TabsContent>
     </Tabs>
   );

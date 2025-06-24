@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import { FolderIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const data = {
   user: {
@@ -41,10 +42,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <a href="#">
+              <Link href="/">
                 <Image width={15} height={15} src="/image/pageio.svg" alt="pageio" />
                 <span className="text-base font-semibold">PageIO</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
