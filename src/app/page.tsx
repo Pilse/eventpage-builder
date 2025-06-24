@@ -1,5 +1,7 @@
+"use client";
+
+import { signIn } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Home() {
   return (
@@ -10,12 +12,14 @@ export default function Home() {
           <span className="text-white text-base font-semibold">PageIO</span>
         </div>
         <div className="flex items-center gap-6 mr-6">
-          <Link
-            href="/pages"
+          <button
+            onClick={async () => {
+              signIn("google", { callbackUrl: "/pages" });
+            }}
             className="text-white hover:text-blue-400 bg-gray-600/30 py-2 px-4 rounded-lg text-sm hover:bg-blue-500/30 transition-all"
           >
             Start For Free
-          </Link>
+          </button>
         </div>
       </nav>
       <div

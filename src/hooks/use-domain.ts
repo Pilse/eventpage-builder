@@ -8,33 +8,48 @@ export const useDomain = <T extends InstanceType<Constructor>>(
   domainInstance: T,
   _listeners?: Function[]
 ) => {
-  const proxyObject = (target: T) => {
-    return new Proxy(target, {
-      set(target, property, newValue, receiver) {
-        const originalValue = Reflect.get(target, property, receiver);
-        if (originalValue === newValue) {
+  const emitChange = useCallback(() => {
+    if (_listeners) {
+      for (const listener of _listeners) {
+        listener();
+      }
+    } else {
+      for (const listener of listeners.current) {
+        listener();
+      }
+    }
+  }, [_listeners]);
+
+  const proxyObject = useCallback(
+    (target: T) => {
+      return new Proxy(target, {
+        set(target, property, newValue, receiver) {
+          const originalValue = Reflect.get(target, property, receiver);
+          if (originalValue === newValue) {
+            return true;
+          }
+
+          Reflect.set(target, property, newValue, receiver);
+
+          if (typeof property === "string" && property.startsWith("_")) {
+            return true;
+          }
+
+          domainInstanceRef.current = proxyObject(domainInstance);
+          emitChange();
           return true;
-        }
+        },
+        get(target, property, receiver) {
+          if (property === IS_PROXY) {
+            return true;
+          }
 
-        Reflect.set(target, property, newValue, receiver);
-
-        if (typeof property === "string" && property.startsWith("_")) {
-          return true;
-        }
-
-        domainInstanceRef.current = proxyObject(domainInstance);
-        emitChange();
-        return true;
-      },
-      get(target, property, receiver) {
-        if (property === IS_PROXY) {
-          return true;
-        }
-
-        return Reflect.get(target, property, receiver);
-      },
-    });
-  };
+          return Reflect.get(target, property, receiver);
+        },
+      });
+    },
+    [domainInstance, emitChange]
+  );
 
   const listeners = useRef<Function[]>([]);
   const domainInstanceRef = useRef<T>(
@@ -68,20 +83,8 @@ export const useDomain = <T extends InstanceType<Constructor>>(
         }
       };
     },
-    [_listeners]
+    [_listeners, domainInstance, proxyObject]
   );
-
-  const emitChange = useCallback(() => {
-    if (_listeners) {
-      for (const listener of _listeners) {
-        listener();
-      }
-    } else {
-      for (const listener of listeners.current) {
-        listener();
-      }
-    }
-  }, [_listeners]);
 
   return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 };
