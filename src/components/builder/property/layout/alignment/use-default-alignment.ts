@@ -1,6 +1,6 @@
 import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/builder";
 import { useBlockHistory } from "@/hooks";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { useCallback, useMemo } from "react";
 
 export const useDefaultAlignment = <T extends SectionRow | SectionCol | FrameCol | FrameRow>(block: T) => {

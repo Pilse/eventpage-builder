@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { hasChildrenMixin, hasDropCanvasMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasChildrenMixin, hasDropCanvasMixin, hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { BlockType, ParentBlockType, Offset, Color, Shadow, HoveredDir } from "@/type";
 import { ChildrenMixinBlockType } from "../mixin";
 

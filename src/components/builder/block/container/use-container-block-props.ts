@@ -13,7 +13,7 @@ import {
   hasChildrenMixin,
   hasDropColMixin,
   hasDropRowMixin,
-} from "@/util";
+} from "@/shared/util";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 

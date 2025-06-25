@@ -1,6 +1,6 @@
 import { ContainerBlock, Text } from "@/domain/builder";
 import { useCallback, useMemo } from "react";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { useDefaultLayoutSize } from "@/components/builder/property/layout";
 import { Device } from "@/domain/builder/mixin";
 import { useBlockHistory } from "@/hooks";

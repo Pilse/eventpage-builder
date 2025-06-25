@@ -1,7 +1,7 @@
 import { ImageBlock } from "@/domain/builder";
 import { useBlockHistory } from "@/hooks";
 import { uploadImage } from "@/service/image";
-import { getImageSizeFromBlobFile, getImageUrlFromBlobFile } from "@/util";
+import { getImageSizeFromBlobFile, getImageUrlFromBlobFile } from "@/shared/util";
 import { useCallback } from "react";
 
 export const useDefaultFile = <T extends InstanceType<typeof ImageBlock>>(block: T) => {

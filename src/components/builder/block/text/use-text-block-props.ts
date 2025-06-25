@@ -6,8 +6,8 @@ import {
   hasChildrenMixin,
   hasDropColMixin,
   hasDropRowMixin,
-} from "@/util";
-import { rgbaToCss } from "@/util/color";
+} from "@/shared/util";
+import { rgbaToCss } from "@/shared/util/color";
 import { CSSProperties, DragEvent, MouseEvent, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 

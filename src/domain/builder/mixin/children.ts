@@ -1,6 +1,6 @@
 import { Block } from "@/domain/builder";
 import { Constructor } from "@/type";
-import { hasChildrenMixin, hasResizeMixin } from "@/util";
+import { hasChildrenMixin, hasResizeMixin } from "@/shared/util";
 
 export type ChildrenMixinBlockType = InstanceType<
   ReturnType<typeof ChildrenMixin<Constructor<Block & { children: Block[] }>>>

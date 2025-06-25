@@ -7,7 +7,7 @@ import { useImageBlockProps, useImageBlockDrag } from "@/components/builder/bloc
 import { ResizeMixin } from "@/components/builder/mixin";
 import { HoverLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";
-import { isAutoLayouted } from "@/util";
+import { isAutoLayouted } from "@/shared/util";
 
 interface IImageProps extends IBlockProps<InstanceType<typeof ImageBlock>> {}
 

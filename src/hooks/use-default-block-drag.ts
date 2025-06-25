@@ -1,5 +1,5 @@
 import { Block } from "@/domain/builder";
-import { hasDragMixin } from "@/util";
+import { hasDragMixin } from "@/shared/util";
 import { useDrag } from "react-dnd";
 import { useGlobalContext } from "@/hooks";
 import { BlockDragOptions } from "@/type";

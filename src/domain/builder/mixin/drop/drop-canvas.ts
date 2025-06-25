@@ -2,7 +2,7 @@ import { SNAP_THRESHOLD } from "@/constant";
 import { Block, BlockFactory } from "@/domain/builder";
 import { ChildrenMixin, DragSnapMixin } from "@/domain/builder/mixin";
 import { Constructor, LayoutMap, Offset } from "@/type";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 
 export type DropCanvasMixinBlockType = InstanceType<
   ReturnType<typeof DropCanvasMixin<Constructor<Block & { children: Block[]; getLayoutMap(): LayoutMap }>>>

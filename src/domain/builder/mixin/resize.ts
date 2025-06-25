@@ -1,6 +1,6 @@
 import { Block } from "@/domain/builder";
 import { Constructor } from "@/type";
-import { hasChildrenMixin, isAutoLayouted } from "@/util";
+import { hasChildrenMixin, isAutoLayouted } from "@/shared/util";
 
 export type ResizeMixinBlockType = InstanceType<ReturnType<typeof ResizeMixin<typeof Block>>>;
 

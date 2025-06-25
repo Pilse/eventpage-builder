@@ -1,6 +1,6 @@
 import { Constructor } from "@/type";
 import { Block } from "../block";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 
 export type DeviceMixinBlockType = InstanceType<
   ReturnType<typeof DeviceMixin<Constructor<Block & { device: string | null }>>>

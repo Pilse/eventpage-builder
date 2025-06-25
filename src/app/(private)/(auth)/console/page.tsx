@@ -1,7 +1,7 @@
 import { AppSidebar } from "@/components/console/app-sidebar";
 import { DataTable, DataTableSkeleton } from "@/components/console/data-table";
 import { SidebarInset, SidebarProvider } from "@/components/console/ui/sidebar";
-import { auth } from "@/auth";
+import { auth } from "@/shared/auth";
 import { getPages } from "@/service/pages";
 import { Suspense } from "react";
 

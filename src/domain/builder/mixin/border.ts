@@ -4,7 +4,7 @@ import {
   isValidHexColor as _isValidHexColor,
   hexColorToRgba as _hexColorToRgba,
   rgbaToHexColor as _rgbaToHexColor,
-} from "@/util/color";
+} from "@/shared/util/color";
 
 export type BorderMixinBlockType = InstanceType<ReturnType<typeof BorderMixin<Constructor<Block>>>>;
 

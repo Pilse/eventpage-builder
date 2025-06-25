@@ -1,6 +1,6 @@
 import { useDefaultTreeDrop } from "../tree";
 import { useRef } from "react";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { useBlockHistory } from "@/hooks";
 import { Block } from "@/domain/builder";
 

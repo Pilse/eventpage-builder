@@ -1,5 +1,5 @@
 import { Block } from "@/domain/builder";
-import { hasDragSnapMixin } from "@/util";
+import { hasDragSnapMixin } from "@/shared/util";
 import { Constructor, LayoutMap, Offset } from "@/type";
 import { SnapBaseMixin } from "./snap-base";
 

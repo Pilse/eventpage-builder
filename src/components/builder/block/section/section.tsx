@@ -10,7 +10,7 @@ import {
 } from "@/components/builder/block";
 import { IBlockProps } from "@/type";
 import { HoverLayer, DragSnapLineLayer, SectionBlockTypeLayer } from "@/components/builder/layer";
-import { isAutoLayouted } from "@/util";
+import { isAutoLayouted } from "@/shared/util";
 
 interface ISectionProps extends IBlockProps<InstanceType<typeof SectionBlock>> {}
 

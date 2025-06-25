@@ -2,7 +2,7 @@
 
 import { Text } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
-import { getBlockStyle, getTextStyle, getTextWrapperStyle } from "@/util";
+import { getBlockStyle, getTextStyle, getTextWrapperStyle } from "@/shared/util";
 
 interface ITextProps extends IRendererBlockProps<Text> {}
 

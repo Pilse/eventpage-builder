@@ -3,7 +3,7 @@ import { Block } from "@/domain/builder";
 import { PaddingIcon } from "@radix-ui/react-icons";
 import { TbBorderBottom, TbBorderLeft, TbBorderRight, TbBorderSides } from "react-icons/tb";
 import { useDefaultPadding } from "./use-default-padding";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 
 export const DefaultPadding = <T extends Block>({ block }: { block: T }) => {
   const { onPaddingChange, paddingValue } = useDefaultPadding(block);

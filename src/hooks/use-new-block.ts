@@ -1,6 +1,6 @@
 import { useGlobalContext } from "./use-global-context";
 import { Block, BlockFactory } from "@/domain/builder";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { useBlockHistory } from "./use-block-history";
 import { useCallback } from "react";
 import { ChildrenMixinBlockType } from "@/domain/builder/mixin";

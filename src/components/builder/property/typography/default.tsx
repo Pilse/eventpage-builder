@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useDefaultTypography } from "./use-default-typography";
 import { TbBlur, TbTextSize } from "react-icons/tb";
 import { PiTextAlignCenter, PiTextAlignLeft, PiTextAlignRight, PiTextBBold } from "react-icons/pi";
-import { rgbaToCss } from "@/util/color";
+import { rgbaToCss } from "@/shared/util/color";
 import { RgbaColorPicker } from "react-colorful";
 import { CgFontHeight, CgFontSpacing } from "react-icons/cg";
 import { TextAlign } from "@/type";

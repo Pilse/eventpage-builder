@@ -1,5 +1,5 @@
 import { BorderMixinBlockType } from "@/domain/builder/mixin";
-import { rgbaToCss } from "@/util/color";
+import { rgbaToCss } from "@/shared/util/color";
 import { Flex, Grid, IconButton, Popover, Select, Text, TextField } from "@radix-ui/themes";
 import { useDefaultBorder } from "./use-default-border";
 import { Block } from "@/domain/builder";

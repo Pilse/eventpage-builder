@@ -1,6 +1,6 @@
 import { Block, SectionColBlock } from "@/domain/builder";
 import { useDefaultBlockDrop } from "@/hooks";
-import { getClosestSectionBlockEle } from "@/util";
+import { getClosestSectionBlockEle } from "@/shared/util";
 import { DropTargetMonitor } from "react-dnd";
 
 export const useSectionColBlockDrop = (

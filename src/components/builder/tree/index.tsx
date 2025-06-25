@@ -1,6 +1,6 @@
 import { Block } from "@/domain/builder";
 import { useBlockHistory, useDomain, useGlobalContext } from "@/hooks";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Button } from "@radix-ui/themes";

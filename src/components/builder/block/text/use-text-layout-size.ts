@@ -1,6 +1,6 @@
 import { Text } from "@/domain/builder";
 import { useCallback, useMemo } from "react";
-import { hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";
+import { hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/shared/util";
 import { IUseLayoutSize, useDefaultLayoutSize } from "@/components/builder/property/layout";
 
 export const useTextLayoutSize = <T extends Text = Text>(block: T): IUseLayoutSize => {

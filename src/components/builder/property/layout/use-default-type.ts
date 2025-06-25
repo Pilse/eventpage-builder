@@ -9,7 +9,7 @@ import {
   SectionRow,
 } from "@/domain/builder";
 import { useBlockHistory, useGlobalContext } from "@/hooks";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { useCallback, useMemo } from "react";
 
 export const useDefaultLayoutType = <

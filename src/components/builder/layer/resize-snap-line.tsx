@@ -1,5 +1,5 @@
 import { Block } from "@/domain/builder";
-import { getBlockEleById } from "@/util";
+import { getBlockEleById } from "@/shared/util";
 
 interface IResizeSnapLineLayerProps {
   sectionElement: HTMLElement;

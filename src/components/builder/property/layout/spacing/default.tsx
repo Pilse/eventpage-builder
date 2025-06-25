@@ -4,7 +4,7 @@ import { ColumnSpacingIcon, PaddingIcon, RowSpacingIcon } from "@radix-ui/react-
 import { useDefaultLayoutType } from "../use-default-type";
 import { useDefaultSpacing } from "./use-default-spacing";
 import { TbBorderBottom, TbBorderLeft, TbBorderRight, TbBorderSides, TbBorderTop } from "react-icons/tb";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 
 const gapData = {
   column: {

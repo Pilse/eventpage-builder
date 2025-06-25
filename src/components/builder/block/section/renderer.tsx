@@ -2,7 +2,7 @@
 
 import { Section } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
-import { getBlockStyle } from "@/util";
+import { getBlockStyle } from "@/shared/util";
 import { RendererFactory } from "../factory";
 
 interface ISectionProps extends IRendererBlockProps<Section> {}

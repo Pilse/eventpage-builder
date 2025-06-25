@@ -2,7 +2,7 @@
 
 import { Image } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
-import { getBlockStyle } from "@/util";
+import { getBlockStyle } from "@/shared/util";
 
 interface IImageProps extends IRendererBlockProps<Image> {}
 

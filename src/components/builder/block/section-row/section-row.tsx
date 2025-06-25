@@ -11,7 +11,7 @@ import {
   useSectionRowBlockDrop,
   useSectionRowBlockProps,
 } from "@/components/builder/block";
-import { isAutoLayouted } from "@/util";
+import { isAutoLayouted } from "@/shared/util";
 
 interface ISectionRowProps extends IBlockProps<InstanceType<typeof SectionRowBlock>> {}
 

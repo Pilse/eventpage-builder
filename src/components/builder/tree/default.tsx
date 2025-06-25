@@ -4,7 +4,7 @@ import { ReactNode, useState } from "react";
 import { FrameIcon, TextIcon } from "@radix-ui/react-icons";
 import { TbLayoutList } from "react-icons/tb";
 import { LuImage } from "react-icons/lu";
-import { hasChildrenMixin } from "@/util";
+import { hasChildrenMixin } from "@/shared/util";
 import { HiViewColumns } from "react-icons/hi2";
 import { PiRectangleDuotone } from "react-icons/pi";
 import { RiArrowDownSLine, RiArrowDropDownFill, RiArrowDropDownLine } from "react-icons/ri";

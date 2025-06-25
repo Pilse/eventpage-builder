@@ -1,7 +1,7 @@
 import { Image } from "@/domain/builder";
 import { useCallback, useMemo } from "react";
 import { IUseLayoutSize, useDefaultLayoutSize } from "../../property/layout/size/use-default-size";
-import { hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";
+import { hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/shared/util";
 
 export const useImageLayoutSize = <T extends Image = Image>(block: T): IUseLayoutSize => {
   const {

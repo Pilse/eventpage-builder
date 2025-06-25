@@ -1,7 +1,7 @@
 import { Block } from "@/domain/builder";
 import { BlockFactory } from "@/components/builder/block";
 import { twMerge } from "tailwind-merge";
-import { isAutoLayouted } from "@/util";
+import { isAutoLayouted } from "@/shared/util";
 
 interface IPreviewBlock {
   block: InstanceType<typeof Block>;

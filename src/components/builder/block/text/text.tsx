@@ -7,7 +7,7 @@ import { useTextBlockDrag, useTextBlockProps } from "@/components/builder/block"
 import { ResizeMixin } from "@/components/builder/mixin";
 import { HoverLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";
-import { isAutoLayouted } from "@/util";
+import { isAutoLayouted } from "@/shared/util";
 import { useMemo } from "react";
 
 interface ITextProps extends IBlockProps<InstanceType<typeof TextBlock>> {}

@@ -1,8 +1,8 @@
 import { BackgroundMixinBlockType } from "@/domain/builder/mixin";
-import { rgbaToCss } from "@/util/color";
+import { rgbaToCss } from "@/shared/util/color";
 import { Flex, Grid, Popover, Text, TextField } from "@radix-ui/themes";
 import { useDefaultBgColor } from "./use-default-bg-color";
-import { uppercaseFirstCharacter } from "@/util";
+import { uppercaseFirstCharacter } from "@/shared/util";
 import { TbBackground } from "react-icons/tb";
 import { RgbaColorPicker } from "react-colorful";
 

@@ -1,7 +1,7 @@
 import { Block, BlockFactory } from "@/domain/builder";
 import { ChildrenMixin, DragSnapMixin } from "@/domain/builder/mixin";
 import { Constructor, LayoutMap, Offset } from "@/type";
-import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 
 export type DropColMixinBlockType = InstanceType<
   ReturnType<

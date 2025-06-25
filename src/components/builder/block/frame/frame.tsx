@@ -7,7 +7,7 @@ import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
 import { useFrameBlockDrag, useFrameBlockDrop, useFrameBlockProps } from "@/components/builder/block";
 import { FrameBlockTypeLayer, HoverLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";
-import { isAutoLayouted } from "@/util";
+import { isAutoLayouted } from "@/shared/util";
 
 interface IFrameProps extends IBlockProps<InstanceType<typeof FrameBlock>> {}
 

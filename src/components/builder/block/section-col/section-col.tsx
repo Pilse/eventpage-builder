@@ -11,7 +11,7 @@ import {
   useSectionColBlockProps,
   useSectionPreviewBlock,
 } from "@/components/builder/block";
-import { isAutoLayouted } from "@/util";
+import { isAutoLayouted } from "@/shared/util";
 
 interface ISectionColProps extends IBlockProps<InstanceType<typeof SectionColBlock>> {}
 

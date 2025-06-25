@@ -1,6 +1,6 @@
 import { Block } from "@/domain/builder";
 import { useCallback, useMemo } from "react";
-import { hasDropColMixin, hasDropRowMixin } from "@/util";
+import { hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { IUseLayoutSize, useDefaultLayoutSize } from "@/components/builder/property/layout";
 
 export const useSectionLayoutSize = <T extends Block = Block>(block: T): IUseLayoutSize => {

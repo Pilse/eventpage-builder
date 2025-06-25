@@ -6,7 +6,7 @@ import {
   hasDropColMixin,
   hasDropRowMixin,
   hasResizeSnapMixin,
-} from "@/util";
+} from "@/shared/util";
 import { ResizeSnapLineLayer } from "@/components/builder/layer";
 import { MouseEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";

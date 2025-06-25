@@ -2,7 +2,7 @@ import { HeightIcon, WidthIcon } from "@radix-ui/react-icons";
 import { IUseLayoutSize } from "./use-default-size";
 import { Flex, Grid, Select, Text, TextField } from "@radix-ui/themes";
 import { Block } from "@/domain/builder";
-import { uppercaseFirstCharacter } from "@/util";
+import { uppercaseFirstCharacter } from "@/shared/util";
 
 export interface IDefaultLayoutSizeProps extends IUseLayoutSize {
   block: Block;

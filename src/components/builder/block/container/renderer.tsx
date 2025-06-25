@@ -1,9 +1,8 @@
 "use client";
 
 import { Container } from "@/domain/builder";
-import { ChildrenMixin } from "@/components/builder/mixin";
 import { IRendererBlockProps } from "@/type";
-import { getBlockStyle } from "@/util";
+import { getBlockStyle } from "@/shared/util";
 import { RendererFactory } from "../factory";
 
 interface IContainerProps extends IRendererBlockProps<Container> {}

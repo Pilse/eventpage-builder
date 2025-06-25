@@ -1,5 +1,5 @@
 import { Block } from "@/domain/builder";
-import { getBlockStyle, hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/util";
+import { getBlockStyle, hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/shared/util";
 import {
   CSSProperties,
   Dispatch,
@@ -14,7 +14,7 @@ import { DragSourceMonitor } from "react-dnd";
 import { BlockType } from "@/type";
 import { useGlobalContext, useDomain } from "@/hooks";
 import { IS_PROXY } from "@/constant";
-import { rgbaToCss, rgbaToHexColor } from "@/util/color";
+import { rgbaToCss, rgbaToHexColor } from "@/shared/util/color";
 
 export interface IUseDefaultBlockPropsProps<T extends InstanceType<typeof Block>> {
   block: T;

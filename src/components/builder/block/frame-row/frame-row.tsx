@@ -11,7 +11,7 @@ import {
   useFrameRowBlockDrop,
   useFrameRowBlockProps,
 } from "@/components/builder/block";
-import { isAutoLayouted } from "@/util";
+import { isAutoLayouted } from "@/shared/util";
 
 interface IFrameRowProps extends IBlockProps<InstanceType<typeof FrameRowBlock>> {}
 
