@@ -17,9 +17,10 @@ export type Database = {
           id: number
           isDeleted: boolean
           isPublished: boolean
+          name: string
           publicId: string
           publishedAt: string | null
-          updatedAt: string
+          updatedAt: string | null
           userId: string
         }
         Insert: {
@@ -29,9 +30,10 @@ export type Database = {
           id?: number
           isDeleted?: boolean
           isPublished?: boolean
+          name: string
           publicId?: string
           publishedAt?: string | null
-          updatedAt: string
+          updatedAt?: string | null
           userId: string
         }
         Update: {
@@ -41,9 +43,10 @@ export type Database = {
           id?: number
           isDeleted?: boolean
           isPublished?: boolean
+          name?: string
           publicId?: string
           publishedAt?: string | null
-          updatedAt?: string
+          updatedAt?: string | null
           userId?: string
         }
         Relationships: []

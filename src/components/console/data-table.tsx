@@ -42,11 +42,12 @@ import {
 } from "@/components/console/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/console/ui/table";
 import { Tabs, TabsContent } from "@/components/console/ui/tabs";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { Button as RadixButton } from "@radix-ui/themes";
 import { PageTableItem } from "@/domain/pages";
-import { getPages } from "@/service/pages";
+import { createPage, getPages } from "@/service/pages";
 import { Skeleton } from "./ui/skeleton";
+import { sampleContainer } from "@/mock";
 
 const columns: ColumnDef<PageTableItem>[] = [
   {
@@ -80,10 +81,10 @@ const columns: ColumnDef<PageTableItem>[] = [
   },
 ];
 
-export function DataTable({ data }: { data: ReturnType<typeof getPages> }) {
+export function DataTable({ data, userId }: { data: ReturnType<typeof getPages>; userId: string }) {
   const pagesData = use(data);
   if (!pagesData) {
-    throw new Error();
+    notFound();
   }
 
   const router = useRouter();
@@ -121,10 +122,18 @@ export function DataTable({ data }: { data: ReturnType<typeof getPages> }) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  const handleCreatePage = async () => {
+    await createPage({
+      userId,
+      name: `New Page ${pagesData.count + 1}`,
+      serialized: sampleContainer,
+    });
+  };
+
   return (
     <Tabs defaultValue="pages" className="flex w-full flex-col justify-start gap-6">
       <div className="flex items-center gap-2 justify-end px-4 lg:px-6">
-        <RadixButton variant="surface" onClick={() => router.push("/page/new")}>
+        <RadixButton variant="surface" onClick={handleCreatePage}>
           <PlusIcon size={14} />
           <span className="hidden lg:inline">Add Page</span>
         </RadixButton>

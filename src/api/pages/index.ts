@@ -1,1 +1,2 @@
-export * from "./get-pages-by-userid";
+export * from "./get-many-by-userid";
+export * from "./insert";
