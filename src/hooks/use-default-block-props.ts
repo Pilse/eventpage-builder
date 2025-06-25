@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { getBlockStyle, hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/util";
 import {
   CSSProperties,

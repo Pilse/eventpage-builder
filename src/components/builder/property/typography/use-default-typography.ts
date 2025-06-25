@@ -1,4 +1,4 @@
-import { TypographyMixinBlockType } from "@/domain/mixin";
+import { TypographyMixinBlockType } from "@/domain/builder/mixin";
 import { useBlockHistory } from "@/hooks";
 import { Color, Shadow, TextAlign, TextShadow } from "@/type";
 import { hasDropColMixin, hasDropRowMixin } from "@/util";

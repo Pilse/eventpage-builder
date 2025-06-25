@@ -1,5 +1,5 @@
-import { Block } from "@/domain/block";
-import { BorderMixinBlockType } from "@/domain/mixin";
+import { Block } from "@/domain/builder";
+import { BorderMixinBlockType } from "@/domain/builder/mixin";
 import { useBlockHistory } from "@/hooks";
 import { Color } from "@/type";
 import { useCallback, useEffect, useMemo, useState } from "react";

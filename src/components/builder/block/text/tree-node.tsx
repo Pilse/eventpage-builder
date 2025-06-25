@@ -1,4 +1,4 @@
-import { TextBlock } from "@/domain/block";
+import { TextBlock } from "@/domain/builder";
 import { useDomain } from "@/hooks";
 import { TreeNode, useDefaultTreeDrag } from "@/components/builder/tree";
 import { useLeafTreeDrop } from "../use-leaf-tree-drop";

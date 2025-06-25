@@ -1,5 +1,5 @@
 import { SNAP_THRESHOLD } from "@/constant";
-import { ResizeMixin as RedizeMixinDomain } from "@/domain/mixin";
+import { ResizeMixin as RedizeMixinDomain } from "@/domain/builder/mixin";
 import {
   getBlockEleById,
   getClosestSectionBlockEle,

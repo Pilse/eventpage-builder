@@ -1,4 +1,4 @@
-import { ResizeMixin } from "@/domain/mixin";
+import { ResizeMixin } from "@/domain/builder/mixin";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { MouseEvent, useEffect, useRef } from "react";
 import { useBlockHistory } from "@/hooks";

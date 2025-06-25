@@ -1,4 +1,4 @@
-import { FrameRowBlock } from "@/domain/block";
+import { FrameRowBlock } from "@/domain/builder";
 import { IUseDefaultBlockProps, useDefaultBlockProps } from "@/hooks";
 
 interface IUseFrameRowBlockProps extends IUseDefaultBlockProps<InstanceType<typeof FrameRowBlock>> {}

@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { hasDragMixin } from "@/util";
 import { useDrag } from "react-dnd";
 import { useGlobalContext } from "@/hooks";

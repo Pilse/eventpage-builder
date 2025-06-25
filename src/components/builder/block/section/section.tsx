@@ -1,6 +1,6 @@
 "use client";
 
-import { SectionBlock } from "@/domain/block";
+import { SectionBlock } from "@/domain/builder";
 import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
 import {
   PreviewBlock,

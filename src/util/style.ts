@@ -1,4 +1,4 @@
-import { Block, Text } from "@/domain/block";
+import { Block, Text } from "@/domain/builder";
 import { CSSProperties } from "react";
 import { isAutoLayouted } from "./mixin";
 import { rgbaToCss, rgbaToHexColor } from "./color";

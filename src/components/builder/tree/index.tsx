@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { useBlockHistory, useDomain, useGlobalContext } from "@/hooks";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useRef, useState } from "react";

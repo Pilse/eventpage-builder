@@ -1,7 +1,7 @@
 "use client";
 
 import { BlockFactory, BlockToolbars, PropertiesFactory, TreeNodeFactory } from "@/components/builder/block";
-import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/block";
+import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/builder";
 import { useGlobalContext } from "@/hooks";
 import { BlockHistoryProvider } from "@/hooks/use-block-history";
 import { sampleContainer } from "@/mock";

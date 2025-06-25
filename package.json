@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-gen": "npx supabase gen types typescript --project-id macbrlzzzharcbhehxjv --schema public > ./src/domain/database.types.ts"
   },
   "dependencies": {
     "@auth/supabase-adapter": "^1.10.0",
@@ -63,6 +64,7 @@
     "eslint": "^8",
     "eslint-config-next": "15.3.4",
     "postcss": "^8",
+    "supabase": "^2.26.9",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   },

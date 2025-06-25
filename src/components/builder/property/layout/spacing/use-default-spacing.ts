@@ -1,4 +1,4 @@
-import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/block";
+import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/builder";
 import { useBlockHistory } from "@/hooks";
 import { useCallback } from "react";
 import { useDefaultPadding } from "./use-default-padding";

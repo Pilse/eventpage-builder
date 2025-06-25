@@ -1,4 +1,4 @@
-import { SectionBlock } from "@/domain/block";
+import { SectionBlock } from "@/domain/builder";
 import { useDefaultBlockDrop } from "@/hooks";
 
 export const useSectionBlockDrop = (

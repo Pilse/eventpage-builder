@@ -1,5 +1,5 @@
 import { Flex, Grid, IconButton, Popover, Select, Text, TextField } from "@radix-ui/themes";
-import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/block";
+import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/builder";
 import {
   AlignBottomIcon,
   AlignCenterHorizontallyIcon,

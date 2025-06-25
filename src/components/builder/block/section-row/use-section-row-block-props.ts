@@ -1,4 +1,4 @@
-import { SectionRowBlock } from "@/domain/block";
+import { SectionRowBlock } from "@/domain/builder";
 import { IUseDefaultBlockProps, useDefaultBlockProps } from "@/hooks";
 
 interface IUseSectionRowBlockProps extends IUseDefaultBlockProps<InstanceType<typeof SectionRowBlock>> {}

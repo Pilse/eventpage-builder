@@ -1,4 +1,4 @@
-import { ShadowMixinBlockType } from "@/domain/mixin";
+import { ShadowMixinBlockType } from "@/domain/builder/mixin";
 import { rgbaToCss } from "@/util/color";
 import { Flex, Grid, Popover, Text, TextField } from "@radix-ui/themes";
 import { useDefaultShadow } from "./use-default-shadow";

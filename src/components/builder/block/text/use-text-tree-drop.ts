@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useBlockHistory } from "@/hooks";
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { useDefaultTreeDrop } from "@/components/builder/tree";
 
 export const IUseDefaultFrameTreeDrop = <T extends Block>(block: T) => {

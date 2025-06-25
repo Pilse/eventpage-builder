@@ -2,7 +2,7 @@
 
 import { getEmptyImage } from "react-dnd-html5-backend";
 import { twMerge } from "tailwind-merge";
-import { FrameRowBlock } from "@/domain/block";
+import { FrameRowBlock } from "@/domain/builder";
 import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
 import { FrameBlockTypeLayer, HoverLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";

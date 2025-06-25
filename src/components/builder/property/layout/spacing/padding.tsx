@@ -1,5 +1,5 @@
 import { Flex, Grid, IconButton, Popover, Text, TextField } from "@radix-ui/themes";
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { PaddingIcon } from "@radix-ui/react-icons";
 import { TbBorderBottom, TbBorderLeft, TbBorderRight, TbBorderSides } from "react-icons/tb";
 import { useDefaultPadding } from "./use-default-padding";

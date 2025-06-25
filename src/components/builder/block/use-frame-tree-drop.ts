@@ -2,7 +2,7 @@ import { useDefaultTreeDrop } from "../tree";
 import { useRef } from "react";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useBlockHistory } from "@/hooks";
-import { FrameBlock, FrameColBlock, FrameRowBlock } from "@/domain/block";
+import { FrameBlock, FrameColBlock, FrameRowBlock } from "@/domain/builder";
 
 export const useFrameTreeDrop = <
   T extends

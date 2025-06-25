@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { useDrag, XYCoord } from "react-dnd";
 
 export type BlockType =

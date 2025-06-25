@@ -1,6 +1,6 @@
 "use client";
 
-import { Text } from "@/domain/block";
+import { Text } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
 import { getBlockStyle, getTextStyle, getTextWrapperStyle } from "@/util";
 

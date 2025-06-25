@@ -1,4 +1,4 @@
-import { ImageBlock } from "@/domain/block";
+import { ImageBlock } from "@/domain/builder";
 import { useBlockHistory } from "@/hooks";
 import { uploadImage } from "@/service/image";
 import { getImageSizeFromBlobFile, getImageUrlFromBlobFile } from "@/util";

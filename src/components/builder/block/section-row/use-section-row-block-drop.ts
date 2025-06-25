@@ -1,4 +1,4 @@
-import { Block, SectionRowBlock } from "@/domain/block";
+import { Block, SectionRowBlock } from "@/domain/builder";
 import { useDefaultBlockDrop } from "@/hooks";
 import { getClosestSectionBlockEle } from "@/util";
 import { DropTargetMonitor } from "react-dnd";

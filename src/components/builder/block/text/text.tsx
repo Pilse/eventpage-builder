@@ -2,7 +2,7 @@
 
 import { getEmptyImage } from "react-dnd-html5-backend";
 import { twMerge } from "tailwind-merge";
-import { TextBlock } from "@/domain/block";
+import { TextBlock } from "@/domain/builder";
 import { useTextBlockDrag, useTextBlockProps } from "@/components/builder/block";
 import { ResizeMixin } from "@/components/builder/mixin";
 import { HoverLayer } from "@/components/builder/layer";

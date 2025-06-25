@@ -1,6 +1,6 @@
 "use client";
 
-import { FrameCanvas } from "@/domain/block";
+import { FrameCanvas } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
 import { getBlockStyle } from "@/util";
 import { RendererFactory } from "../factory";

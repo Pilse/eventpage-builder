@@ -1,4 +1,4 @@
-import { TypographyMixinBlockType } from "@/domain/mixin";
+import { TypographyMixinBlockType } from "@/domain/builder/mixin";
 import { Flex, Grid, Popover, Select, Text, TextField } from "@radix-ui/themes";
 import Image from "next/image";
 import { useDefaultTypography } from "./use-default-typography";

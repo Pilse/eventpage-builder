@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import { useDragLayer } from "react-dnd";
-import { Block, SectionBlock, BlockFactory, SectionColBlock, SectionRowBlock } from "@/domain/block";
+import { Block, SectionBlock, BlockFactory, SectionColBlock, SectionRowBlock } from "@/domain/builder";
 import { SNAP_THRESHOLD } from "@/constant";
 import { hasDragSnapMixin, hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";
 

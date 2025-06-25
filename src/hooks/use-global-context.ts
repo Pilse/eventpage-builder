@@ -1,6 +1,6 @@
 "use client";
 
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { useSyncExternalStore } from "react";
 
 type GlobalContext = {

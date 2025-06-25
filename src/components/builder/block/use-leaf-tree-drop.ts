@@ -2,7 +2,7 @@ import { useDefaultTreeDrop } from "../tree";
 import { useRef } from "react";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useBlockHistory } from "@/hooks";
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 
 export const useLeafTreeDrop = <T extends Block>(block: T) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();

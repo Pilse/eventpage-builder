@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { useGlobalContext } from "@/hooks";
 import { hasChildrenMixin, isAutoLayouted } from "@/util";
 import { Box, Button, Flex, Text } from "@radix-ui/themes";

@@ -1,8 +1,8 @@
-import { ContainerBlock, Text } from "@/domain/block";
+import { ContainerBlock, Text } from "@/domain/builder";
 import { useCallback, useMemo } from "react";
 import { hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useDefaultLayoutSize } from "@/components/builder/property/layout";
-import { Device } from "@/domain/mixin/";
+import { Device } from "@/domain/builder/mixin";
 import { useBlockHistory } from "@/hooks";
 
 export const useContainerLayoutSize = <T extends InstanceType<typeof ContainerBlock>>(block: T) => {

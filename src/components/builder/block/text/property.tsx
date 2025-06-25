@@ -1,5 +1,5 @@
 import { DefaultPadding, DefaultLayoutSize } from "@/components/builder/property/layout";
-import { TextBlock } from "@/domain/block";
+import { TextBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useTextLayoutSize } from "./use-text-layout-size";
 import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";

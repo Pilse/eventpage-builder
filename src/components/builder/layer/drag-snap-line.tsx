@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { getBlockEleById } from "@/util";
 
 interface IDragSnapLineLayerProps {

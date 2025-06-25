@@ -7,7 +7,7 @@ import {
   Section,
   SectionCol,
   SectionRow,
-} from "@/domain/block";
+} from "@/domain/builder";
 import { useBlockHistory, useGlobalContext } from "@/hooks";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useCallback, useMemo } from "react";

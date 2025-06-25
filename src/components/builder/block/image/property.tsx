@@ -1,5 +1,5 @@
 import { DefaultLayoutSize, DefaultPadding } from "@/components/builder/property/layout";
-import { ImageBlock } from "@/domain/block";
+import { ImageBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useImageLayoutSize } from "./use-image-layout-size";
 import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Image } from "@/domain/block";
+import { Image } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
 import { getBlockStyle } from "@/util";
 

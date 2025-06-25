@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { BlockFactory } from "@/components/builder/block";
 import { twMerge } from "tailwind-merge";
 import { isAutoLayouted } from "@/util";

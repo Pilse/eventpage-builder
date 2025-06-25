@@ -1,4 +1,4 @@
-import { ImageBlock } from "@/domain/block";
+import { ImageBlock } from "@/domain/builder";
 import { useDomain } from "@/hooks";
 import { TreeNode, useDefaultTreeDrag } from "@/components/builder/tree";
 import { ImageIcon } from "@radix-ui/react-icons";

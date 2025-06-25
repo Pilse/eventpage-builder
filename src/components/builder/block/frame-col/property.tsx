@@ -4,7 +4,7 @@ import {
   DefaultLayoutSpacing,
   DefaultLayoutType,
 } from "@/components/builder/property/layout";
-import { FrameColBlock } from "@/domain/block";
+import { FrameColBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
 import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";

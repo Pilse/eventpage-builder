@@ -1,6 +1,5 @@
 "use client";
 
-import { Spinner } from "@radix-ui/themes";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";

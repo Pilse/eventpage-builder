@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { Box, Button, Flex, IconButton, Text } from "@radix-ui/themes";
 import { ReactNode, useState } from "react";
 import { FrameIcon, TextIcon } from "@radix-ui/react-icons";

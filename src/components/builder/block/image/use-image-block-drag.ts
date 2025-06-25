@@ -1,5 +1,5 @@
 import { useDefaultBlockDrag } from "@/hooks";
-import { ImageBlock } from "@/domain/block";
+import { ImageBlock } from "@/domain/builder";
 
 export const useImageBlockDrag = (image: InstanceType<typeof ImageBlock>) => {
   return useDefaultBlockDrag({

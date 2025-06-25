@@ -1,4 +1,4 @@
-import { ChildrenMixin as IChildrenMixin } from "@/domain/mixin";
+import { ChildrenMixin as IChildrenMixin } from "@/domain/builder/mixin";
 import { BlockFactory } from "@/components/builder/block";
 import { useLayoutEffect } from "react";
 

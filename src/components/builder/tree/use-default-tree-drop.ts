@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 
 interface IUseDefaultBlockDropProps {

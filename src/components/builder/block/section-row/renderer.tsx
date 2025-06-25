@@ -1,6 +1,6 @@
 "use client";
 
-import { SectionRow } from "@/domain/block";
+import { SectionRow } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
 import { getBlockStyle } from "@/util";
 import { RendererFactory } from "../factory";

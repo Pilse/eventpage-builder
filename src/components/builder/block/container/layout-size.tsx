@@ -1,8 +1,8 @@
 import { WidthIcon } from "@radix-ui/react-icons";
 import { Flex, Grid, Select, Text, TextField } from "@radix-ui/themes";
-import { ContainerBlock } from "@/domain/block";
+import { ContainerBlock } from "@/domain/builder";
 import { useContainerLayoutSize } from "./use-container-layout-size";
-import { Device } from "@/domain/mixin";
+import { Device } from "@/domain/builder/mixin";
 import { ReactNode } from "react";
 import { HiMiniDevicePhoneMobile, HiMiniDeviceTablet } from "react-icons/hi2";
 import { TbDeviceDesktop } from "react-icons/tb";

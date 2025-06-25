@@ -12,7 +12,7 @@ import {
   SectionColBlock,
   SectionRowBlock,
   TextBlock,
-} from "@/domain/block";
+} from "@/domain/builder";
 import {
   Frame,
   FrameCol,

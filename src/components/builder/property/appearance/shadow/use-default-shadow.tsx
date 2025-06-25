@@ -1,4 +1,4 @@
-import { ShadowMixinBlockType } from "@/domain/mixin/";
+import { ShadowMixinBlockType } from "@/domain/builder/mixin";
 import { useBlockHistory } from "@/hooks";
 import { Color, Shadow } from "@/type";
 import { useCallback, useEffect, useState } from "react";

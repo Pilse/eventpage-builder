@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { useBlockHistory } from "@/hooks";
 import { useCallback } from "react";
 import { flushSync } from "react-dom";

@@ -1,4 +1,4 @@
-import { SectionBlock, SectionColBlock, SectionRowBlock } from "@/domain/block";
+import { SectionBlock, SectionColBlock, SectionRowBlock } from "@/domain/builder";
 import { Flex, IconButton, Inset, Text } from "@radix-ui/themes";
 import { CgArrowLongDownE, CgArrowLongRightE } from "react-icons/cg";
 import { RxMix } from "react-icons/rx";

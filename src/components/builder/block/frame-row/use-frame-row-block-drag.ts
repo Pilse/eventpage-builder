@@ -1,5 +1,5 @@
 import { useDefaultBlockDrag } from "@/hooks";
-import { FrameRowBlock } from "@/domain/block";
+import { FrameRowBlock } from "@/domain/builder";
 
 export const useFrameRowBlockDrag = (frameRow: InstanceType<typeof FrameRowBlock>) => {
   return useDefaultBlockDrag({

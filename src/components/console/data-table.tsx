@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, use } from "react";
 
 import {
   ColumnDef,
@@ -17,19 +17,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import {
-  CheckCircle2Icon,
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
-  GripVerticalIcon,
-  LoaderIcon,
   MoreVerticalIcon,
   PlusIcon,
 } from "lucide-react";
-import { toast } from "sonner";
-import { z } from "zod";
-import { Badge } from "@/components/console/ui/badge";
 import { Button } from "@/components/console/ui/button";
 import {
   DropdownMenu,
@@ -38,7 +32,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/console/ui/dropdown-menu";
-import { Input } from "@/components/console/ui/input";
 import { Label } from "@/components/console/ui/label";
 import {
   Select,
@@ -51,128 +44,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent } from "@/components/console/ui/tabs";
 import { useRouter } from "next/navigation";
 import { Button as RadixButton } from "@radix-ui/themes";
+import { PageTableItem } from "@/domain/pages";
+import { getPages } from "@/service/pages";
+import { Skeleton } from "./ui/skeleton";
 
-export const schema = z.object({
-  id: z.number(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
-});
-
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columns: ColumnDef<PageTableItem>[] = [
   {
-    accessorKey: "header",
-    header: "Header",
-    cell: ({ row }) => {
-      return row.original.header;
-    },
+    accessorKey: "name",
+    header: "Name",
     enableHiding: false,
-  },
-  {
-    accessorKey: "type",
-    header: "Section Type",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="px-1.5 text-muted-foreground">
-          {row.original.type}
-        </Badge>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <Badge variant="outline" className="flex gap-1 px-1.5 text-muted-foreground [&_svg]:size-3">
-        {row.original.status === "Done" ? (
-          <CheckCircle2Icon className="text-green-500 dark:text-green-400" />
-        ) : (
-          <LoaderIcon />
-        )}
-        {row.original.status}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "target",
-    header: () => <div className="w-full text-right">Target</div>,
-    cell: ({ row }) => (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-            loading: `Saving ${row.original.header}`,
-            success: "Done",
-            error: "Error",
-          });
-        }}
-      >
-        <Label htmlFor={`${row.original.id}-target`} className="sr-only">
-          Target
-        </Label>
-        <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background"
-          defaultValue={row.original.target}
-          id={`${row.original.id}-target`}
-        />
-      </form>
-    ),
-  },
-  {
-    accessorKey: "limit",
-    header: () => <div className="w-full text-right">Limit</div>,
-    cell: ({ row }) => (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-            loading: `Saving ${row.original.header}`,
-            success: "Done",
-            error: "Error",
-          });
-        }}
-      >
-        <Label htmlFor={`${row.original.id}-limit`} className="sr-only">
-          Limit
-        </Label>
-        <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background"
-          defaultValue={row.original.limit}
-          id={`${row.original.id}-limit`}
-        />
-      </form>
-    ),
-  },
-  {
-    accessorKey: "reviewer",
-    header: "Reviewer",
-    cell: ({ row }) => {
-      const isAssigned = row.original.reviewer !== "Assign reviewer";
-
-      if (isAssigned) {
-        return row.original.reviewer;
-      }
-
-      return (
-        <>
-          <Label htmlFor={`${row.original.id}-reviewer`} className="sr-only">
-            Reviewer
-          </Label>
-          <Select>
-            <SelectTrigger className="h-8 w-40" id={`${row.original.id}-reviewer`}>
-              <SelectValue placeholder="Assign reviewer" />
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
-              <SelectItem value="Jamik Tashpulatov">Jamik Tashpulatov</SelectItem>
-            </SelectContent>
-          </Select>
-        </>
-      );
-    },
   },
   {
     id: "actions",
@@ -200,20 +80,24 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
 ];
 
-export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[] }) {
+export function DataTable({ data }: { data: ReturnType<typeof getPages> }) {
+  const pagesData = use(data);
+  if (!pagesData) {
+    throw new Error();
+  }
+
   const router = useRouter();
-  const [data, setData] = React.useState(() => initialData);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState({
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
 
-  const table = useReactTable({
-    data,
+  const table = useReactTable<PageTableItem>({
+    data: pagesData.pages,
     columns,
     state: {
       sorting,
@@ -222,7 +106,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
       columnFilters,
       pagination,
     },
-    getRowId: (row) => row.id.toString(),
+    getRowId: (row) => row.id,
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -367,3 +251,77 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
     </Tabs>
   );
 }
+
+export const DataTableSkeleton = () => {
+  return (
+    <Tabs defaultValue="pages" className="flex w-full flex-col justify-start gap-6">
+      <div className="flex items-center gap-2 justify-end px-4 lg:px-6">
+        <Button variant="outline" disabled>
+          <PlusIcon size={14} />
+          <span className="hidden lg:inline">Add Page</span>
+        </Button>
+      </div>
+
+      <TabsContent value="pages" className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
+        <div className="overflow-hidden rounded-lg border">
+          <div className="sticky top-0 z-10 bg-muted flex">
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} className="h-10 flex-1 border-r last:border-none" />
+            ))}
+          </div>
+          <div>
+            {[...Array(10)].map((_, rowIdx) => (
+              <div key={rowIdx} className="flex border-t">
+                {[...Array(5)].map((_, colIdx) => (
+                  <Skeleton key={colIdx} className="h-10 flex-1 border-r last:border-none" />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between px-4">
+          <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
+            <Skeleton className="h-5 w-40" />
+          </div>
+          <div className="flex w-full items-center gap-8 lg:w-fit">
+            <div className="hidden items-center gap-2 lg:flex">
+              <Label htmlFor="rows-per-page" className="text-sm font-medium">
+                Rows per page
+              </Label>
+              <Select disabled>
+                <SelectTrigger className="w-20" id="rows-per-page">
+                  <SelectValue placeholder="10" />
+                </SelectTrigger>
+                <SelectContent side="top">
+                  {[10, 20, 30, 40, 50].map((pageSize) => (
+                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                      {pageSize}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex w-fit items-center justify-center text-sm font-medium">
+              <Skeleton className="h-5 w-24" />
+            </div>
+            <div className="ml-auto flex items-center gap-2 lg:ml-0">
+              <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex" disabled>
+                <ChevronsLeftIcon />
+              </Button>
+              <Button variant="outline" className="size-8" disabled>
+                <ChevronLeftIcon />
+              </Button>
+              <Button variant="outline" className="size-8" disabled>
+                <ChevronRightIcon />
+              </Button>
+              <Button variant="outline" className="hidden size-8 lg:flex" disabled>
+                <ChevronsRightIcon />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </TabsContent>
+    </Tabs>
+  );
+};

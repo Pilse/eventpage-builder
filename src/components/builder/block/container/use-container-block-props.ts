@@ -1,4 +1,4 @@
-import { BlockFactory, ContainerBlock, Image, ImageBlock } from "@/domain/block";
+import { BlockFactory, ContainerBlock, Image, ImageBlock } from "@/domain/builder";
 import {
   IUseDefaultBlockProps,
   useBlockHistory,

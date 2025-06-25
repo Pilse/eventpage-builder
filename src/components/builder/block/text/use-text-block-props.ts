@@ -1,4 +1,4 @@
-import { TextBlock } from "@/domain/block";
+import { TextBlock } from "@/domain/builder";
 import { IUseDefaultBlockProps, useBlockHistory, useDefaultBlockProps } from "@/hooks";
 import {
   getTextStyle,

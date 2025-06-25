@@ -1,5 +1,5 @@
 import { DefaultLayoutSize, DefaultLayoutType } from "@/components/builder/property/layout";
-import { SectionBlock } from "@/domain/block";
+import { SectionBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useSectionLayoutSize } from "../use-section-layout-size";
 import { DefaultBgColor } from "@/components/builder/property/appearance";

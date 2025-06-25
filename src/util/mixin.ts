@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import {
   ChildrenMixinBlockType,
   DragMixinBlockType,
@@ -8,8 +8,8 @@ import {
   DragSnapMixinBlockType,
   ResizeSnapMixinBlockType,
   BackgroundMixinBlockType,
-} from "@/domain/mixin";
-import { DropColMixinBlockType } from "@/domain/mixin/drop/drop-col";
+} from "@/domain/builder/mixin";
+import { DropColMixinBlockType } from "@/domain/builder/mixin/drop/drop-col";
 
 export const hasResizeMixin = (block: Block): block is ResizeMixinBlockType => {
   return Object.hasOwn(block, "resizable");

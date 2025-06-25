@@ -1,4 +1,4 @@
-import { Text } from "@/domain/block";
+import { Text } from "@/domain/builder";
 import { useCallback, useMemo } from "react";
 import { hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";
 import { IUseLayoutSize, useDefaultLayoutSize } from "@/components/builder/property/layout";

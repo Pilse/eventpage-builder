@@ -1,4 +1,4 @@
-import { ContainerBlock, SectionBlock, SectionRowBlock } from "@/domain/block";
+import { ContainerBlock, SectionBlock, SectionRowBlock } from "@/domain/builder";
 
 const sampleSection1: ReturnType<InstanceType<typeof SectionBlock>["serialize"]> = {
   id: "51750cec-13f6-4491-aa11-0ca05bf3e649",

@@ -1,7 +1,7 @@
 "use client";
 
 import { twMerge } from "tailwind-merge";
-import { SectionRowBlock } from "@/domain/block";
+import { SectionRowBlock } from "@/domain/builder";
 import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
 import { DragSnapLineLayer, HoverLayer, SectionBlockTypeLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";

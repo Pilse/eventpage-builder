@@ -1,4 +1,4 @@
-import { Block } from "@/domain/block";
+import { Block } from "@/domain/builder";
 import { useDrag } from "react-dnd";
 import { useBlockHistory, useGlobalContext } from "@/hooks";
 import { BlockDragOptions } from "@/type";

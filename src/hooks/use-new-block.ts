@@ -1,9 +1,9 @@
 import { useGlobalContext } from "./use-global-context";
-import { Block, BlockFactory } from "@/domain/block";
+import { Block, BlockFactory } from "@/domain/builder";
 import { hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useBlockHistory } from "./use-block-history";
 import { useCallback } from "react";
-import { ChildrenMixinBlockType } from "@/domain/mixin";
+import { ChildrenMixinBlockType } from "@/domain/builder/mixin";
 import { flushSync } from "react-dom";
 
 export const useNewBlock = () => {

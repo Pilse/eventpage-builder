@@ -1,5 +1,5 @@
 import { DefaultLayoutType, DefaultLayoutSize } from "@/components/builder/property/layout";
-import { FrameBlock } from "@/domain/block";
+import { FrameBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
 import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";

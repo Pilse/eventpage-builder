@@ -1,4 +1,4 @@
-import { BackgroundMixinBlockType } from "@/domain/mixin";
+import { BackgroundMixinBlockType } from "@/domain/builder/mixin";
 import { useBlockHistory } from "@/hooks";
 import { Color } from "@/type";
 import { useCallback, useEffect, useState } from "react";

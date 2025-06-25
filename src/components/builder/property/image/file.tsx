@@ -1,5 +1,5 @@
 import { Button, Flex, Grid, Text } from "@radix-ui/themes";
-import { ImageBlock } from "@/domain/block";
+import { ImageBlock } from "@/domain/builder";
 
 import { TbCloudUpload } from "react-icons/tb";
 import { useDefaultFile } from "./use-default-file";

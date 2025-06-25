@@ -1,4 +1,4 @@
-import { ImageBlock } from "@/domain/block";
+import { ImageBlock } from "@/domain/builder";
 import { IUseDefaultBlockProps, useDefaultBlockProps } from "@/hooks";
 
 interface IUseImageBlockProps extends IUseDefaultBlockProps<InstanceType<typeof ImageBlock>> {}

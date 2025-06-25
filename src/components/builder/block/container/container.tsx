@@ -1,4 +1,4 @@
-import { ContainerBlock } from "@/domain/block";
+import { ContainerBlock } from "@/domain/builder";
 import { IBlockProps } from "@/type";
 import { useContainerBlockProps } from "./use-container-block-props";
 import { ChildrenMixin, ResizeContainerMixin, ResizeMixin } from "@/components/builder/mixin";

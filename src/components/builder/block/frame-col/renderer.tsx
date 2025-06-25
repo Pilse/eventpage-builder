@@ -1,6 +1,6 @@
 "use client";
 
-import { FrameCol } from "@/domain/block";
+import { FrameCol } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
 import { getBlockStyle } from "@/util";
 import { RendererFactory } from "../factory";

@@ -1,4 +1,4 @@
-import { Image } from "@/domain/block";
+import { Image } from "@/domain/builder";
 import { useCallback, useMemo } from "react";
 import { IUseLayoutSize, useDefaultLayoutSize } from "../../property/layout/size/use-default-size";
 import { hasDropColMixin, hasDropRowMixin, isAutoLayouted } from "@/util";

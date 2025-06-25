@@ -1,4 +1,4 @@
-import { ContainerBlock } from "@/domain/block";
+import { ContainerBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { DefaultBgColor } from "@/components/builder/property/appearance";
 import { ContainerLayoutSize } from "./layout-size";

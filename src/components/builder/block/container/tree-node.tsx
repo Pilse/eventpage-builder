@@ -1,4 +1,4 @@
-import { ContainerBlock } from "@/domain/block";
+import { ContainerBlock } from "@/domain/builder";
 import { useDomain, useGlobalContext, useNewBlock } from "@/hooks";
 import { TreeNode } from "@/components/builder/tree";
 import { MdOutlineWebAsset } from "react-icons/md";

@@ -1,4 +1,4 @@
-import { FrameBlock, FrameColBlock, FrameRowBlock } from "@/domain/block";
+import { FrameBlock, FrameColBlock, FrameRowBlock } from "@/domain/builder";
 import { Flex, IconButton, Text } from "@radix-ui/themes";
 import { CgArrowLongDownE, CgArrowLongRightE } from "react-icons/cg";
 import { RxMix } from "react-icons/rx";

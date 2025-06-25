@@ -2,7 +2,7 @@ import { useDefaultTreeDrop } from "../tree";
 import { useRef } from "react";
 import { hasChildrenMixin, hasDropColMixin, hasDropRowMixin } from "@/util";
 import { useBlockHistory } from "@/hooks";
-import { SectionBlock, SectionColBlock, SectionRowBlock } from "@/domain/block";
+import { SectionBlock, SectionColBlock, SectionRowBlock } from "@/domain/builder";
 
 export const useSectionTreeDrop = <
   T extends

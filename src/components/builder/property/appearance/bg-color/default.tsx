@@ -1,4 +1,4 @@
-import { BackgroundMixinBlockType } from "@/domain/mixin";
+import { BackgroundMixinBlockType } from "@/domain/builder/mixin";
 import { rgbaToCss } from "@/util/color";
 import { Flex, Grid, Popover, Text, TextField } from "@radix-ui/themes";
 import { useDefaultBgColor } from "./use-default-bg-color";

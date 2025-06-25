@@ -12,6 +12,7 @@ export const uploadImage = async (file: File): Promise<string | null> => {
 
     throw new Error("Image upload failed");
   } catch (error) {
+    console.error(error);
     return null;
   }
 };

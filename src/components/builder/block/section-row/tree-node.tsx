@@ -1,4 +1,4 @@
-import { SectionRowBlock } from "@/domain/block";
+import { SectionRowBlock } from "@/domain/builder";
 import { useDomain } from "@/hooks";
 import { TreeNode, useDefaultTreeDrag } from "@/components/builder/tree";
 import { useSectionTreeDrop } from "../use-section-tree-drop";

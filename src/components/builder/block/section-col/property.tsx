@@ -4,7 +4,7 @@ import {
   DefaultLayoutSpacing,
   DefaultLayoutType,
 } from "@/components/builder/property/layout";
-import { SectionColBlock } from "@/domain/block";
+import { SectionColBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useSectionLayoutSize } from "../use-section-layout-size";
 import { DefaultBgColor } from "@/components/builder/property/appearance";

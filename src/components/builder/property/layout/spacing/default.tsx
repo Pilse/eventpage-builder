@@ -1,5 +1,5 @@
 import { Flex, Grid, IconButton, Popover, Text, TextField } from "@radix-ui/themes";
-import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/block";
+import { FrameCol, FrameRow, SectionCol, SectionRow } from "@/domain/builder";
 import { ColumnSpacingIcon, PaddingIcon, RowSpacingIcon } from "@radix-ui/react-icons";
 import { useDefaultLayoutType } from "../use-default-type";
 import { useDefaultSpacing } from "./use-default-spacing";

@@ -1,6 +1,6 @@
 import { Flex, Grid, Select, Text } from "@radix-ui/themes";
 import { useDefaultLayoutType } from "../use-default-type";
-import { FrameCanvas, FrameCol, FrameRow, Section, SectionCol, SectionRow } from "@/domain/block";
+import { FrameCanvas, FrameCol, FrameRow, Section, SectionCol, SectionRow } from "@/domain/builder";
 import { ArrowDownIcon, ArrowRightIcon, MixIcon, StackIcon } from "@radix-ui/react-icons";
 
 const typeData = {

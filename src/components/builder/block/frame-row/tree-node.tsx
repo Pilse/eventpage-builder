@@ -1,4 +1,4 @@
-import { FrameRowBlock } from "@/domain/block";
+import { FrameRowBlock } from "@/domain/builder";
 import { useFrameTreeDrop } from "../use-frame-tree-drop";
 import { useDomain } from "@/hooks";
 import { TreeNode, useDefaultTreeDrag } from "@/components/builder/tree";

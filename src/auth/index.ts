@@ -2,8 +2,6 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { SupabaseAdapter, format } from "@auth/supabase-adapter";
 
-console.log(SupabaseAdapter, format);
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GoogleProvider({
@@ -18,6 +16,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.userId = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token?.userId) {
+        session.user.id = token.userId as string;
+      }
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true,
 });

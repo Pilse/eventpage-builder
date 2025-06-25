@@ -1,6 +1,6 @@
 "use client";
 
-import { Container } from "@/domain/block";
+import { Container } from "@/domain/builder";
 import { ChildrenMixin } from "@/components/builder/mixin";
 import { IRendererBlockProps } from "@/type";
 import { getBlockStyle } from "@/util";
