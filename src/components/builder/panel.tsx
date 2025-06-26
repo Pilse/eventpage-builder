@@ -126,7 +126,7 @@ export const BlockPanelSkelton = () => {
           width="fit-content"
           style={{ zIndex: 20, left: "50%", transform: "translateX(-50%)" }}
         >
-          <Skeleton className="w-[400px] h-[600px] mt-28"></Skeleton>
+          <Skeleton className="w-[400px] h-[800px] mt-28"></Skeleton>
         </Box>
         <Box width="100%" flexShrink="1" overflow="auto" px="9" py="8" mt="9" flexGrow="1"></Box>
       </Flex>
