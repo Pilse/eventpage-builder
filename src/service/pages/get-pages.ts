@@ -5,14 +5,14 @@ import { pagesToPageTableItems } from "@/domain/pages";
 
 export const getPages = async (userId: string) => {
   try {
-    const { data, count, error, statusText } = await getManyByUserId(userId);
+    const { data, error, statusText } = await getManyByUserId(userId);
 
     if (error) {
       throw new Error(statusText);
     }
 
     return {
-      count: count ?? 0,
+      count: data.length,
       pages: pagesToPageTableItems(data),
     };
   } catch (error) {

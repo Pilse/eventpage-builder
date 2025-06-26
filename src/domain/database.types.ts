@@ -20,7 +20,7 @@ export type Database = {
           name: string
           publicId: string
           publishedAt: string | null
-          updatedAt: string | null
+          updatedAt: string
           userId: string
         }
         Insert: {
@@ -33,7 +33,7 @@ export type Database = {
           name: string
           publicId?: string
           publishedAt?: string | null
-          updatedAt?: string | null
+          updatedAt?: string
           userId: string
         }
         Update: {
@@ -46,7 +46,7 @@ export type Database = {
           name?: string
           publicId?: string
           publishedAt?: string | null
-          updatedAt?: string | null
+          updatedAt?: string
           userId?: string
         }
         Relationships: []

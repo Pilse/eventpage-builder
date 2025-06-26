@@ -19,7 +19,7 @@ export const BuilderPanel = () => {
       {({ root, historyId }) => {
         return (
           <Flex maxHeight="100vh" overflow="hidden">
-            <Box flexShrink="0" width="250px" height="fit-content" position="sticky" top="0" left="0" p="4">
+            <Box flexShrink="0" width="256px" height="fit-content" position="sticky" top="0" left="0" p="4">
               <DndProvider backend={HTML5Backend}>
                 <Flex direction="column" gap="4">
                   <Heading size="2">Layer</Heading>

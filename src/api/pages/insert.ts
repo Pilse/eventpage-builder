@@ -17,5 +17,6 @@ export const insert = async ({
       name,
       block: serialized,
     })
-    .select();
+    .select("publicId")
+    .single();
 };
