@@ -10,6 +10,7 @@ import { CopyIcon } from "@radix-ui/react-icons";
 import { TbPlus } from "react-icons/tb";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+import { v4 as uuidv4 } from "uuid";
 
 export function DataTable({ data }: { data: ReturnType<typeof getPages>; userId: string }) {
   const pagesData = use(data);
@@ -24,8 +25,8 @@ export function DataTable({ data }: { data: ReturnType<typeof getPages>; userId:
       className={twMerge("grid w-full grid-cols-[repeat(auto-fit,_minmax(255px,_1fr))] gap-6 p-6")}
     >
       {pagesData.pages.map((page) => (
-        <Card key={page.id} className="bg-background/70" asChild>
-          <Link href={`/page/${page.id}`}>
+        <Card key={page.publicId} className="bg-background/70" asChild>
+          <Link href={`/page/${page.publicId}`}>
             {page.name}
             <DataList.Root className="mt-4">
               <DataList.Item align="center">
@@ -45,7 +46,7 @@ export function DataTable({ data }: { data: ReturnType<typeof getPages>; userId:
                 <DataList.Value>
                   <Flex align="center" gap="2" maxWidth="100px">
                     <Code variant="ghost" className="truncate">
-                      {page.id}
+                      {page.publicId}
                     </Code>
                     <IconButton size="1" aria-label="Copy value" color="gray" variant="ghost">
                       <CopyIcon />
@@ -69,7 +70,7 @@ export function DataTable({ data }: { data: ReturnType<typeof getPages>; userId:
       ))}
       <Card asChild>
         <Link
-          href="/page/new"
+          href={`/page/new?${uuidv4()}`}
           className={twMerge("flex w-full justify-center items-center gap-1 max-w-[255px] min-h-64")}
         >
           <TbPlus />

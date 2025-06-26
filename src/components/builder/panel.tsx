@@ -1,20 +1,44 @@
 "use client";
 
 import { BlockFactory, BlockToolbars, PropertiesFactory, TreeNodeFactory } from "@/components/builder/block";
-import { BlockFactory as BlockFactoryDomain, ContainerBlock } from "@/domain/builder";
+import { BlockFactory as BlockFactoryDomain, Container, ContainerBlock } from "@/domain/builder";
 import { useGlobalContext } from "@/hooks";
 import { BlockHistoryProvider } from "@/hooks/use-block-history";
-import { sampleContainer } from "@/mock";
+import { getPage } from "@/service/pages";
 import { Flex, Box, Heading } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
+import { use, useLayoutEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-export const BuilderPanel = () => {
+interface IBuilderPanelProps {
+  pagePromise: ReturnType<typeof getPage>;
+}
+
+export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
+  const pageData = use(pagePromise);
+
+  const router = useRouter();
   const globalContext = useGlobalContext();
+
+  useLayoutEffect(() => {
+    if (!pageData) {
+      router.replace("/console");
+    }
+  }, [pageData, router]);
+
+  if (!pageData) {
+    return null;
+  }
 
   return (
     <BlockHistoryProvider
-      root={BlockFactoryDomain.deserialize(sampleContainer, null) as InstanceType<typeof ContainerBlock>}
+      root={
+        BlockFactoryDomain.deserialize(
+          pageData.block as ReturnType<Container["serialize"]>,
+          null
+        ) as InstanceType<typeof ContainerBlock>
+      }
     >
       {({ root, historyId }) => {
         return (
@@ -67,5 +91,35 @@ export const BuilderPanel = () => {
         );
       }}
     </BlockHistoryProvider>
+  );
+};
+
+export const BlockPanelSkelton = () => {
+  return (
+    <Flex maxHeight="100vh" overflow="hidden">
+      <Box flexShrink="0" width="256px" height="fit-content" position="sticky" top="0" left="0" p="4"></Box>
+      <Flex
+        direction="column"
+        flexShrink="1"
+        flexGrow="1"
+        gap="4"
+        align="center"
+        position="relative"
+        width="100%"
+        minWidth="0"
+        maxHeight="100%"
+        minHeight="100vh"
+        style={{ backgroundColor: "#D9EDFE25" }}
+      >
+        <Box
+          position="absolute"
+          top="2"
+          width="fit-content"
+          style={{ zIndex: 20, left: "50%", transform: "translateX(-50%)" }}
+        ></Box>
+        <Box width="100%" flexShrink="1" overflow="auto" px="9" py="8" mt="9" flexGrow="1"></Box>
+      </Flex>
+      <Box flexShrink="0" width="300px" top="0" left="0" overflow="auto" maxHeight="100%"></Box>
+    </Flex>
   );
 };
