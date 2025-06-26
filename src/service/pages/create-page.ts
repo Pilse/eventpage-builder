@@ -1,3 +1,5 @@
+"use server";
+
 import { insert } from "@/api/pages";
 import { Container } from "@/domain/builder";
 

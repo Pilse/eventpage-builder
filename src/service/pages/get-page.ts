@@ -1,8 +1,10 @@
-import { getOneByUserId_PageId } from "@/api/pages";
+"use server";
 
-export const getPage = async (pageId: string, userId: string) => {
+import { getOneByPageId } from "@/api/pages";
+
+export const getPage = async (pageId: string, userId?: string) => {
   try {
-    const { data, error, statusText } = await getOneByUserId_PageId(pageId, userId);
+    const { data, error, statusText } = await getOneByPageId(pageId, userId);
 
     if (error) {
       throw new Error(statusText);

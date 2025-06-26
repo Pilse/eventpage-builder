@@ -1,6 +1,6 @@
 import { supabase } from "@/shared/database";
 
-export const getOneByUserId_PageId = (pageId: string, userId?: string) => {
+export const getOneByPageId = (pageId: string, userId?: string) => {
   return userId
     ? supabase
         .from("pages")

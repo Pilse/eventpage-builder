@@ -5,7 +5,8 @@ import { BlockFactory as BlockFactoryDomain, Container, ContainerBlock } from "@
 import { useGlobalContext } from "@/hooks";
 import { BlockHistoryProvider } from "@/hooks/use-block-history";
 import { getPage } from "@/service/pages";
-import { Flex, Box, Heading } from "@radix-ui/themes";
+import { Flex, Box, Heading, Skeleton } from "@radix-ui/themes";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { use, useLayoutEffect } from "react";
 import { DndProvider } from "react-dnd";
@@ -17,15 +18,21 @@ interface IBuilderPanelProps {
 
 export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
   const pageData = use(pagePromise);
-
+  const { data: session } = useSession();
   const router = useRouter();
   const globalContext = useGlobalContext();
 
   useLayoutEffect(() => {
+    if (!session) {
+      signIn("google", { redirect: true });
+      return;
+    }
+
     if (!pageData) {
       router.replace("/console");
+      return;
     }
-  }, [pageData, router]);
+  }, [pageData, router, session]);
 
   if (!pageData) {
     return null;
@@ -33,6 +40,8 @@ export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
 
   return (
     <BlockHistoryProvider
+      userId={session?.user?.id ?? ""}
+      pageId={pageData.publicId}
       root={
         BlockFactoryDomain.deserialize(
           pageData.block as ReturnType<Container["serialize"]>,
@@ -116,7 +125,9 @@ export const BlockPanelSkelton = () => {
           top="2"
           width="fit-content"
           style={{ zIndex: 20, left: "50%", transform: "translateX(-50%)" }}
-        ></Box>
+        >
+          <Skeleton className="w-[400px] h-[600px] mt-28"></Skeleton>
+        </Box>
         <Box width="100%" flexShrink="1" overflow="auto" px="9" py="8" mt="9" flexGrow="1"></Box>
       </Flex>
       <Box flexShrink="0" width="300px" top="0" left="0" overflow="auto" maxHeight="100%"></Box>

@@ -1,8 +1,9 @@
-import { Block } from "@/domain/builder";
+import { Block, Container } from "@/domain/builder";
 import { createContext, useCallback, useContext, type JSX } from "react";
 import { BlockHistory } from "@/domain/builder/history";
 import { useGlobalContext, useDomain } from "@/hooks";
 import { useHotkeys } from "react-hotkeys-hook";
+import { updateBlock } from "@/service/pages";
 
 interface IHBlockistoryContext {
   startCaptureSnapshot: (id: string) => void;
@@ -19,12 +20,18 @@ const BlockHistoryContext = createContext<IHBlockistoryContext>({
 });
 
 interface IBlockHistoryProviderProps {
-  root: InstanceType<typeof Block>;
-  children: ({ root, historyId }: { root: InstanceType<typeof Block>; historyId: string }) => JSX.Element;
+  userId: string;
+  pageId: string;
+  root: InstanceType<typeof Container>;
+  children: ({ root, historyId }: { root: InstanceType<typeof Container>; historyId: string }) => JSX.Element;
 }
 
-export const BlockHistoryProvider = ({ root, children }: IBlockHistoryProviderProps) => {
-  const history = useDomain(new BlockHistory(root));
+export const BlockHistoryProvider = ({ pageId, userId, root, children }: IBlockHistoryProviderProps) => {
+  const history = useDomain(
+    new BlockHistory(root, {
+      endCaptureCallback: (root) => updateBlock(pageId, userId, root.serialize()),
+    })
+  );
   const globalContext = useGlobalContext();
 
   const undo = useCallback(() => {

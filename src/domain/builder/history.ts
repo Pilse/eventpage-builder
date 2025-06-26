@@ -1,17 +1,25 @@
-import { Block, BlockFactory } from "./block";
+import { throttle } from "@/shared/util/utils";
+import { BlockFactory, Container, ContainerBlock } from "./block";
 import { v4 as uuidv4 } from "uuid";
 
-type Snapshot = ReturnType<InstanceType<typeof Block>["serialize"]>;
+type Snapshot = ReturnType<InstanceType<typeof ContainerBlock>["serialize"]>;
 
 export class BlockHistory {
   private undoq: Snapshot[] = [];
   private redoq: Snapshot[] = [];
   private snapshotMap = new Map<string, Snapshot>();
-  private root: InstanceType<typeof Block>;
+  private root: InstanceType<typeof Container>;
+  private throttleUpdateBlock: ReturnType<typeof throttle>;
   public historyId: string = "initial";
 
-  constructor(root: InstanceType<typeof Block>) {
+  constructor(
+    root: InstanceType<typeof Container>,
+    callbacks: {
+      endCaptureCallback: (root: InstanceType<typeof Container>) => void;
+    }
+  ) {
     this.root = root;
+    this.throttleUpdateBlock = throttle(callbacks.endCaptureCallback, 1000);
   }
 
   public getRoot() {
@@ -36,6 +44,7 @@ export class BlockHistory {
 
     this.undoq = this.undoq.concat(snapshot);
     this.snapshotMap.delete(id);
+    this.throttleUpdateBlock(this.root);
   }
 
   public undo() {
@@ -45,7 +54,7 @@ export class BlockHistory {
     }
 
     this.redoq = this.redoq.concat(this.root.serialize());
-    this.root = BlockFactory.deserialize(snapshot, null);
+    this.root = BlockFactory.deserialize(snapshot, null) as Container;
     this.historyId = uuidv4();
   }
 
@@ -56,7 +65,7 @@ export class BlockHistory {
     }
 
     this.undoq = this.undoq.concat(this.root.serialize());
-    this.root = BlockFactory.deserialize(snapshot, null);
+    this.root = BlockFactory.deserialize(snapshot, null) as Container;
     this.historyId = uuidv4();
   }
 }
