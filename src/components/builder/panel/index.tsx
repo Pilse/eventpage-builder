@@ -56,8 +56,6 @@ export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
             <Box flexShrink="0" width="256px" height="fit-content" position="sticky" top="0" left="0" p="4">
               <DndProvider backend={HTML5Backend}>
                 <Flex direction="column" gap="4">
-                  <PageMetaData pageData={pageData} userId={session?.user?.id ?? ""} />
-                  <Separator size="4" />
                   <Heading size="2">Layer</Heading>
                   <TreeNodeFactory key={historyId} block={root} depth={1} />
                 </Flex>
@@ -97,6 +95,10 @@ export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
               </Box>
             </Flex>
             <Box flexShrink="0" width="300px" top="0" left="0" overflow="auto" maxHeight="100%">
+              <Flex direction="column" p="4">
+                <PageMetaData block={root} pageData={pageData} userId={session?.user?.id ?? ""} />
+              </Flex>
+              <Separator size="4" />
               {globalContext.currentBlock && <PropertiesFactory block={globalContext.currentBlock} />}
             </Box>
           </Flex>

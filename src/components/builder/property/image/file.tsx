@@ -25,7 +25,7 @@ export const DefaultFile = <T extends InstanceType<typeof ImageBlock>>({ block }
             }
           }}
         />
-        <Button variant="surface" asChild>
+        <Button variant="outline" asChild>
           <label htmlFor="file-input">
             <TbCloudUpload /> <Text size="1">{block.filename || "Upload File"}</Text>
           </label>

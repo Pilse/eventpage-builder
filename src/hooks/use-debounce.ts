@@ -9,9 +9,12 @@ export function useDebounce<T extends (...args: any[]) => void>(
   callbackRef.current = callback;
 
   const debounced = useRef(
-    debounce((...args: Parameters<T>) => {
-      callbackRef.current(...args);
-    }, delay)
+    debounce(
+      ((...args: Parameters<T>) => {
+        callbackRef.current(...args);
+      }) as T,
+      delay
+    )
   );
 
   return useCallback((...args: Parameters<T>) => {

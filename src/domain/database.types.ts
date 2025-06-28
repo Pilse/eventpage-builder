@@ -18,6 +18,7 @@ export type Database = {
           isDeleted: boolean
           isPublished: boolean
           name: string
+          page: Json | null
           publicId: string
           publishedAt: string | null
           updatedAt: string
@@ -31,6 +32,7 @@ export type Database = {
           isDeleted?: boolean
           isPublished?: boolean
           name: string
+          page?: Json | null
           publicId?: string
           publishedAt?: string | null
           updatedAt?: string
@@ -44,6 +46,7 @@ export type Database = {
           isDeleted?: boolean
           isPublished?: boolean
           name?: string
+          page?: Json | null
           publicId?: string
           publishedAt?: string | null
           updatedAt?: string

@@ -96,14 +96,6 @@ export const BlockToolbars = () => {
             <TbPlayerPlay />
           </IconButton>
         </Flex>
-        <Flex direction="column" gap="2" align="center">
-          <Text size="1" color="gray">
-            Publish
-          </Text>
-          <IconButton size="3" variant="soft" color="gray">
-            <RiGlobalLine />
-          </IconButton>
-        </Flex>
       </Flex>
     </Card>
   );

@@ -61,7 +61,7 @@ export function DataTable({ data }: { data: ReturnType<typeof getPages>; userId:
               <DataList.Item>
                 <DataList.Label minWidth="88px">Last Published</DataList.Label>
                 <DataList.Value>
-                  {page.isPublished ? dayjs(page.publishedAt).format("YYYY-MM-DD HH:MM") : "-"}
+                  {page.isPublished ? dayjs(page.publishedAt).format("YYYY-MM-DD HH:mm") : "-"}
                 </DataList.Value>
               </DataList.Item>
             </DataList.Root>

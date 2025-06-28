@@ -8,7 +8,9 @@ export const updateOne = async ({
 }: {
   userId: string;
   pageId: string;
-  payload: Partial<Pick<Page, "name" | "block" | "isPublished" | "publishedAt" | "isDeleted" | "deletedAt">>;
+  payload: Partial<
+    Pick<Page, "name" | "block" | "page" | "isPublished" | "publishedAt" | "isDeleted" | "deletedAt">
+  >;
 }) => {
   return supabase
     .from("pages")
