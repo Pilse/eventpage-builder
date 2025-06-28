@@ -1,32 +1,46 @@
-import { NewBuildePage } from "@/components/builder/new-builder-page";
+"use client";
+
 import { sampleContainer } from "@/mock";
 import { createPage } from "@/service/pages";
-import { auth } from "@/shared/auth";
+import { revalidatePathServerAction } from "@/shared/revalidate-path-server-action";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { Suspense } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
-export default async function NewBuilder() {
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
-    return null;
-  }
+export default function NewBuilder() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const called = useRef(false);
 
-  const createPagePromise = createPage({
-    userId,
-    name: `New Page`,
-    serialized: sampleContainer,
-  });
+  useEffect(() => {
+    if (!session) {
+      router.replace("/console");
+      return;
+    }
+
+    if (called.current) {
+      return;
+    }
+    called.current = true;
+
+    createPage({
+      userId: session.user?.id ?? "",
+      name: "New Page",
+      serialized: sampleContainer,
+    }).then((creaetPageRes) => {
+      revalidatePathServerAction("/console");
+      if (!creaetPageRes) {
+        router.replace("/console");
+      } else {
+        router.replace(`/page/${creaetPageRes.publicId}`);
+      }
+    });
+  }, [router, session]);
 
   return (
-    <Suspense
-      fallback={
-        <div className="w-full h-screen flex flex-col justify-center items-center">
-          <Image src="/image/pageio.svg" width={30} height={30} alt="pageio" className="animate-spin" />
-        </div>
-      }
-    >
-      <NewBuildePage createPagePromise={createPagePromise} />
-    </Suspense>
+    <div className="w-full h-screen flex flex-col justify-center items-center">
+      <Image src="/image/pageio.svg" width={30} height={30} alt="pageio" className="animate-spin" />
+    </div>
   );
 }
