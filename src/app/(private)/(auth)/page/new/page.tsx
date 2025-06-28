@@ -26,7 +26,7 @@ export default function NewBuilder() {
 
     createPage({
       userId: session.user?.id ?? "",
-      name: "New Page",
+      name: "Untitled",
       serialized: sampleContainer,
     }).then((creaetPageRes) => {
       revalidatePathServerAction("/console");

@@ -1,9 +1,11 @@
 import { useBlockHistory, useNewBlock } from "@/hooks";
 import { BlockType } from "@/type";
 import { FrameIcon, ImageIcon, TextIcon } from "@radix-ui/react-icons";
-import { Card, Flex, IconButton, Separator, Text } from "@radix-ui/themes";
+import { Card, Flex, IconButton, Separator, Strong, Text } from "@radix-ui/themes";
 import { MouseEvent } from "react";
 import { GrRedo, GrUndo } from "react-icons/gr";
+import { RiGlobalLine } from "react-icons/ri";
+import { TbGlobe, TbPlayerPlay, TbPlayerPlayFilled } from "react-icons/tb";
 
 export const BlockToolbars = () => {
   const { isAddable, addNewBlock } = useNewBlock();
@@ -84,24 +86,24 @@ export const BlockToolbars = () => {
           </IconButton>
         </Flex>
 
-        {/* <Separator orientation="vertical" size="2" mx="2" /> */}
+        <Separator orientation="vertical" size="2" mx="2" />
 
-        {/* <Flex direction="column" gap="2" align="center">
+        <Flex direction="column" gap="2" align="center">
           <Text size="1" color="gray">
             Preview
           </Text>
-          <IconButton
-            size="3"
-            variant="soft"
-            color="gray"
-            onClick={() => {
-              const preview = search.get("preview");
-              router.replace(`?preview=${preview === "true" ? "false" : "true"}`);
-            }}
-          >
-            <TbPlayerPlayFilled size={20} />
+          <IconButton size="3" variant="soft" color="gray">
+            <TbPlayerPlay />
           </IconButton>
-        </Flex> */}
+        </Flex>
+        <Flex direction="column" gap="2" align="center">
+          <Text size="1" color="gray">
+            Publish
+          </Text>
+          <IconButton size="3" variant="soft" color="gray">
+            <RiGlobalLine />
+          </IconButton>
+        </Flex>
       </Flex>
     </Card>
   );

@@ -5,12 +5,13 @@ import { BlockFactory as BlockFactoryDomain, Container, ContainerBlock } from "@
 import { useGlobalContext } from "@/hooks";
 import { BlockHistoryProvider } from "@/hooks/use-block-history";
 import { getPage } from "@/service/pages";
-import { Flex, Box, Heading, Skeleton } from "@radix-ui/themes";
+import { Flex, Box, Heading, Skeleton, Separator } from "@radix-ui/themes";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { use, useLayoutEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { PageMetaData } from "./page-metadata";
 
 interface IBuilderPanelProps {
   pagePromise: ReturnType<typeof getPage>;
@@ -55,6 +56,8 @@ export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
             <Box flexShrink="0" width="256px" height="fit-content" position="sticky" top="0" left="0" p="4">
               <DndProvider backend={HTML5Backend}>
                 <Flex direction="column" gap="4">
+                  <PageMetaData pageData={pageData} userId={session?.user?.id ?? ""} />
+                  <Separator size="4" />
                   <Heading size="2">Layer</Heading>
                   <TreeNodeFactory key={historyId} block={root} depth={1} />
                 </Flex>
