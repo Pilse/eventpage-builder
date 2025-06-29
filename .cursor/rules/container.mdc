@@ -1,0 +1,61 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Container 블록
+
+## 개요
+Container는 페이지의 최상위 루트 블록입니다. 페이지의 기본 레이아웃을 정의하고 Section 블록들을 자식으로 가질 수 있습니다.
+
+## 특징
+- 페이지의 width와 height를 결정하는 루트 블록
+- Block 클래스를 상속하여 기본적인 레이아웃과 스타일링 속성을 가짐
+- 자식 요소들의 정렬과 간격을 제어
+
+## 고정된 속성
+### 레이아웃 타입
+- `widthType`: 'fixed' (고정)
+- `heightType`: 'fit' (고정)
+- `position`: 'relative' (고정)
+
+### 정렬
+- `alignVertical`: 'top' (고정)
+- `alignHorizontal`: 'center' (고정)
+
+## 주요 속성
+
+### 자식 요소
+- `children`: Section, SectionRow, SectionCol 타입의 블록들
+- `gap`: 항상 0 (Container에서는 사용하지 않음)
+
+### 디바이스와 너비
+Container의 width는 선택된 device에 따라 자동으로 결정됩니다:
+- iPhone Pro Max → width: 430px
+- iPhone Pro → width: 393px
+- iPhone → width: 390px
+- iPhone SE → width: 375px
+- Galaxy S Ultra → width: 384px
+- Galaxy S → width: 360px
+
+## 자식 요소 배치 규칙
+Container는 항상 세로 배치를 사용합니다. 자식 요소들의 t(top) 값은 다음과 같이 결정됩니다:
+
+1. 첫 번째 자식 (children[0]): t = 0
+2. 두 번째 자식 (children[1]): t = 첫 번째 자식의 height
+3. 세 번째 자식 (children[2]): t = 첫 번째 자식의 height + 두 번째 자식의 height
+4. n번째 자식: t = 이전 모든 자식들의 height 합
+
+예시:
+```
+children[0]: t = 0, height = 100
+children[1]: t = 100, height = 150
+children[2]: t = 250, height = 80
+```
+
+## 특이사항
+1. 페이지의 루트 블록으로서, 페이지의 전체 레이아웃을 결정
+2. Section 계열의 블록들만 자식으로 가질 수 있음
+3. 자식 요소들은 수직으로 쌓이며, 정렬 방식은 수직 top, 수평 center로 고정
+4. width가 변경되면 device 속성이 null로 초기화
+5. gap 속성은 항상 0이며 실제로는 사용되지 않음

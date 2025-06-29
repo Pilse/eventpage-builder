@@ -1,0 +1,701 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 이미지를 블록으로 변환하기
+
+- 목표 이미지에서 텍스트와 레이아웃, 스타일을 추출하여 block 기반 json을 구성한다
+
+> 📖 **모든 블록의 기본 정보**: 
+
+## Block 클래스 기본 속성 및 기본값
+
+### 위치 관련
+- `position`: 'relative' | 'absolute' (기본값: 'absolute')
+- `t`: top 위치값 (기본값: 0)
+- `l`: left 위치값 (기본값: 0)
+- `r`: right 위치값 (기본값: 0)
+- `b`: bottom 위치값 (기본값: 0)
+- `pt`: padding-top (기본값: 0)
+- `pr`: padding-right (기본값: 0)
+- `pb`: padding-bottom (기본값: 0)
+- `pl`: padding-left (기본값: 0)
+- `centerX`: 중심 X (직접 계산 필요, 기본값: width/2 또는 공식 참고)
+- `centerY`: 중심 Y (직접 계산 필요, 기본값: height/2 또는 공식 참고)
+
+### 크기 관련
+- `width`: 블록의 너비 (기본값: 100)
+- `height`: 블록의 높이 (기본값: 100)
+- `widthType`: 'fixed' | 'fill' | 'fit' (기본값: 'fixed')
+- `heightType`: 'fixed' | 'fill' | 'fit' (기본값: 'fixed')
+
+### 스타일 관련
+- `backgroundType`: 'color' (기본값: 'color')
+- `backgroundColor`: 배경색 (기본값: { r: 255, g: 255, b: 255, a: 0 })
+- `borderPosition`: 'inside' | 'outside' (기본값: 'inside')
+- `borderWidth`: 테두리 두께 (기본값: 0)
+- `borderColor`: 테두리 색상 (기본값: { r: 0, g: 0, b: 0, a: 1 })
+- `borderRadiusT`: 위쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusR`: 오른쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusB`: 아래쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusL`: 왼쪽 모서리 둥글기 (기본값: 0)
+- `shadow`: 그림자 효과 (기본값: { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } })
+
+#### 중심점 계산 공식
+- `centerX`와 `centerY`는 수동으로 계산해야 합니다:
+  - 부모가 없는 경우: _centerX = width / 2, _centerY = height / 2
+  - 부모가 있는 경우: _centerX = parent.width / 2 - (l + width / 2), _centerY = parent.height / 2 - (t + height / 2)
+
+### 중요: 기본값
+모든 블록은 아래 기본값을 빠짐없이 가지고 가이드에 따라 명시된 속성을 업데이트하는 방식으로 합니다.
+예시: 
+```json
+{
+  "t": 0,
+  "r": 0,
+  "b": 0,
+  "l": 0,
+  "pt": 0,
+  "pr": 0,
+  "pb": 0,
+  "pl": 0,
+  "type": null,
+  "position": "absolute",
+  "parent": null,
+  "width": 100,
+  "height": 100,
+  "xDirection": "l",
+  "yDirection": "t",
+  "prevOffset": {
+    "x": 0,
+    "y": 0
+  },
+  "widthType": "fixed",
+  "heightType": "fixed",
+  "backgroundType": "color",
+  "backgroundColor": {
+    "r": 255,
+    "g": 255,
+    "b": 255,
+    "a": 0
+  },
+  "borderPosition": "inside",
+  "borderWidth": 0,
+  "borderRadiusT": 0,
+  "borderRadiusR": 0,
+  "borderRadiusB": 0,
+  "borderRadiusL": 0,
+  "borderColor": {
+    "r": 0,
+    "g": 0,
+    "b": 0,
+    "a": 1
+  },
+  "shadow": {
+    "x": 0,
+    "y": 0,
+    "blur": 0,
+    "spread": 0,
+    "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0
+    }
+  },
+  "hoveredDir": null,
+  "isHovered": false,
+  "isSelected": false,
+  "centerX": 0,  // 필수 수정 필요 - 중심점 계산 공식 결과 들어가야 함
+  "centerY": 0,  // 필수 수정 필요 - 중심점 계산 공식 결과 들어가야 함
+}
+```
+
+## 1단계: Container 설정
+
+이미지를 블록으로 변환하는 첫 단계는 Container 블록을 설정하는 것입니다. Container는 페이지의 루트 블록으로, 전체 레이아웃의 기초가 됩니다.
+
+> 📖 **Container 블록 상세 정보**:
+## Container 블록 상세 정보
+
+### 개요
+Container는 페이지의 최상위 루트 블록입니다. 페이지의 기본 레이아웃을 정의하고 Section 블록들을 자식으로 가질 수 있습니다.
+
+### 특징
+- 페이지의 width와 height를 결정하는 루트 블록
+- Block 클래스를 상속하여 기본적인 레이아웃과 스타일링 속성을 가짐
+- 자식 요소들의 정렬과 간격을 제어
+
+### 고정된 속성
+#### 타입
+- `type`: 'CONTAINER' (고정)
+#### 레이아웃 타입
+- `widthType`: 'fixed' (고정)
+- `heightType`: 'fit' (고정)
+- `position`: 'relative' (고정)
+
+#### 정렬
+- `alignVertical`: 'top' (고정)
+- `alignHorizontal`: 'center' (고정)
+
+### 주요 속성
+
+#### 자식 요소
+- `children`: Section, SectionRow, SectionCol 타입의 블록들
+- `gap`: 항상 0 (Container에서는 사용하지 않음)
+
+### 특이사항
+1. 페이지의 루트 블록으로서, 페이지의 전체 레이아웃을 결정
+2. Section 계열의 블록들만 자식으로 가질 수 있음
+3. 자식 요소들은 수직으로 쌓이며, 정렬 방식은 수직 top, 수평 center로 고정
+4. width가 변경되면 device 속성이 null로 초기화
+5. gap 속성은 항상 0이며 실제로는 사용되지 않음
+
+
+### 1.1 디바이스와 너비 설정
+
+이미지를 보고 가장 적합한 디바이스를 선택하고, 해당하는 너비값을 설정합니다:
+
+1. 이미지의 너비를 확인
+2. 아래 디바이스 목록에서 이미지 너비와 가장 근접한 디바이스를 선택하고 해당 너비값을 사용
+   - iPhone Pro Max → width: 430px
+   - iPhone Pro → width: 393px
+   - iPhone → width: 390px
+   - iPhone SE → width: 375px
+   - Galaxy S Ultra → width: 384px
+   - Galaxy S → width: 360px
+
+선택한 디바이스에 맞게 device와 width 값을 Container에 직접 설정해야 합니다.
+
+height은 2.4에서 한번 더 검토하니 예상되는 높이값을 추가합니다
+
+### 1.2 배경 설정
+
+이미지의 배경을 분석합니다:
+
+1. 단일 색상 배경
+   - 이미지에서 주요 배경색을 추출
+   - Container의 backgroundColor로 설정
+
+2. 그라데이션 또는 패턴 배경
+   - 가장 지배적인 색상을 추출
+   - Container의 backgroundColor로 설정
+   - (복잡한 배경은 이후 Section 블록에서 처리)
+
+### 1.3 자식 요소 배치 규칙
+
+Container는 항상 세로 배치를 사용합니다. 자식 요소들의 t(top) 값은 다음과 같이 결정됩니다:
+
+1. 첫 번째 자식 (children[0]): t = 0
+2. 두 번째 자식 (children[1]): t = 첫 번째 자식의 height
+3. 세 번째 자식 (children[2]): t = 첫 번째 자식의 height + 두 번째 자식의 height
+4. n번째 자식: t = 이전 모든 자식들의 height 합
+
+예시:
+```
+children[0]: t = 0, height = 100
+children[1]: t = 100, height = 150
+children[2]: t = 250, height = 80
+```
+
+### 예시
+```
+입력 이미지:
+- 너비: 385px
+- 배경: rgb(255, 255, 255)
+
+Container 설정:
+1. 디바이스: Galaxy S Ultra (384px이 385px에 가장 근접)
+2. width: 384px
+3. 배경색: { r: 255, g: 255, b: 255, a: 1 }
+```
+
+```json
+{
+  "type": "CONTAINER",
+  "position": "relative",
+  "width": 384,
+  "height": 1200, // 전체 높이는 섹션들의 합 (추후 다시 결정)
+  "widthType": "fixed",
+  "heightType": "fit",
+  "device": "Galaxy S Ultra",
+  "t": 0,
+  "l": 0,
+  "r": 0,
+  "b": 0,
+  "pt": 0,
+  "pr": 0,
+  "pb": 0,
+  "pl": 0,
+  "backgroundType": "color",
+  "backgroundColor": {
+    "r": 255,
+    "g": 255,
+    "b": 255,
+    "a": 1
+  },
+  "borderPosition": "inside",
+  "borderWidth": 0,
+  "borderColor": {
+    "r": 0,
+    "g": 0,
+    "b": 0,
+    "a": 1
+  },
+  "borderRadiusT": 0,
+  "borderRadiusR": 0,
+  "borderRadiusB": 0,
+  "borderRadiusL": 0,
+  "shadow": {
+    "x": 0,
+    "y": 0,
+    "blur": 0,
+    "spread": 0,
+    "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0,
+    }
+  },
+  "children": []
+}
+```
+
+
+## 2단계: Section Canvas 설정
+
+Container 설정이 완료되면, 이미지의 주요 섹션들을 분석하여 Section Canvas 블록으로 나눕니다.
+
+> 📖 **Section Canvas 블록 상세 정보**:
+## Section Canvas 블록 상세 정보
+
+### 개요
+Section Canvas는 Container의 자식으로 사용되는 섹션 블록입니다. 페이지의 주요 영역을 구분하고, 그 안에 Frame, Text등의 요소들을 배치할 수 있는 기준점 역할을 합니다.
+
+### 특징
+- Container의 자식으로만 사용 가능
+- Block 클래스를 상속하여 기본적인 레이아웃과 스타일링 속성을 가짐
+- 자식 요소들의 배치 기준점 역할
+
+### 고정된 속성
+#### 레이아웃 타입
+- `widthType`: 'fill' (고정) - Container의 width에 맞춤
+- `heightType`: 'fixed' (고정) - 원하는 높이로 설정 가능
+- `position`: 'absolute' (고정)
+
+### 주요 속성
+
+#### 크기
+- `width`: Container의 width와 동일 (자동 설정)
+- `height`: 원하는 높이로 설정
+
+#### 자식 요소
+- `children`: Text, Frame 타입의 블록들
+
+#### 스타일
+- `backgroundColor`: Container와 다른 배경색 설정 가능
+
+### 자식 요소 배치
+Section Canvas는 자식 요소들을 자유롭게 배치할 수 있는 캔버스 역할을 합니다. 자식 요소들은 t, l 값을 통해 원하는 위치에 배치할 수 있습니다.
+
+### 특이사항
+1. Container의 width에 맞춰 자동으로 width가 설정됨
+2. height는 원하는 값으로 자유롭게 설정 가능
+3. Container와 다른 배경색을 가질 수 있어 섹션 구분에 활용
+4. 자식 요소들의 배치 기준점 역할
+
+### 2.1 섹션 구분
+
+이미지를 분석하여 다음과 같은 기준으로 섹션을 구분합니다:
+
+1. 배경색이 다른 영역
+2. 콘텐츠가 명확히 구분되는 영역
+3. 레이아웃이 다른 영역
+
+### 2.2 Section Canvas 속성 설정
+
+각 Section Canvas에 대해 다음 속성을 설정합니다:
+
+#### 고정 속성
+- `widthType`: 'fill' (Container의 width에 맞춤)
+- `heightType`: 'fixed' (원하는 높이로 설정)
+- `position`: 'absolute'
+
+#### 설정 가능한 속성
+- `height`: 섹션의 높이 (이미지에서 측정)
+- `backgroundColor`: 섹션의 배경색 (Container와 다를 경우)
+- `t`: Container 내에서의 위치 (Container의 자식 배치 규칙에 따라 자동 계산)
+
+### 2.3 예시
+```
+이미지 분석 결과:
+- 헤더 섹션: height = 80px, 배경색 = rgb(240, 240, 240)
+- 메인 콘텐츠 섹션: height = 400px, 배경색 = rgb(255, 255, 255)
+- 푸터 섹션: height = 60px, 배경색 = rgb(50, 50, 50)
+
+Section Canvas 설정:
+(Container의 width = 384px를 그대로 사용)
+1. 헤더: width = 384, height = 80, backgroundColor = { r: 240, g: 240, b: 240, a: 1 }, t = 0
+2. 메인: width = 384, height = 400, backgroundColor = { r: 255, g: 255, b: 255, a: 1 }, t = 80
+3. 푸터: width = 384, height = 60, backgroundColor = { r: 50, g: 50, b: 50, a: 1 }, t = 480
+```
+
+```json
+{
+  "type": "SECTION_CANVAS",
+  "position": "absolute",
+  "width": 384,
+  "height": 80,
+  "widthType": "fill",
+  "heightType": "fixed",
+  "t": 0,
+  "l": 0,
+  "r": 0,
+  "b": 0,
+  "pt": 0,
+  "pr": 0,
+  "pb": 0,
+  "pl": 0,
+  "backgroundType": "color",
+  "backgroundColor": { "r": 240, "g": 240, "b": 240, "a": 1 },
+  "borderPosition": "inside",
+  "borderWidth": 0,
+  "borderColor": {
+    "r": 0,
+    "g": 0,
+    "b": 0,
+    "a": 0
+  },
+  "borderRadiusT": 0,
+  "borderRadiusR": 0,
+  "borderRadiusB": 0,
+  "borderRadiusL": 0,
+  "shadow": {
+    "x": 0,
+    "y": 0,
+    "blur": 0,
+    "spread": 0,
+    "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0
+    }
+  },
+  "children": []
+}
+```
+
+### 2.4 Container 높이 설정
+만든 Section Canvas의 height 총 합을 Container의 height으로 업데이트 합니다
+
+에시 
+```
+1. 헤더: width = 384, height = 80, backgroundColor = { r: 240, g: 240, b: 240, a: 1 }, t = 0
+2. 메인: width = 384, height = 400, backgroundColor = { r: 255, g: 255, b: 255, a: 1 }, t = 80
+3. 푸터: width = 384, height = 60, backgroundColor = { r: 50, g: 50, b: 50, a: 1 }, t = 480
+```
+
+Container의 height= 560
+
+## 3단계: Section Canvas 내부 요소 추가
+
+Section Canvas 설정이 완료되면, 각 섹션을 순회하면서 내부에 Frame, Text 요소들을 추가합니다.
+
+1. Frame Canvas가 필요한 경우:
+   - Section Canvas의 children에 Frame Canvas 추가
+   - Frame Canvas 내부에 Text 블록 배치
+   - Text의 위치(t, l)는 Frame Canvas 기준으로 설정
+
+2. Frame Canvas가 필요없는 경우:
+   - Text블록을 직접 Section Canvas의 children에 추가
+   - Text의 위치(t, l)는 Section Canvas 기준으로 설정
+
+### 3.1 Frame Canvas 설정
+
+먼저 Section Canvas 내에서 border, background color가 있거나 그룹화가 필요한 영역을 Frame Canvas로 설정합니다.
+
+#### Frame Canvas 특징
+- Section Canvas와 동일한 속성과 설정을 가짐
+- Section Canvas의 children으로 추가됨
+- Text블록의 부모 역할
+
+#### 설정가능한 속성
+- `backgroundType`: 'color' (기본값: 'color')
+- `backgroundColor`: 배경색 (기본값: { r: 255, g: 255, b: 255, a: 0 })
+- `borderPosition`: 'inside' | 'outside' (기본값: 'inside')
+- `borderWidth`: 테두리 두께 (기본값: 0)
+- `borderColor`: 테두리 색상 (기본값: { r: 0, g: 0, b: 0, a: 1 })
+- `borderRadiusT`: 위쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusR`: 오른쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusB`: 아래쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusL`: 왼쪽 모서리 둥글기 (기본값: 0)
+- `shadow`: 그림자 효과 (기본값: { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } })
+- `width`: 블록의 너비 (기본값: 100)
+- `height`: 블록의 높이 (기본값: 100)
+- `t`: top 위치값 (기본값: 0)
+- `l`: left 위치값 (기본값: 0)
+- `r`: right 위치값 (기본값: 0)
+- `b`: bottom 위치값 (기본값: 0)
+
+
+#### Frame Canvas 예시
+```json
+{
+  "type": "FRAME_CANVAS",
+  "position": "absolute",
+  "width": 335,
+  "height": 120,
+  "widthType": "fixed",
+  "heightType": "fixed",
+  "t": 20,
+  "l": 20,
+  "r": 20,
+  "b": 0,
+  "pt": 16,
+  "pr": 16,
+  "pb": 16,
+  "pl": 16,
+  "backgroundType": "color",
+  "backgroundColor": {
+    "r": 255,
+    "g": 255,
+    "b": 255,
+    "a": 1
+  },
+  "borderPosition": "inside",
+  "borderWidth": 1,
+  "borderColor": {
+    "r": 0,
+    "g": 0,
+    "b": 0,
+    "a": 0.1
+  },
+  "borderRadiusT": 8,
+  "borderRadiusR": 8,
+  "borderRadiusB": 8,
+  "borderRadiusL": 8,
+  "shadow": {
+    "x": 0,
+    "y": 2,
+    "blur": 4,
+    "spread": 0,
+    "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.1
+    }
+  },
+  "children": []
+}
+```
+
+#### 레이아웃 가이드
+- 요소를 가로축 기준 가운데 배치하고 싶다면 l = 부모의 width / 2 - 본인의 width / 2
+- 요소의 세로축 기준 가운데 배치하고 싶다면 t = 부모의 height / 2 - 본인의 height / 2
+
+#### Frame Canvas 필수 체크리스트
+- 모서리 선이 있는지 확인 후 있다면 borderWidth와 borderColor 추가
+- 모서리 둥글기가 있는지 확인 후 있다면 borderRadius의 각 방향 추가
+- 배경색이 있는지 확인 후 있다면 backgroundColor 추가
+
+### 3.2 Text 블록 설정
+
+Text 블록은 텍스트 콘텐츠를 표시하는 블록입니다.
+텍스트로 판단되는 것이 있다면 무조건 Text 블록을 통해 그리며, backgroundColor, border 속성을 통해 디자인을 맞춥니다
+
+#### Text 블록 고유 속성
+- `content`: 순수 텍스트 내용 (줄바꿈은 <br/> 태그 사용)
+- `fontName`: 폰트 이름 (typography.ts의 fonts 배열에서 선택)
+- `fontWeight`: 폰트 두께 (선택한 fontName에서 지원하는 weight 중 선택)
+- `fontColor`: 텍스트 색상 (RGBA)
+- `fontSize`: 글자 크기 (px)
+- `letterSpacing`: 자간 (px)
+- `lineHeight`: 행간 (em)
+- `textAlign`: 텍스트 정렬 ('left' | 'center' | 'right')
+- `textShadow`: 텍스트 그림자
+
+#### 크기 계산
+- `width`: 실제 픽셀 값 (content 너비에 따라 계산)
+- `height`: 실제 픽셀 값 (content 높이에 따라 계산)
+- `widthType`: 'fit' (기본값) - content 너비에 맞춤
+- `heightType`: 'fit' (기본값) - content 높이에 맞춤
+
+#### 설정가능한 속성
+- `backgroundType`: 'color' (기본값: 'color')
+- `backgroundColor`: 배경색 (기본값: { r: 255, g: 255, b: 255, a: 0 })
+- `borderPosition`: 'inside' | 'outside' (기본값: 'inside')
+- `borderWidth`: 테두리 두께 (기본값: 0)
+- `borderColor`: 테두리 색상 (기본값: { r: 0, g: 0, b: 0, a: 1 })
+- `borderRadiusT`: 위쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusR`: 오른쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusB`: 아래쪽 모서리 둥글기 (기본값: 0)
+- `borderRadiusL`: 왼쪽 모서리 둥글기 (기본값: 0)
+- `shadow`: 그림자 효과 (기본값: { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } })
+- `width`: 블록의 너비 (기본값: 100)
+- `height`: 블록의 높이 (기본값: 100)
+- `t`: top 위치값 (기본값: 0)
+- `l`: left 위치값 (기본값: 0)
+- `r`: right 위치값 (기본값: 0)
+- `b`: bottom 위치값 (기본값: 0)
+- `content`: 순수 텍스트 내용 (줄바꿈은 <br/> 태그 사용)
+- `fontName`: 폰트 이름 (typography.ts의 fonts 배열에서 선택)
+- `fontWeight`: 폰트 두께 (선택한 fontName에서 지원하는 weight 중 선택)
+- `fontColor`: 텍스트 색상 (RGBA)
+- `fontSize`: 글자 크기 (px)
+- `letterSpacing`: 자간 (px)
+- `lineHeight`: 행간 (em)
+- `textAlign`: 텍스트 정렬 ('left' | 'center' | 'right')
+- `textShadow`: 텍스트 그림자
+- `width`: 실제 픽셀 값 (content 너비에 따라 계산)
+- `height`: 실제 픽셀 값 (content 높이에 따라 계산)
+
+
+#### Content 구조
+Text 블록의 content는 순수 텍스트이며, 줄바꿈이 필요한 경우 <br/> 태그를 사용합니다:
+```text
+첫 번째 줄<br/>
+두 번째 줄<br/>
+세 번째 줄
+```
+
+#### Text 블록 예시
+```json
+{
+  "type": "TEXT",
+  "position": "absolute",
+  "width": 335,  // 실제 계산된 너비
+  "height": 48,  // 실제 계산된 높이
+  "widthType": "fit",
+  "heightType": "fit",
+  "t": 0,
+  "l": 0,
+  "r": 0,
+  "b": 0,
+  "content": "샘플 텍스트<br/>두 번째 줄",
+  "fontName": "Pretendard",
+  "fontWeight": 700,
+  "fontColor": {
+    "r": 0,
+    "g": 0,
+    "b": 0,
+    "a": 1
+  },
+  "fontSize": 24,
+  "letterSpacing": 0,
+  "lineHeight": 1.5,
+  "textAlign": "left",
+  "textShadow": {
+    "x": 0,
+    "y": 0,
+    "blur": 0,
+    "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0
+    }
+  },
+  "backgroundType": "color",
+  "backgroundColor": {
+    "r": 255,
+    "g": 255,
+    "b": 255,
+    "a": 0
+  },
+  "borderPosition": "inside",
+  "borderWidth": 0,
+  "borderColor": {
+    "r": 0,
+    "g": 0,
+    "b": 0,
+    "a": 1
+  },
+  "borderRadiusT": 0,
+  "borderRadiusR": 0,
+  "borderRadiusB": 0,
+  "borderRadiusL": 0,
+  "shadow": {
+    "x": 0,
+    "y": 0,
+    "blur": 0,
+    "spread": 0,
+    "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0
+    }
+  }
+}
+```
+
+#### 레이아웃 가이드
+- 요소를 가로축 기준 가운데 배치하고 싶다면 l = 부모의 width / 2 - 본인의 width / 2
+- 요소의 세로축 기준 가운데 배치하고 싶다면 t = 부모의 height / 2 - 본인의 height / 2
+
+
+#### 폰트 선택 가이드
+
+typography.ts에서 제공하는 폰트 중 적절한 것을 선택:
+
+1. 제목용 폰트:
+   - Paperlogy (500, 600, 700)
+   - GmarketSans (300, 500, 700)
+   - KakaoBigSans (400, 700, 800)
+
+2. 본문용 폰트:
+   - Pretendard (100-900)
+   - LINESeedSansKR (100, 400, 700)
+   - GowunBatang (400, 700)
+
+3. 특수 목적 폰트:
+   - SDKukdetopokki (400) - 귀여운 느낌
+   - Ownglyph_ParkDaHyun (400) - 손글씨
+   - Independence_hall (400) - 고전적인 느낌
+
+
+#### Text 필수 체크리스트
+- 모서리 선이 있는지 확인 후 있다면 borderWidth와 borderColor 추가
+- 모서리 둥글기가 있는지 확인 후 있다면 borderRadius의 각 방향 추가
+- 배경색이 있는지 확인 후 있다면 backgroundColor 추가
+- 이미지에서 줄바꿈이 있다면 <br />을 추가하여 나도 줄바꿈되도록 함
+- 연속된 텍스트의 색 혹은 크기가 다르다면 다른 text block을 만들어 배치
+
+
+## 4단계: 디자인
+아이콘 등 이미지를 생성할 수 없기에 빈공간이 생긴 부분을 주변과 어울리게 디자인합니다
+
+### 4-1 배경색
+이미지가 배경이 뚜렷하다면 해당 위치는 배경색으로 대체합니다
+
+### 4-2 아이콘
+아이콘이 사용된 부분이 있다면 해당 위치는 빈공간으로 둡니다
+
+### 4-3 그 외
+그 외에 대해서는 임의로 창의력을 발휘하여 디자인 합니다.
+
+
+## 5단계: 재조정
+Text, Frame 블록 설정이 완료되면, 전체 레이아웃을 검토하고 미세 조정을 진행합니다.
+
+### 5-1 레이아웃 검토
+- children의 각 요소는 부모의 width나 height을 넘어갈 수 없습니다 만약 child의 l + width, t + height이 부모의 width, height보다 크다면 재조정이 필요합니다.
+- 각 요소는 겹칠 수 없습니다. l + width, t + height을 계산했을 때 sibling의 l, t보다 커진다면 재조정이 필요합니다
+만약 조정이 필요하다면 5-2를, 아니면 종료합니다
+
+### 5-2 레이아웃 재조정
+- 부모의 width, heigth을 자식을 모두 포함할 수 있을 만큼 키웁니다. 자식의 가장큰 width는 l + width가 가장 큰값, 가장 큰 height는 t+ height이 가장 큰값으로 결정합니다
+- sibling의 t, l을 겹치치 않게 조정합니다
+- 요소를 가로축 기준 가운데 배치하고 싶다면 l = 부모의 width / 2 - 본인의 width / 2
+- 요소의 세로축 기준 가운데 배치하고 싶다면 t = 부모의 height / 2 - 본인의 height / 2
+
+### 5-3 재검토
+5-1로 돌아가서 다시 검토합니다
+
+
+
+

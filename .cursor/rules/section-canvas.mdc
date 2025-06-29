@@ -1,0 +1,41 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Section Canvas 블록
+
+## 개요
+Section Canvas는 Container의 자식으로 사용되는 섹션 블록입니다. 페이지의 주요 영역을 구분하고, 그 안에 Frame, Text, Image 등의 요소들을 배치할 수 있는 기준점 역할을 합니다.
+
+## 특징
+- Container의 자식으로만 사용 가능
+- Block 클래스를 상속하여 기본적인 레이아웃과 스타일링 속성을 가짐
+- 자식 요소들의 배치 기준점 역할
+
+## 고정된 속성
+### 레이아웃 타입
+- `widthType`: 'fill' (고정) - Container의 width에 맞춤
+- `heightType`: 'fixed' (고정) - 원하는 높이로 설정 가능
+- `position`: 'absolute' (고정)
+
+## 주요 속성
+
+### 크기
+- `width`: Container의 width와 동일 (자동 설정)
+- `height`: 원하는 높이로 설정
+
+### 자식 요소
+- `children`: Text, Image, Frame, FrameRow, FrameCol 타입의 블록들
+
+### 스타일
+- `backgroundColor`: Container와 다른 배경색 설정 가능
+
+## 자식 요소 배치
+Section Canvas는 자식 요소들을 자유롭게 배치할 수 있는 캔버스 역할을 합니다. 자식 요소들은 t, l 값을 통해 원하는 위치에 배치할 수 있습니다.
+
+## 특이사항
+1. Container의 width에 맞춰 자동으로 width가 설정됨
+2. height는 원하는 값으로 자유롭게 설정 가능
+3. Container와 다른 배경색을 가질 수 있어 섹션 구분에 활용
+4. 자식 요소들의 배치 기준점 역할
