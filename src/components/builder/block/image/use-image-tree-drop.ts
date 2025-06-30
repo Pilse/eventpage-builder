@@ -38,6 +38,7 @@ export const IUseDefaultFrameTreeDrop = <T extends Block>(block: T) => {
         if (hasDropColMixin(curParent) || hasDropRowMixin(curParent)) {
           curParent.autoLayout();
         }
+        endCaptureSnapshot(`${block.id}-tree-drop`);
         return;
       }
 

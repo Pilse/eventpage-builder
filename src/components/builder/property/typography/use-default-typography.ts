@@ -1,5 +1,5 @@
 import { TypographyMixinBlockType } from "@/domain/builder/mixin";
-import { useBlockHistory } from "@/hooks";
+import { useBlockHistory, useDebounce } from "@/hooks";
 import { Color, Shadow, TextAlign, TextShadow } from "@/type";
 import { hasDropColMixin, hasDropRowMixin } from "@/shared/util";
 import { useCallback, useEffect, useState } from "react";
@@ -7,7 +7,14 @@ import { flushSync } from "react-dom";
 
 export const useDefaultTypography = <T extends TypographyMixinBlockType>(block: T) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
-
+  const debouncedFontColorEndCaptureSnapshot = useDebounce(
+    () => endCaptureSnapshot(`${block.id}-property-font-color`),
+    300
+  );
+  const debouncedShadowColorEndCaptureSnapshot = useDebounce(
+    () => endCaptureSnapshot(`${block.id}-property-shadow-color`),
+    300
+  );
   const [openColorPicker, setOpenColorPicker] = useState(false);
   const [openShadowColorPicker, setShadowOpenColorPicker] = useState(false);
 
@@ -77,9 +84,9 @@ export const useDefaultTypography = <T extends TypographyMixinBlockType>(block: 
     (rgba: Color) => {
       startCaptureSnapshot(`${block.id}-property-shadow-color`);
       block.commitUpdateFontColorRgba(rgba);
-      endCaptureSnapshot(`${block.id}-property-shadow-color`);
+      debouncedFontColorEndCaptureSnapshot();
     },
-    [block, endCaptureSnapshot, startCaptureSnapshot]
+    [block, debouncedFontColorEndCaptureSnapshot, startCaptureSnapshot]
   );
 
   const onLetterSpacingChange = useCallback(
@@ -144,9 +151,9 @@ export const useDefaultTypography = <T extends TypographyMixinBlockType>(block: 
     (rgba: Color) => {
       startCaptureSnapshot(`${block.id}-property-text-shadow-color`);
       block.commitUpdateShadowColorRgba(rgba);
-      endCaptureSnapshot(`${block.id}-property-text-shadow-color`);
+      debouncedShadowColorEndCaptureSnapshot();
     },
-    [block, endCaptureSnapshot, startCaptureSnapshot]
+    [block, debouncedShadowColorEndCaptureSnapshot, startCaptureSnapshot]
   );
 
   const onShadowChange = useCallback(

@@ -58,6 +58,7 @@ export const useSectionTreeDrop = <
         if (hasDropColMixin(curParent) || hasDropRowMixin(curParent)) {
           curParent.autoLayout("order");
         }
+        endCaptureSnapshot(`${block.id}-tree-drop`);
         return;
       }
 

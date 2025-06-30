@@ -73,10 +73,10 @@ export class Block {
 
   constructor(initState: IBlock) {
     this.id = initState.id ?? uuidv4();
-    this._t = (initState.t ?? 0) + (initState.parent?.pt ?? 0);
-    this._r = (initState.r ?? 0) + (initState.parent?.pr ?? 0);
-    this._b = (initState.b ?? 0) + (initState.parent?.pb ?? 0);
-    this._l = (initState.l ?? 0) + (initState.parent?.pl ?? 0);
+    this._t = initState.t ?? 0;
+    this._r = initState.r ?? 0;
+    this._b = initState.b ?? 0;
+    this._l = initState.l ?? 0;
     this.pt = initState.pt ?? 0;
     this.pr = initState.pr ?? 0;
     this.pb = initState.pb ?? 0;

@@ -1,11 +1,14 @@
 import { ShadowMixinBlockType } from "@/domain/builder/mixin";
-import { useBlockHistory } from "@/hooks";
+import { useBlockHistory, useDebounce } from "@/hooks";
 import { Color, Shadow } from "@/type";
 import { useCallback, useEffect, useState } from "react";
 
 export const useDefaultShadow = (block: ShadowMixinBlockType) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
-
+  const debouncedEndCaptureSnapshot = useDebounce(
+    () => endCaptureSnapshot(`${block.id}-property-shadow-color`),
+    300
+  );
   const [openColorPicker, setOpenColorPicker] = useState(false);
 
   const onHexChange = useCallback(
@@ -27,9 +30,9 @@ export const useDefaultShadow = (block: ShadowMixinBlockType) => {
     (rgba: Color) => {
       startCaptureSnapshot(`${block.id}-property-shadow-color`);
       block.commitUpdateShadowColorRgba(rgba);
-      endCaptureSnapshot(`${block.id}-property-shadow-color`);
+      debouncedEndCaptureSnapshot();
     },
-    [block, endCaptureSnapshot, startCaptureSnapshot]
+    [block, debouncedEndCaptureSnapshot, startCaptureSnapshot]
   );
 
   const onShadowChange = useCallback(

@@ -1,10 +1,14 @@
 import { BackgroundMixinBlockType } from "@/domain/builder/mixin";
-import { useBlockHistory } from "@/hooks";
+import { useBlockHistory, useDebounce } from "@/hooks";
 import { Color } from "@/type";
 import { useCallback, useEffect, useState } from "react";
 
 export const useDefaultBgColor = (block: BackgroundMixinBlockType) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
+  const debouncedEndCaptureSnapshot = useDebounce(
+    () => endCaptureSnapshot(`${block.id}-property-bg-color`),
+    300
+  );
 
   const [openColorPicker, setOpenColorPicker] = useState(false);
 
@@ -27,9 +31,9 @@ export const useDefaultBgColor = (block: BackgroundMixinBlockType) => {
     (rgba: Color) => {
       startCaptureSnapshot(`${block.id}-property-bg-color`);
       block.commitUpdateBgColorRgba(rgba);
-      endCaptureSnapshot(`${block.id}-property-bg-color`);
+      debouncedEndCaptureSnapshot();
     },
-    [block, endCaptureSnapshot, startCaptureSnapshot]
+    [block, debouncedEndCaptureSnapshot, startCaptureSnapshot]
   );
 
   useEffect(() => {

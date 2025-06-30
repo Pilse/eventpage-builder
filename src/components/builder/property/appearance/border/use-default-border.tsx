@@ -1,11 +1,15 @@
 import { Block } from "@/domain/builder";
 import { BorderMixinBlockType } from "@/domain/builder/mixin";
-import { useBlockHistory } from "@/hooks";
+import { useBlockHistory, useDebounce } from "@/hooks";
 import { Color } from "@/type";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const useDefaultBorder = (block: BorderMixinBlockType) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
+  const debouncedEndCaptureSnapshot = useDebounce(
+    () => endCaptureSnapshot(`${block.id}-property-border-color`),
+    300
+  );
 
   const [openColorPicker, setOpenColorPicker] = useState(false);
 
@@ -28,9 +32,9 @@ export const useDefaultBorder = (block: BorderMixinBlockType) => {
     (rgba: Color) => {
       startCaptureSnapshot(`${block.id}-property-border-color`);
       block.commitUpdateBorderColorRgba(rgba);
-      endCaptureSnapshot(`${block.id}-property-border-color`);
+      debouncedEndCaptureSnapshot();
     },
-    [block, endCaptureSnapshot, startCaptureSnapshot]
+    [block, debouncedEndCaptureSnapshot, startCaptureSnapshot]
   );
 
   const onBorderWidthChange = useCallback(

@@ -16,13 +16,7 @@ interface IResizeMixinProps {
 }
 
 export const ResizeContainerMixin = ({ element, block }: IResizeMixinProps) => {
-  const snappableDir = useRef<{
-    x: "l" | "r" | "c" | boolean;
-    y: "t" | "b" | "c" | boolean;
-  }>({ x: false, y: false });
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
-  const sectionElement = useRef<HTMLElement | null>(null);
-  const parentElement = useRef<HTMLElement | null>(null);
 
   const handleMouseDown = (e: MouseEvent, resizableDir: Partial<IResizableDirection>) => {
     startCaptureSnapshot(`resize-${block.id}`);

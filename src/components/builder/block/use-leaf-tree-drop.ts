@@ -46,6 +46,7 @@ export const useLeafTreeDrop = <T extends Block>(block: T) => {
         if (hasDropColMixin(curParent) || hasDropRowMixin(curParent)) {
           curParent.autoLayout("order");
         }
+        endCaptureSnapshot(`${block.id}-tree-drop`);
         return;
       }
 
