@@ -1,12 +1,11 @@
-import { getPage, publishPage } from "@/service/pages";
-import { Badge, Button, Code, Flex, Heading, Popover, Text, TextField } from "@radix-ui/themes";
+import { getPage } from "@/service/pages";
+import { Button, Code, Flex, Heading, Popover, Text, TextField } from "@radix-ui/themes";
 import Link from "next/link";
-import { useState } from "react";
 import { RiGlobalLine } from "react-icons/ri";
-import { TbEdit, TbLoader2, TbSettings } from "react-icons/tb";
+import { TbLoader2, TbSettings } from "react-icons/tb";
 import { usePageName } from "./use-page-name";
-import { useServerAction } from "@/hooks";
 import { Container } from "@/domain/builder";
+import { usePublishPage } from "./use-publish-page";
 
 interface IPageMetatDataProps {
   block: Container;
@@ -15,7 +14,10 @@ interface IPageMetatDataProps {
 }
 
 export const PageMetaData = ({ block, pageData, userId }: IPageMetatDataProps) => {
-  const { action: publishPageAction, loading: publishPageLoading } = useServerAction(publishPage);
+  const { isPublished, onPublishPage, publishPageLoading, onUnpublishPage, unpublishPageLoading } =
+    usePublishPage({
+      initialIsPublished: pageData.isPublished,
+    });
   const { pageName, onPageNameChange } = usePageName(pageData.name, {
     pageId: pageData.publicId,
     userId,
@@ -36,8 +38,8 @@ export const PageMetaData = ({ block, pageData, userId }: IPageMetatDataProps) =
           <Flex direction="column" gap="2">
             <TextField.Root value={pageName} onChange={(e) => onPageNameChange(e.target.value)} />
 
-            {pageData.isPublished && (
-              <Link href={`/p/${pageData.publicId}`} className="max-w-full">
+            {isPublished && (
+              <Link href={`/p/${pageData.publicId}`} className="max-w-full" target="_blank">
                 <Text className="max-w-full hover:underline" color="blue" size="1">
                   <Flex align="center" gap="1">
                     <RiGlobalLine className="shrink-0" />
@@ -49,8 +51,16 @@ export const PageMetaData = ({ block, pageData, userId }: IPageMetatDataProps) =
               </Link>
             )}
 
-            <Button color="gray" variant="soft" disabled={!pageData.isPublished}>
-              Back to Draft
+            <Button
+              color="gray"
+              variant="soft"
+              disabled={!isPublished}
+              onClick={() => onUnpublishPage(pageData.publicId, userId)}
+            >
+              <Flex align="center" gap="1">
+                {unpublishPageLoading ? <TbLoader2 className="animate-spin" /> : <RiGlobalLine />}
+                Back to Draft
+              </Flex>
             </Button>
           </Flex>
         </Popover.Content>
@@ -61,7 +71,7 @@ export const PageMetaData = ({ block, pageData, userId }: IPageMetatDataProps) =
         variant="soft"
         className="w-full"
         size="2"
-        onClick={() => publishPageAction(pageData.publicId, userId, block.serialize())}
+        onClick={() => onPublishPage(pageData.publicId, userId, block.serialize())}
         disabled={publishPageLoading}
       >
         <Flex align="center" gap="1">
