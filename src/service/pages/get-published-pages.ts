@@ -1,3 +1,5 @@
+"use server";
+
 import { getManyByIsPublished } from "@/api/pages";
 
 export const getPublishedPages = async () => {
