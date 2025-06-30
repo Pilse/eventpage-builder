@@ -95,7 +95,7 @@ export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
                 width="fit-content"
                 style={{ zIndex: 20, left: "50%", transform: "translateX(-50%)" }}
               >
-                <BlockToolbars />
+                <BlockToolbars pageId={pageData.publicId} />
               </Box>
               <Box width="100%" flexShrink="1" overflow="auto" px="9" py="8" mt="9" flexGrow="1">
                 <DndProvider backend={HTML5Backend}>

@@ -4,10 +4,11 @@ import { FrameIcon, ImageIcon, TextIcon } from "@radix-ui/react-icons";
 import { Card, Flex, IconButton, Separator, Strong, Text } from "@radix-ui/themes";
 import { MouseEvent } from "react";
 import { GrRedo, GrUndo } from "react-icons/gr";
-import { RiGlobalLine } from "react-icons/ri";
-import { TbGlobe, TbPlayerPlay, TbPlayerPlayFilled } from "react-icons/tb";
+import { TbPlayerPlay } from "react-icons/tb";
+import { useRouter } from "next/navigation";
 
-export const BlockToolbars = () => {
+export const BlockToolbars = ({ pageId }: { pageId: string }) => {
+  const router = useRouter();
   const { isAddable, addNewBlock } = useNewBlock();
   const { redo, undo } = useBlockHistory();
 
@@ -92,7 +93,12 @@ export const BlockToolbars = () => {
           <Text size="1" color="gray">
             Preview
           </Text>
-          <IconButton size="3" variant="soft" color="gray">
+          <IconButton
+            size="3"
+            variant="soft"
+            color="gray"
+            onClick={() => router.push(`/page/${pageId}/preview`)}
+          >
             <TbPlayerPlay />
           </IconButton>
         </Flex>

@@ -3,6 +3,7 @@ import { Theme } from "@radix-ui/themes";
 import { Montserrat } from "next/font/google";
 import "../globals.css";
 import "@radix-ui/themes/styles.css";
+import { Viewport } from "next";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -10,18 +11,18 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+};
+
 export default function PrivateLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <meta name="theme-color" content="#000"></meta>
-
-      <body className={`${montserrat.className} flex flex-col dark`}>
-        <SessionProvider>
-          <Theme accentColor="blue" radius="large" appearance="dark">
-            {children}
-          </Theme>
-        </SessionProvider>
-      </body>
-    </>
+    <body className={`${montserrat.className} ${montserrat.variable} flex flex-col dark`}>
+      <SessionProvider>
+        <Theme accentColor="blue" radius="large" appearance="dark">
+          {children}
+        </Theme>
+      </SessionProvider>
+    </body>
   );
 }
