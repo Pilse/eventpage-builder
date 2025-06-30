@@ -7,26 +7,25 @@ import { RendererFactory } from "./block";
 import { BlockFactory, Container } from "@/domain/builder";
 
 interface IRendererProps {
-  pagePromise: ReturnType<typeof getPage>;
+  page: Awaited<ReturnType<typeof getPage>>;
 }
 
-export const Renderer = ({ pagePromise }: IRendererProps) => {
-  const pageData = use(pagePromise);
+export const Renderer = ({ page }: IRendererProps) => {
   const router = useRouter();
 
   useLayoutEffect(() => {
-    if (!pageData) {
+    if (!page) {
       router.replace("/");
     }
-  }, [pageData, router]);
+  }, [page, router]);
 
-  if (!pageData) {
+  if (!page) {
     return null;
   }
 
   return (
     <RendererFactory
-      block={BlockFactory.deserialize(pageData.block as ReturnType<Container["serialize"]>, null)}
+      block={BlockFactory.deserialize(page.block as ReturnType<Container["serialize"]>, null)}
     />
   );
 };

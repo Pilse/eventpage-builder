@@ -5,3 +5,4 @@ export * from "./update-block";
 export * from "./update-page-name";
 export * from "./publish-page";
 export * from "./unpublish-page";
+export * from "./get-published-pages";
