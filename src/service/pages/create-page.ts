@@ -2,6 +2,7 @@
 
 import { insert } from "@/api/pages";
 import { Container } from "@/domain/builder";
+import { revalidatePath } from "next/cache";
 
 export const createPage = async ({
   userId,
@@ -18,6 +19,8 @@ export const createPage = async ({
     if (error) {
       throw new Error(statusText);
     }
+
+    revalidatePath(`/console`);
 
     return data;
   } catch (error) {

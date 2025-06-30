@@ -1,6 +1,7 @@
 "use server";
 
 import { updateOne } from "@/api/pages";
+import { revalidatePath } from "next/cache";
 
 export const unpublishPage = async (pageId: string, userId: string) => {
   try {
@@ -13,6 +14,9 @@ export const unpublishPage = async (pageId: string, userId: string) => {
     if (error) {
       throw error;
     }
+
+    revalidatePath(`/p/${data.publicId}`);
+    revalidatePath(`/console`);
 
     return data.publicId;
   } catch (error) {

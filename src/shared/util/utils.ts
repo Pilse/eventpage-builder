@@ -43,3 +43,32 @@ export function debounce<T extends (...args: any[]) => void>(
     }, delay);
   };
 }
+
+export function copyToClipboard(text: string) {
+  navigator.clipboard.writeText(text);
+}
+
+export function updatedTimeToText(updatedAt: string) {
+  const now = new Date();
+  const updated = new Date(updatedAt);
+  const diff = now.getTime() - updated.getTime();
+  const diffMinutes = Math.floor(diff / (1000 * 60));
+  const diffHours = Math.floor(diff / (1000 * 60 * 60));
+  const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const diffMonths = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+  const diffYears = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+
+  if (diffMinutes < 1) {
+    return "just now";
+  } else if (diffMinutes < 60) {
+    return `${diffMinutes} minutes ago`;
+  } else if (diffHours < 24) {
+    return `${diffHours} hours ago`;
+  } else if (diffDays < 30) {
+    return `${diffDays} days ago`;
+  } else if (diffMonths < 12) {
+    return `${diffMonths} months ago`;
+  } else {
+    return `${diffYears} years ago`;
+  }
+}
