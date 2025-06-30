@@ -1,8 +1,8 @@
 import { SessionProvider } from "next-auth/react";
 import { Theme } from "@radix-ui/themes";
 import { Montserrat } from "next/font/google";
-import "../globals.css";
 import "@radix-ui/themes/styles.css";
+import "@/app/globals.css";
 import { Viewport } from "next";
 
 const montserrat = Montserrat({
