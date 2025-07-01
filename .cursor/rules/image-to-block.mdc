@@ -5,7 +5,7 @@ alwaysApply: true
 ---
 # Converting Images to Blocks
 
-- Goal: Extract text, layout, and styles from the target image to construct block-based JSON
+Goal: As a design expert, you can construct block-based layouts using JSON by referencing the input image. You don't need to replicate the image exactly feel free to use your creativity to fill in elements that are difficult to implement, such as complex icons or unavailable assets
 
 > 📖 **Basic Information for All Blocks**: 
 
@@ -517,8 +517,8 @@ Always use Text blocks for any text elements, using backgroundColor and border p
 #### Size Calculation
 - `width`: Actual pixel value (calculated based on content width)
 - `height`: Actual pixel value (calculated based on content height)
-- `widthType`: 'fit' (default) - fits to content width
-- `heightType`: 'fit' (default) - fits to content height
+- `widthType`: 'fixed' (default) 
+- `heightType`: 'fixed' (default)
 
 #### Content Structure
 Text block content is pure text with <br/> tags for line breaks:
@@ -535,8 +535,8 @@ Third line
   "position": "absolute",
   "width": 335,  // Actual calculated width
   "height": 48,  // Actual calculated height
-  "widthType": "fit",
-  "heightType": "fit",
+  "widthType": "fixed",
+  "heightType": "fixed",
   "t": 0,
   "l": 0,
   "r": 0,
@@ -608,12 +608,12 @@ Third line
 Choose appropriate fonts from typography.ts:
 
 1. Title Fonts:
-   - Paperlogy (500, 600, 700)
+   - Paperlogy (500, 600, 700) - recommneded
    - GmarketSans (300, 500, 700)
    - KakaoBigSans (400, 700, 800)
 
 2. Body Text Fonts:
-   - Pretendard (100-900)
+   - Pretendard (100-900) - recommneded
    - LINESeedSansKR (100, 400, 700)
    - GowunBatang (400, 700)
 
@@ -630,16 +630,12 @@ Choose appropriate fonts from typography.ts:
 - Create separate text blocks for consecutive text with different colors or sizes
 
 ## Step 4: Design
-Design empty spaces where icons or images cannot be generated to match the surrounding elements.
+Design empty spaces where icons or images cannot be generated—to harmonize with the surrounding elements.
+If there is an image that cannot be directly replicated, you must replace it with an appropriate design element to preserve the overall layout and visual balance.
 
-### 4-1 Background Colors
-Replace areas with distinct image backgrounds with appropriate background colors.
+You may create design elements such as Cards (a frame with text), Buttons (text with border, padding, and background), or any other components as needed.
+Once you're finished, make sure to review both the Text Block Checklist and the Frame Canvas Checklist.
 
-### 4-2 Icons
-Leave empty spaces where icons were used in the original design.
-
-### 4-3 Other Elements
-Use creative judgment to design other elements to maintain visual harmony.
 
 ## Step 5: Adjustment
 After setting up Text and Frame blocks, review and fine-tune the overall layout.
