@@ -1,6 +1,5 @@
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
-import "../globals.css";
 import Link from "next/link";
 import { Viewport } from "next";
 

@@ -2,6 +2,8 @@ import { SessionProvider } from "next-auth/react";
 import { Theme } from "@radix-ui/themes";
 import { Montserrat } from "next/font/google";
 import { Viewport } from "next";
+import "@radix-ui/themes/styles.css";
+import "@/app/globals.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
