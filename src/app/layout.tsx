@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "@radix-ui/themes/styles.css";
+import "@/app/globals.css";
 
 export const metadata: Metadata = {
   title: "PageIO",
