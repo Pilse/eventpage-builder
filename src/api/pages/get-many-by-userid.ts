@@ -5,5 +5,6 @@ export const getManyByUserId = (userId: string) => {
     .from("pages")
     .select("publicId, name, createdAt, publishedAt, updatedAt, isPublished")
     .eq("userId", userId)
-    .eq("isDeleted", false);
+    .eq("isDeleted", false)
+    .order("createdAt", { ascending: false });
 };

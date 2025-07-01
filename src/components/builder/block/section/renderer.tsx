@@ -11,10 +11,12 @@ export const SectionRenderer = ({ block }: ISectionProps) => {
   const style = getBlockStyle(block, false);
 
   return (
-    <section style={style}>
-      {block.children.map((child) => (
-        <RendererFactory key={child.id} block={child} />
-      ))}
+    <section style={{ ...style, width: "100%" }}>
+      <div style={{ width: style.width, height: style.height, margin: "0 auto", position: "relative" }}>
+        {block.children.map((child) => (
+          <RendererFactory key={child.id} block={child} />
+        ))}
+      </div>
     </section>
   );
 };

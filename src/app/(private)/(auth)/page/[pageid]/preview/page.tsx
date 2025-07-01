@@ -1,8 +1,7 @@
 import { getPage } from "@/service/pages";
 import { Renderer } from "@/components/builder/renderer";
-import { Suspense } from "react";
-import "@/app/globals.css";
 import { notFound } from "next/navigation";
+import { Container } from "@/domain/builder";
 
 export default async function Preview({ params }: { params: Promise<{ pageid: string }> }) {
   const { pageid } = await params;
@@ -12,9 +11,7 @@ export default async function Preview({ params }: { params: Promise<{ pageid: st
     return notFound();
   }
 
-  return (
-    <body>
-      <Renderer page={page} />
-    </body>
-  );
+  const container = page.block as ReturnType<Container["serialize"]>;
+
+  return <Renderer block={container} />;
 }

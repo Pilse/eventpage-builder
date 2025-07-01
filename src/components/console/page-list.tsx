@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import { updatedTimeToText } from "@/shared/util/utils";
 import { MdOutlineMoreVert } from "react-icons/md";
 import { deletePage } from "@/service/pages/delete-page";
+import { useServerAction } from "@/hooks";
 
 export function PageList({
   pagesPromise,
@@ -22,6 +23,7 @@ export function PageList({
   userId: string;
 }) {
   const pagesData = use(pagesPromise);
+  const { action: deletePageAction, loading: deletePageLoading } = useServerAction(deletePage);
 
   if (!pagesData) {
     notFound();
@@ -31,7 +33,8 @@ export function PageList({
     <Tabs
       defaultValue="pages"
       className={twMerge(
-        "grid w-full grid-cols-[repeat(auto-fit,1fr)] gap-6 p-6 xl:grid-cols-[repeat(auto-fit,_minmax(300px,400px))]"
+        "grid w-full grid-cols-[repeat(auto-fit,1fr)] gap-6 p-6 xl:grid-cols-[repeat(auto-fit,_minmax(300px,400px))]",
+        deletePageLoading && "opacity-50 pointer-events-none"
       )}
     >
       {pagesData.pages.map((page) => (
@@ -53,7 +56,11 @@ export function PageList({
                   <MdOutlineMoreVert />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content size="2">
-                  <DropdownMenu.Item color="red" onClick={() => deletePage(page.publicId, userId)}>
+                  <DropdownMenu.Item
+                    color="red"
+                    onClick={() => deletePageAction(page.publicId, userId)}
+                    disabled={deletePageLoading}
+                  >
                     <Text className="min-w-16 flex items-center gap-2 justify-between" weight="medium">
                       Delete
                       <TbTrash className="shrink-0" />

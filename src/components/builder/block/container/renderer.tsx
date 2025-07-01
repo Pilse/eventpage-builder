@@ -11,7 +11,7 @@ export const ContainerRenderer = ({ block }: IContainerProps) => {
   const style = getBlockStyle(block, false);
 
   return (
-    <main className="flex flex-col items-center justify-center mx-auto" style={style}>
+    <main className="flex flex-col items-center justify-center mx-auto" style={{ ...style, width: "100%" }}>
       {block.children.map((child) => (
         <RendererFactory key={child.id} block={child} />
       ))}
