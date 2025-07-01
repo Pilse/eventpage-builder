@@ -5,7 +5,7 @@ alwaysApply: true
 ---
 # Converting Images to Blocks
 
-Goal: As a design expert, you can construct block-based layouts using JSON by referencing the input image. You don't need to replicate the image exactly feel free to use your creativity to fill in elements that are difficult to implement, such as complex icons or unavailable assets
+Goal: As a design expert, you can construct block-based layouts using JSON by referencing the input image. You don't need to replicate the image exactly—feel free to use your creativity to fill in elements that are difficult to implement, such as complex icons or unavailable assets
 
 > 📖 **Basic Information for All Blocks**: 
 
@@ -29,6 +29,11 @@ Goal: As a design expert, you can construct block-based layouts using JSON by re
 - `height`: block height (default: 100)
 - `widthType`: 'fixed' | 'fill' | 'fit' (default: 'fixed')
 - `heightType`: 'fixed' | 'fill' | 'fit' (default: 'fixed')
+
+#### Size Type Details
+- `fixed`: Uses exact width/height values
+- `fill`: Fills parent container (like width: 100%)
+- `fit`: Adjusts to content size (like fit-content)
 
 ### Style Related
 - `backgroundType`: 'color' (default: 'color')
@@ -261,47 +266,59 @@ Container Setup:
   "children": []
 }
 ```
-## Step 2: Section Canvas Setup
+## Step 2: Section Col/Row Setup
 
-After setting up the Container, analyze the main sections of the image and divide them into Section Canvas blocks.
+After setting up the Container, analyze the main sections of the image and divide them into Section Col and Section Row blocks.
 
-> 📖 **Section Canvas Block Details**:
-## Section Canvas Block Details
+> 📖 **Section Col/Row Block Details**:
+## Section Col/Row Block Details
 
 ### Overview
-Section Canvas is a section block used as a child of Container. It divides the main areas of the page and serves as a reference point for placing Frame, Text, and other elements.
+Section Col and Row are section blocks used as children of Container. They divide the main areas of the page and automatically arrange child elements in column (vertical) or row (horizontal) layout, similar to CSS flexbox.
 
 ### Characteristics
 - Can only be used as Container's child
 - Inherits from Block class with basic layout and styling properties
-- Acts as placement reference for child elements
+- Automatically arranges child elements based on layout direction
+- Similar to flex-col and flex-row in CSS
 
 ### Fixed Properties
 #### Layout Type
 - `widthType`: 'fill' (fixed) - matches Container width
-- `heightType`: 'fixed' (fixed) - can be set to desired height
+- `heightType`: 'fit' (fixed) - adjusts to children's height + gap + padding
 - `position`: 'absolute' (fixed)
 
 ### Main Properties
 
+#### Layout Direction and Alignment
+- `gap`: spacing between child elements (px)
+- `alignVertical`: 'top' | 'center' | 'bottom' (similar to align-items)
+- `alignHorizontal`: 'left' | 'center' | 'right' (similar to justify-content)
+- Padding values (pt, pr, pb, pl) for internal spacing
+
 #### Size
 - `width`: Same as Container width (auto-set)
-- `height`: Set to desired height
+- `height`: Calculated automatically = sum(children heights) + (gap × (children.length - 1)) + pt + pb
 
 #### Child Elements
-- `children`: Text, Frame type blocks
+- `children`: Text, Frame type blocks (including nested Frame Col/Row blocks)
+- Children are automatically sorted by t, l values (smallest first)
 
 #### Style
 - `backgroundColor`: Can be different from Container's background color
 
-### Child Element Placement
-Section Canvas acts as a canvas for freely placing child elements. Child elements can be positioned using t, l values.
+### Child Element Arrangement
+- Section Col: arranges children vertically (like flex-direction: column)
+- Section Row: arranges children horizontally (like flex-direction: row)
+- Children are automatically positioned based on gap and alignment settings
+- Children with smaller t, l values are positioned first (top/left priority)
+- Manual t, l positioning is still needed to define the order of children
 
 ### Special Notes
 1. Width automatically set to match Container width
-2. Height can be freely set to desired value
+2. Height automatically calculated based on children and gap
 3. Can have different background color from Container for section distinction
-4. Serves as reference point for child element placement
+4. Children are auto-arranged based on t, l values for ordering
 
 ### 2.1 Section Division
 
@@ -310,51 +327,58 @@ Analyze the image and divide sections based on:
 1. Areas with different background colors
 2. Areas with clearly distinct content
 3. Areas with different layouts
+4. Determine if each section needs column (vertical) or row (horizontal) layout
 
-### 2.2 Section Canvas Property Setup
+### 2.2 Section Col/Row Property Setup
 
-Set the following properties for each Section Canvas:
+Set the following properties for each Section:
 
 #### Fixed Properties
 - `widthType`: 'fill' (matches Container width)
-- `heightType`: 'fixed' (set to desired height)
+- `heightType`: 'fit' (adjusts to content)
 - `position`: 'absolute'
 
 #### Configurable Properties
-- `height`: Section height (measured from image)
+- `gap`: Spacing between child elements
+- `alignVertical`: Vertical alignment of children
+- `alignHorizontal`: Horizontal alignment of children
 - `backgroundColor`: Section background color (if different from Container)
 - `t`: Position within Container (automatically calculated based on Container's child placement rules)
+- Padding values (pt, pr, pb, pl) for internal spacing
 
 ### 2.3 Example
 ```
 Image Analysis Results:
-- Header section: height = 80px, backgroundColor = rgb(240, 240, 240)
-- Main content section: height = 400px, backgroundColor = rgb(255, 255, 255)
-- Footer section: height = 60px, backgroundColor = rgb(50, 50, 50)
+- Header section: Column layout, gap = 8px, center aligned
+- Main content section: Column layout, gap = 16px, left aligned
+- Footer section: Row layout, gap = 12px, center aligned
 
-Section Canvas Setup:
+Section Setup:
 (Using Container width = 384px)
-1. Header: width = 384, height = 80, backgroundColor = { r: 240, g: 240, b: 240, a: 1 }, t = 0
-2. Main: width = 384, height = 400, backgroundColor = { r: 255, g: 255, b: 255, a: 1 }, t = 80
-3. Footer: width = 384, height = 60, backgroundColor = { r: 50, g: 50, b: 50, a: 1 }, t = 480
+1. Header: SECTION_COL, gap = 8, alignHorizontal = "center", alignVertical = "top"
+2. Main: SECTION_COL, gap = 16, alignHorizontal = "left", alignVertical = "top"
+3. Footer: SECTION_ROW, gap = 12, alignHorizontal = "center", alignVertical = "center"
 ```
 
 ```json
 {
-  "type": "SECTION_CANVAS",
+  "type": "SECTION_COL",
   "position": "absolute",
   "width": 384,
-  "height": 80,
+  "height": 120,
   "widthType": "fill",
-  "heightType": "fixed",
+  "heightType": "fit",
   "t": 0,
   "l": 0,
   "r": 0,
   "b": 0,
-  "pt": 0,
-  "pr": 0,
-  "pb": 0,
-  "pl": 0,
+  "pt": 24,
+  "pr": 24,
+  "pb": 24,
+  "pl": 24,
+  "gap": 16,
+  "alignVertical": "top",
+  "alignHorizontal": "center",
   "backgroundType": "color",
   "backgroundColor": { "r": 240, "g": 240, "b": 240, "a": 1 },
   "borderPosition": "inside",
@@ -381,45 +405,58 @@ Section Canvas Setup:
       "a": 0
     }
   },
+  "centerX": 192,
+  "centerY": 60,
   "children": []
 }
 ```
 
 ### 2.4 Container Height Setup
-Update the Container's height to the total sum of all Section Canvas heights
+Update the Container's height to the total sum of all Section heights
 
 Example:
 ```
-1. Header: width = 384, height = 80, backgroundColor = { r: 240, g: 240, b: 240, a: 1 }, t = 0
-2. Main: width = 384, height = 400, backgroundColor = { r: 255, g: 255, b: 255, a: 1 }, t = 80
-3. Footer: width = 384, height = 60, backgroundColor = { r: 50, g: 50, b: 50, a: 1 }, t = 480
+1. Header: SECTION_COL, width = 384, height = 120, backgroundColor = { r: 240, g: 240, b: 240, a: 1 }, t = 0
+2. Main: SECTION_COL, width = 384, height = 400, backgroundColor = { r: 255, g: 255, b: 255, a: 1 }, t = 120
+3. Footer: SECTION_ROW, width = 384, height = 80, backgroundColor = { r: 50, g: 50, b: 50, a: 1 }, t = 520
 ```
 
-Container height = 560
+Container height = 600
 
-## Step 3: Adding Section Canvas Internal Elements
+## Step 3: Adding Section Internal Elements
 
-After setting up Section Canvas blocks, iterate through each section to add Frame and Text elements.
+After setting up Section Col/Row blocks, add Frame and Text elements as children.
 
-1. When Frame Canvas is needed:
-   - Add Frame Canvas to Section Canvas's children
-   - Place Text blocks inside Frame Canvas
-   - Set Text position (t, l) relative to Frame Canvas
+1. When Frame Col/Row is needed:
+   - Add Frame Col/Row to Section's children
+   - Place Text blocks inside Frame Col/Row
+   - Frame will be auto-positioned within Section based on alignment
 
-2. When Frame Canvas is not needed:
-   - Add Text blocks directly to Section Canvas's children
-   - Set Text position (t, l) relative to Section Canvas
+2. When Frame Col/Row is not needed:
+   - Add Text blocks directly to Section's children
+   - Text will be auto-positioned within Section based on alignment
 
-### 3.1 Frame Canvas Setup
+### 3.1 Frame Col/Row Setup
 
-First, identify areas within Section Canvas that need Frame Canvas based on borders, background colors, or grouping requirements.
+First, identify areas within Section that need Frame Col/Row based on borders, background colors, or grouping requirements.
 
-#### Frame Canvas Characteristics
-- Shares same properties and settings as Section Canvas
-- Added as children of Section Canvas
+#### Frame Col/Row Characteristics
+- Added as children of Section Col/Row
 - Acts as parent for Text blocks
+- Automatically arranges child elements in column or row layout
+- Similar to nested flexbox containers
+
+#### Layout Rules
+- If parent is Section Col: Frame's `widthType` defaults to 'fill'
+- If parent is Section Row: Frame's `heightType` defaults to 'fill'
+- Children are automatically positioned based on gap and alignment, but t, l values determine the order
 
 #### Configurable Properties
+- `widthType`: 'fixed' | 'fill' | 'fit'
+- `heightType`: 'fixed' | 'fill' | 'fit'
+- `gap`: spacing between child elements
+- `alignVertical`: 'top' | 'center' | 'bottom'
+- `alignHorizontal`: 'left' | 'center' | 'right'
 - `backgroundType`: 'color' (default: 'color')
 - `backgroundColor`: background color (default: { r: 255, g: 255, b: 255, a: 0 })
 - `borderPosition`: 'inside' | 'outside' (default: 'inside')
@@ -430,30 +467,28 @@ First, identify areas within Section Canvas that need Frame Canvas based on bord
 - `borderRadiusB`: bottom border radius (default: 0)
 - `borderRadiusL`: left border radius (default: 0)
 - `shadow`: shadow effect (default: { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } })
-- `width`: block width (default: 100)
-- `height`: block height (default: 100)
-- `t`: top position value (default: 0)
-- `l`: left position value (default: 0)
-- `r`: right position value (default: 0)
-- `b`: bottom position value (default: 0)
+- Padding values (pt, pr, pb, pl) for internal spacing
 
-#### Frame Canvas Example
+#### Frame Col Example
 ```json
 {
-  "type": "FRAME_CANVAS",
+  "type": "FRAME_COL",
   "position": "absolute",
-  "width": 335,
+  "width": 336,
   "height": 120,
-  "widthType": "fixed",
-  "heightType": "fixed",
-  "t": 20,
-  "l": 20,
-  "r": 20,
+  "widthType": "fill",
+  "heightType": "fit",
+  "t": 0,
+  "l": 0,
+  "r": 0,
   "b": 0,
   "pt": 16,
   "pr": 16,
   "pb": 16,
   "pl": 16,
+  "gap": 8,
+  "alignVertical": "top",
+  "alignHorizontal": "left",
   "backgroundType": "color",
   "backgroundColor": {
     "r": 255,
@@ -485,23 +520,79 @@ First, identify areas within Section Canvas that need Frame Canvas based on bord
       "a": 0.1
     }
   },
+  "centerX": 168,
+  "centerY": 60,
   "children": []
 }
 ```
 
-#### Layout Guide
-- To center horizontally: l = parent's width / 2 - self width / 2
-- To center vertically: t = parent's height / 2 - self height / 2
+#### Frame Row Example
+```json
+{
+  "type": "FRAME_ROW",
+  "position": "absolute",
+  "width": 336,
+  "height": 48,
+  "widthType": "fill",
+  "heightType": "fit",
+  "t": 0,
+  "l": 0,
+  "r": 0,
+  "b": 0,
+  "pt": 12,
+  "pr": 16,
+  "pb": 12,
+  "pl": 16,
+  "gap": 12,
+  "alignVertical": "center",
+  "alignHorizontal": "left",
+  "backgroundType": "color",
+  "backgroundColor": {
+    "r": 248,
+    "g": 249,
+    "b": 250,
+    "a": 1
+  },
+  "borderPosition": "inside",
+  "borderWidth": 0,
+  "borderColor": {
+    "r": 0,
+    "g": 0,
+    "b": 0,
+    "a": 1
+  },
+  "borderRadiusT": 6,
+  "borderRadiusR": 6,
+  "borderRadiusB": 6,
+  "borderRadiusL": 6,
+  "shadow": {
+    "x": 0,
+    "y": 0,
+    "blur": 0,
+    "spread": 0,
+    "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0
+    }
+  },
+  "centerX": 168,
+  "centerY": 24,
+  "children": []
+}
+```
 
-#### Frame Canvas Checklist
+#### Frame Col/Row Checklist
 - Check for border edges and add borderWidth and borderColor if present
 - Check for rounded corners and add borderRadius for each direction if present
 - Check for background color and add backgroundColor if present
+- Determine if children should be arranged in column or row
+- Set appropriate gap and alignment values
 
 ### 3.2 Text Block Setup
 
-Text blocks display text content.
-Always use Text blocks for any text elements, using backgroundColor and border properties to match the design.
+Text blocks display text content and can now use 'fill' widthType/heightType options when inside Col/Row containers.
 
 #### Text Block Unique Properties
 - `content`: Pure text content (use <br/> tag for line breaks)
@@ -514,11 +605,15 @@ Always use Text blocks for any text elements, using backgroundColor and border p
 - `textAlign`: Text alignment ('left' | 'center' | 'right')
 - `textShadow`: Text shadow
 
-#### Size Calculation
-- `width`: Actual pixel value (calculated based on content width)
-- `height`: Actual pixel value (calculated based on content height)
-- `widthType`: 'fixed' (default) 
-- `heightType`: 'fixed' (default)
+#### Size Options in Col/Row Containers
+- `widthType`: 'fixed' | 'fill' | 'fit'
+  - 'fill': Takes full width of parent container
+  - 'fit': Adjusts to text content width
+  - 'fixed': Uses exact width value
+- `heightType`: 'fixed' | 'fill' | 'fit'
+  - 'fill': Takes full height of parent container
+  - 'fit': Adjusts to text content height
+  - 'fixed': Uses exact height value
 
 #### Content Structure
 Text block content is pure text with <br/> tags for line breaks:
@@ -528,20 +623,24 @@ Second line<br/>
 Third line
 ```
 
-#### Text Block Example
+#### Text Block Example (with fill width)
 ```json
 {
   "type": "TEXT",
   "position": "absolute",
-  "width": 335,  // Actual calculated width
-  "height": 48,  // Actual calculated height
-  "widthType": "fixed",
-  "heightType": "fixed",
+  "width": 304,  // Will be recalculated when widthType is 'fill'
+  "height": 24,  // Actual calculated height
+  "widthType": "fill",
+  "heightType": "fit",
   "t": 0,
   "l": 0,
   "r": 0,
   "b": 0,
-  "content": "Sample text<br/>Second line",
+  "pt": 0,
+  "pr": 0,
+  "pb": 0,
+  "pl": 0,
+  "content": "Sample text with fill width",
   "fontName": "Pretendard",
   "fontWeight": 700,
   "fontColor": {
@@ -550,8 +649,8 @@ Third line
     "b": 0,
     "a": 1
   },
-  "fontSize": 24,
-  "letterSpacing": 0,
+  "fontSize": 16,
+  "letterSpacing": -0.5,
   "lineHeight": 1.5,
   "textAlign": "left",
   "textShadow": {
@@ -595,25 +694,30 @@ Third line
       "b": 0,
       "a": 0
     }
-  }
+  },
+  "centerX": 152,
+  "centerY": 12
 }
 ```
 
-#### Layout Guide
-- To center horizontally: l = parent's width / 2 - self width / 2
-- To center vertically: t = parent's height / 2 - self height / 2
+#### Positioning in Col/Row Containers
+- Text blocks inside Col/Row containers are automatically positioned
+- No manual t, l calculation needed
+- Position is determined by parent's alignment and gap settings
+- Use widthType: 'fill' to take full width of parent
+- Use heightType: 'fit' to adjust to content height
 
 #### Font Selection Guide
 
 Choose appropriate fonts from typography.ts:
 
 1. Title Fonts:
-   - Paperlogy (500, 600, 700) - recommneded
+   - Paperlogy (500, 600, 700) - recommended
    - GmarketSans (300, 500, 700)
    - KakaoBigSans (400, 700, 800)
 
 2. Body Text Fonts:
-   - Pretendard (100-900) - recommneded
+   - Pretendard (100-900) - recommended
    - LINESeedSansKR (100, 400, 700)
    - GowunBatang (400, 700)
 
@@ -623,6 +727,7 @@ Choose appropriate fonts from typography.ts:
    - Independence_hall (400) - Classical style
 
 #### Text Block Checklist
+- Choose appropriate widthType/heightType (fixed, fill, or fit)
 - Check for border edges and add borderWidth and borderColor if present
 - Check for rounded corners and add borderRadius for each direction if present
 - Check for background color and add backgroundColor if present
@@ -634,22 +739,29 @@ Design empty spaces where icons or images cannot be generated—to harmonize wit
 If there is an image that cannot be directly replicated, you must replace it with an appropriate design element to preserve the overall layout and visual balance.
 
 You may create design elements such as Cards (a frame with text), Buttons (text with border, padding, and background), or any other components as needed.
-Once you're finished, make sure to review both the Text Block Checklist and the Frame Canvas Checklist.
+Once you're finished, make sure to review both the Text Block Checklist and the Frame Col/Row Checklist.
 
+At this step, you may rearrange horizontally laid-out elements into a vertical layout to better suit the screen size differences.
 
 ## Step 5: Adjustment
 After setting up Text and Frame blocks, review and fine-tune the overall layout.
 
 ### 5-1 Layout Review
-- Child elements cannot exceed parent's width or height. If child's l + width or t + height exceeds parent's width or height, adjustment is needed.
-- Elements cannot overlap. If l + width or t + height calculations overlap with sibling's l or t, adjustment is needed.
+- Child elements in Col/Row containers are automatically positioned, but verify alignment and gap settings
+- Check if widthType/heightType settings are appropriate for each element
+- Verify that fit and fill calculations work correctly within the layout
+- Elements should not overflow their containers
+
 If adjustments are needed, proceed to 5-2; otherwise, finish.
 
 ### 5-2 Layout Adjustment
-- Increase parent's width and height to contain all children. Largest width is determined by maximum l + width, largest height by maximum t + height.
-- Adjust sibling t, l values to prevent overlap.
-- To center horizontally: l = parent's width / 2 - self width / 2
-- To center vertically: t = parent's height / 2 - self height / 2
+- Adjust gap values between child elements
+- Modify alignment settings (alignVertical, alignHorizontal)
+- Change widthType/heightType values as needed:
+  - Use 'fill' for elements that should take full width/height
+  - Use 'fit' for elements that should adjust to content size
+  - Use 'fixed' for elements with specific dimensions
+- Adjust padding values (pt, pr, pb, pl) for better spacing
 
 ### 5-3 Review Again
 Return to 5-1 for another review.
