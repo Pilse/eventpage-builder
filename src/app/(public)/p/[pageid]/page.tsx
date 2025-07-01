@@ -28,9 +28,9 @@ export const generateViewport = async ({ params }: { params: Promise<{ pageid: s
   return {
     themeColor: `#${rgbaToHexColor(container.backgroundColor)}`,
     width: container.width,
-    initialScale: 1,
-    maximumScale: 1,
     userScalable: "no",
+    initialScale: undefined,
+    maximumScale: undefined,
   };
 };
 
