@@ -35,6 +35,7 @@ export const DropColMixin = <
   return class extends DragSnapMixin(ChildrenMixin(Base)) {
     public colDroppable = true;
     public childrenOffsetY: number[] = [0];
+    public lastHoveredBlockIdx: number = -1;
 
     constructor(...args: any[]) {
       super(...args);
@@ -125,20 +126,28 @@ export const DropColMixin = <
       }
 
       if (hoveredBlock.parent.id === this.id) {
-        const idx = this.childrenOffsetY.findLastIndex((childOffetY) => childOffetY > offsetFromThis.y);
+        const idx = this.childrenOffsetY.findIndex((childOffetY) => childOffetY > offsetFromThis.y);
         if (idx === -1) {
           return;
         }
 
+        if (this.lastHoveredBlockIdx === idx) {
+          return;
+        }
+
+        this.lastHoveredBlockIdx = idx;
+
         hoveredBlock.t = offsetFromThis.y;
 
         if (this.children[idx]) {
+          console.log("swap");
           this.swapChildren(hoveredBlock, this.children[idx]);
+          this.autoLayout();
         } else if (this.children[idx - 1]) {
+          console.log("swap");
           this.swapChildren(hoveredBlock, this.children[idx - 1]);
+          this.autoLayout();
         }
-
-        this.autoLayout();
       }
     }
   };

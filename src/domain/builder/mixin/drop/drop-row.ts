@@ -35,6 +35,7 @@ export const DropRowMixin = <
   return class extends DragSnapMixin(ChildrenMixin(Base)) {
     public rowDroppable = true;
     public childrenOffsetX: number[] = [0];
+    public lastHoveredBlockIdx: number = -1;
 
     constructor(...args: any[]) {
       super(...args);
@@ -128,15 +129,21 @@ export const DropRowMixin = <
           return;
         }
 
+        if (this.lastHoveredBlockIdx === idx) {
+          return;
+        }
+
+        this.lastHoveredBlockIdx = idx;
+
         hoveredBlock.l = offsetFromThis.x;
 
         if (this.children[idx]) {
           this.swapChildren(hoveredBlock, this.children[idx]);
+          this.autoLayout();
         } else if (this.children[idx - 1]) {
           this.swapChildren(hoveredBlock, this.children[idx - 1]);
+          this.autoLayout();
         }
-
-        this.autoLayout();
       }
     }
   };
