@@ -33,6 +33,7 @@ export const getBlockStyle = (block: Block, isSelected: boolean) => {
         ? `${block.borderWidth}px solid #${rgbaToHexColor(block.borderColor)}`
         : "none",
     borderRadius: `${block.borderRadiusT}px ${block.borderRadiusR}px ${block.borderRadiusB}px ${block.borderRadiusL}px`,
+    cursor: block.link ? "pointer" : "default",
   } satisfies CSSProperties;
 };
 

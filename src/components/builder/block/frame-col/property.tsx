@@ -9,6 +9,7 @@ import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
 import { DefaultBg, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";
 import { useDomain } from "@/hooks";
+import { DefaultUserEventLink } from "@/components/builder/property/user-event";
 
 export const FrameColProperties = <
   T extends InstanceType<typeof FrameColBlock> = InstanceType<typeof FrameColBlock>
@@ -38,6 +39,13 @@ export const FrameColProperties = <
           <DefaultBg block={block} />
           <DefaultBorder block={block} />
           <DefaultShadow block={block} />
+        </Flex>
+      </Flex>
+
+      <Flex direction="column" gap="4">
+        <Heading size="2">User Event</Heading>
+        <Flex direction="column" gap="2">
+          <DefaultUserEventLink block={block} />
         </Flex>
       </Flex>
     </Flex>

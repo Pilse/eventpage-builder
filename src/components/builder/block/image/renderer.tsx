@@ -3,14 +3,16 @@
 import { Image } from "@/domain/builder";
 import { IRendererBlockProps } from "@/type";
 import { getBlockStyle } from "@/shared/util";
+import { getUserEvents } from "@/shared/user-event";
 
 interface IImageProps extends IRendererBlockProps<Image> {}
 
 export const ImageRenderer = ({ block }: IImageProps) => {
   const style = getBlockStyle(block, false);
+  const userEvents = getUserEvents(block);
 
   return (
-    <div style={style}>
+    <div style={style} {...userEvents}>
       {/*  eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={block.url}

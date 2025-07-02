@@ -5,6 +5,7 @@ import { useTextLayoutSize } from "./use-text-layout-size";
 import { DefaultBg, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";
 import { DefaultTypoGraphy } from "@/components/builder/property/typography";
 import { useDomain } from "@/hooks";
+import { DefaultUserEventLink } from "@/components/builder/property/user-event";
 
 export const TextProperties = <T extends InstanceType<typeof TextBlock> = InstanceType<typeof TextBlock>>({
   block: blockInstance,
@@ -37,6 +38,13 @@ export const TextProperties = <T extends InstanceType<typeof TextBlock> = Instan
         <Heading size="2">Typography</Heading>
         <Flex direction="column" gap="2">
           <DefaultTypoGraphy block={block} />
+        </Flex>
+      </Flex>
+
+      <Flex direction="column" gap="4">
+        <Heading size="2">User Event</Heading>
+        <Flex direction="column" gap="2">
+          <DefaultUserEventLink block={block} />
         </Flex>
       </Flex>
     </Flex>

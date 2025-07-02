@@ -5,6 +5,7 @@ import { useImageLayoutSize } from "./use-image-layout-size";
 import { DefaultBg, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";
 import { DefaultFile } from "@/components/builder/property/image";
 import { useDomain } from "@/hooks";
+import { DefaultUserEventLink } from "@/components/builder/property/user-event";
 
 export const ImageProperties = <T extends InstanceType<typeof ImageBlock> = InstanceType<typeof ImageBlock>>({
   block: blockInstance,
@@ -37,6 +38,13 @@ export const ImageProperties = <T extends InstanceType<typeof ImageBlock> = Inst
         <Heading size="2">Image</Heading>
         <Flex direction="column" gap="2">
           <DefaultFile block={block} />
+        </Flex>
+      </Flex>
+
+      <Flex direction="column" gap="4">
+        <Heading size="2">User Event</Heading>
+        <Flex direction="column" gap="2">
+          <DefaultUserEventLink block={block} />
         </Flex>
       </Flex>
     </Flex>

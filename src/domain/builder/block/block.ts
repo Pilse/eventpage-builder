@@ -37,6 +37,7 @@ export interface IBlock {
   centerX?: number;
   centerY?: number;
   shadow?: Shadow;
+  link?: string | null;
 }
 
 export class Block {
@@ -79,6 +80,7 @@ export class Block {
   public isSelected: boolean;
   public _centerX: number;
   public _centerY: number;
+  public link: string | null;
   private prevOffset: Offset;
 
   constructor(initState: IBlock) {
@@ -116,6 +118,7 @@ export class Block {
     this.borderRadiusL = initState.borderRadiusL ?? 0;
     this.borderColor = initState.borderColor ?? { r: 0, g: 0, b: 0, a: 1 };
     this.shadow = initState.shadow ?? { x: 0, y: 0, blur: 0, spread: 0, color: { r: 0, g: 0, b: 0, a: 1 } };
+    this.link = initState.link ?? null;
     this.hoveredDir = null;
     this.isHovered = false;
     this.isSelected = false;
@@ -368,6 +371,7 @@ export class Block {
     shadow: Shadow;
     centerX?: number;
     centerY?: number;
+    link?: string | null;
   } {
     return {
       id: this.id,
@@ -402,6 +406,7 @@ export class Block {
       shadow: this.shadow,
       centerX: this._centerX,
       centerY: this._centerY,
+      link: this.link,
     };
   }
 
