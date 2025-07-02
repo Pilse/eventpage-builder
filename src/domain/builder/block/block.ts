@@ -20,8 +20,13 @@ export interface IBlock {
   pl?: number;
   widthType?: "fixed" | "fill" | "fit";
   heightType?: "fixed" | "fill" | "fit";
-  backgroundType?: "color";
+  backgroundType?: "color" | "image";
   backgroundColor?: Color;
+  backgroundImageUrl?: string | null;
+  backgroundImageFilename?: string | null;
+  backgroundImageSize?: "cover" | "contain";
+  backgroundImagePositionVertical?: "top" | "center" | "bottom";
+  backgroundImagePositionHorizontal?: "left" | "center" | "right";
   borderPosition?: "inside" | "outside";
   borderWidth?: number;
   borderColor?: Color;
@@ -51,8 +56,13 @@ export class Block {
   public pl: number;
   public xDirection: "l" | "r";
   public yDirection: "t" | "b";
-  public backgroundType: "color";
+  public backgroundType: "color" | "image";
   public backgroundColor: Color;
+  public backgroundImageUrl: string | null;
+  public backgroundImageFilename: string | null;
+  public backgroundImageSize: "cover" | "contain";
+  public backgroundImagePositionVertical: "top" | "center" | "bottom";
+  public backgroundImagePositionHorizontal: "left" | "center" | "right";
   public borderPosition: "inside" | "outside";
   public borderWidth: number;
   public borderColor: Color;
@@ -93,6 +103,11 @@ export class Block {
     this.heightType = initState.heightType ?? "fixed";
     this.backgroundType = initState.backgroundType ?? "color";
     this.backgroundColor = initState.backgroundColor ?? { r: 255, g: 255, b: 255, a: 0 };
+    this.backgroundImageUrl = initState.backgroundImageUrl ?? null;
+    this.backgroundImageFilename = initState.backgroundImageFilename ?? null;
+    this.backgroundImageSize = initState.backgroundImageSize ?? "cover";
+    this.backgroundImagePositionVertical = initState.backgroundImagePositionVertical ?? "center";
+    this.backgroundImagePositionHorizontal = initState.backgroundImagePositionHorizontal ?? "center";
     this.borderPosition = initState.borderPosition ?? "inside";
     this.borderWidth = initState.borderWidth ?? 0;
     this.borderRadiusT = initState.borderRadiusT ?? 0;
@@ -336,8 +351,13 @@ export class Block {
     height: number;
     widthType: "fixed" | "fill" | "fit";
     heightType: "fixed" | "fill" | "fit";
-    backgroundType: "color";
+    backgroundType: "color" | "image";
     backgroundColor: Color;
+    backgroundImageUrl: string | null;
+    backgroundImageFilename: string | null;
+    backgroundImageSize: "cover" | "contain";
+    backgroundImagePositionVertical: "top" | "center" | "bottom";
+    backgroundImagePositionHorizontal: "left" | "center" | "right";
     borderPosition: "inside" | "outside";
     borderWidth: number;
     borderColor: Color;
@@ -367,6 +387,11 @@ export class Block {
       heightType: this.heightType,
       backgroundType: this.backgroundType,
       backgroundColor: this.backgroundColor,
+      backgroundImageUrl: this.backgroundImageUrl,
+      backgroundImageFilename: this.backgroundImageFilename,
+      backgroundImageSize: this.backgroundImageSize,
+      backgroundImagePositionVertical: this.backgroundImagePositionVertical,
+      backgroundImagePositionHorizontal: this.backgroundImagePositionHorizontal,
       borderPosition: this.borderPosition,
       borderWidth: this.borderWidth,
       borderColor: this.borderColor,

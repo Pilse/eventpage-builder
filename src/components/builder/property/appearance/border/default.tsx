@@ -29,7 +29,7 @@ export const DefaultBorder = <T extends BorderMixinBlockType>({ block }: { block
   } = useDefaultBorder(block);
 
   return (
-    <Grid columns="2" gap="4">
+    <Grid columns="2" gapX="4" gapY="2">
       <Flex direction="column" gap="1">
         <Text size="1" as="label" htmlFor="border-width-input">
           Border Width

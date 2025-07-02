@@ -7,7 +7,7 @@ import {
 import { SectionColBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useSectionLayoutSize } from "../use-section-layout-size";
-import { DefaultBgColor } from "@/components/builder/property/appearance";
+import { DefaultBg } from "@/components/builder/property/appearance";
 import { useDomain } from "@/hooks";
 
 export const SectionColProperties = <
@@ -35,7 +35,7 @@ export const SectionColProperties = <
       <Flex direction="column" gap="4">
         <Heading size="2">Apperance</Heading>
         <Flex direction="column" gap="2">
-          <DefaultBgColor block={block} />
+          <DefaultBg block={block} />
         </Flex>
       </Flex>
     </Flex>

@@ -2,7 +2,7 @@ import { DefaultLayoutType, DefaultLayoutSize } from "@/components/builder/prope
 import { FrameBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
-import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";
+import { DefaultBg, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";
 import { useDomain } from "@/hooks";
 
 export const FrameCanvasProperties = <
@@ -28,7 +28,7 @@ export const FrameCanvasProperties = <
       <Flex direction="column" gap="4">
         <Heading size="2">Apperance</Heading>
         <Flex direction="column" gap="2">
-          <DefaultBgColor block={block} />
+          <DefaultBg block={block} />
           <DefaultBorder block={block} />
           <DefaultShadow block={block} />
         </Flex>

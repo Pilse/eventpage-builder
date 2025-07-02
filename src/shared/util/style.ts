@@ -14,7 +14,13 @@ export const getBlockStyle = (block: Block, isSelected: boolean) => {
     left: useConstraint ? (block.parent?.width ?? 0) / 2 - (block._centerX + block.width / 2) : block.l,
     right: block.r,
     bottom: block.b,
-    backgroundColor: rgbaToCss(block.backgroundColor),
+    backgroundColor: block.backgroundType === "color" ? rgbaToCss(block.backgroundColor) : "transparent",
+    backgroundImage: block.backgroundType === "image" ? `url(${block.backgroundImageUrl})` : "none",
+    ...(block.backgroundType === "image" && {
+      backgroundSize: block.backgroundImageSize,
+      backgroundPosition: `${block.backgroundImagePositionHorizontal} ${block.backgroundImagePositionVertical}`,
+    }),
+    backgroundRepeat: "no-repeat",
     boxShadow: `${block.shadow.x}px ${block.shadow.y}px ${block.shadow.blur}px ${
       block.shadow.spread
     }px ${rgbaToCss(block.shadow.color)} ${
