@@ -7,7 +7,7 @@ export const useDefaultBgColor = (block: BackgroundMixinBlockType) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const debouncedEndCaptureSnapshot = useDebounce(
     () => endCaptureSnapshot(`${block.id}-property-bg-color`),
-    300
+    100
   );
 
   const [openColorPicker, setOpenColorPicker] = useState(false);

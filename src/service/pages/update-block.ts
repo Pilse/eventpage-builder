@@ -2,6 +2,7 @@
 
 import { updateOne } from "@/api/pages";
 import { Container } from "@/domain/builder";
+import { revalidatePath } from "next/cache";
 
 export const updateBlock = async (
   pageId: string,
@@ -18,6 +19,8 @@ export const updateBlock = async (
     if (error) {
       throw error;
     }
+
+    revalidatePath(`/pages/${pageId}/preview`);
 
     return data.publicId;
   } catch (error) {

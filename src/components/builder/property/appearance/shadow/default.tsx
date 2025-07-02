@@ -75,7 +75,7 @@ export const DefaultShadow = <T extends ShadowMixinBlockType>({ block }: { block
             <Popover.Root open={openColorPicker}>
               <Popover.Trigger onClick={() => setOpenColorPicker(true)}>
                 <button
-                  className="w-3.5 h-3.5 rounded border border-gray-500"
+                  className="w-3.5 h-3.5  border border-gray-500 rounded-full"
                   style={{ backgroundColor: rgbaToCss(block.shadow.color) }}
                 ></button>
               </Popover.Trigger>

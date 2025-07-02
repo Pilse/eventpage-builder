@@ -8,7 +8,7 @@ export const useDefaultBorder = (block: BorderMixinBlockType) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const debouncedEndCaptureSnapshot = useDebounce(
     () => endCaptureSnapshot(`${block.id}-property-border-color`),
-    300
+    100
   );
 
   const [openColorPicker, setOpenColorPicker] = useState(false);

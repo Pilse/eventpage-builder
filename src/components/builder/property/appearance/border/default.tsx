@@ -13,6 +13,7 @@ import {
 } from "@radix-ui/react-icons";
 import { TbBorderSides } from "react-icons/tb";
 import { RgbaColorPicker } from "react-colorful";
+import { MdOutlineBorderStyle } from "react-icons/md";
 
 export const DefaultBorder = <T extends BorderMixinBlockType>({ block }: { block: T }) => {
   const {
@@ -74,7 +75,7 @@ export const DefaultBorder = <T extends BorderMixinBlockType>({ block }: { block
             <Popover.Root open={openColorPicker}>
               <Popover.Trigger onClick={() => setOpenColorPicker(true)}>
                 <button
-                  className="w-3.5 h-3.5 rounded border border-gray-500"
+                  className="w-3.5 h-1.5 border border-gray-500"
                   style={{ backgroundColor: rgbaToCss(block.borderColor) }}
                 ></button>
               </Popover.Trigger>

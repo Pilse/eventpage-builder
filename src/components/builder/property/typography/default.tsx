@@ -8,6 +8,7 @@ import { rgbaToCss } from "@/shared/util/color";
 import { RgbaColorPicker } from "react-colorful";
 import { CgFontHeight, CgFontSpacing } from "react-icons/cg";
 import { TextAlign } from "@/type";
+import { MdOutlineBorderColor } from "react-icons/md";
 
 const textAlignData = {
   left: {
@@ -143,9 +144,11 @@ export const DefaultTypoGraphy = <T extends TypographyMixinBlockType>({ block }:
             <Popover.Root open={openColorPicker}>
               <Popover.Trigger onClick={() => setOpenColorPicker(true)}>
                 <button
-                  className="w-3.5 h-3.5 rounded border border-gray-500"
+                  className="w-3 h-2  border border-gray-500 relative -rotate-45 "
                   style={{ backgroundColor: rgbaToCss(block.fontColor) }}
-                ></button>
+                >
+                  <div className="absolute rounded-l top-0 left-0 w-full h-full z-10"></div>
+                </button>
               </Popover.Trigger>
 
               <Popover.Content>
@@ -276,7 +279,7 @@ export const DefaultTypoGraphy = <T extends TypographyMixinBlockType>({ block }:
               <Popover.Root open={openShadowColorPicker}>
                 <Popover.Trigger onClick={() => setShadowOpenColorPicker(true)}>
                   <button
-                    className="w-3.5 h-3.5 rounded border border-gray-500"
+                    className="w-3.5 h-3.5  border border-gray-500 rounded-full"
                     style={{ backgroundColor: rgbaToCss(block.textShadow.color) }}
                   ></button>
                 </Popover.Trigger>

@@ -7,7 +7,7 @@ export const useDefaultShadow = (block: ShadowMixinBlockType) => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const debouncedEndCaptureSnapshot = useDebounce(
     () => endCaptureSnapshot(`${block.id}-property-shadow-color`),
-    300
+    100
   );
   const [openColorPicker, setOpenColorPicker] = useState(false);
 
