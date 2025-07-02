@@ -46,6 +46,11 @@ export const useContainerLayoutSize = <T extends InstanceType<typeof ContainerBl
     (device: Device) => {
       startCaptureSnapshot(`${block.id}-device`);
       block.setDevice(device);
+      block.children.forEach((child) => {
+        if (hasDropColMixin(child) || hasDropRowMixin(child)) {
+          child.autoLayout();
+        }
+      });
       endCaptureSnapshot(`${block.id}-device`);
     },
     [block, endCaptureSnapshot, startCaptureSnapshot]

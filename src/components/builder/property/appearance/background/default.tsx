@@ -85,7 +85,7 @@ const bgImagePositionVerticalData = {
   bottom: {
     icon: (
       <div className="relative overflow-hidden">
-        <TbPhoto /> <div className="w-full h-2/3 absolute bottom-0 left-0 bg-black/60 rounded-t"></div>
+        <TbPhoto /> <div className="w-full h-2/3 absolute top-0 left-0 bg-black/60 rounded-t"></div>
       </div>
     ),
     label: "Bottom",
