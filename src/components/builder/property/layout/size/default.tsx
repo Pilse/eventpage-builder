@@ -28,6 +28,8 @@ export const DefaultLayoutSize = ({
 
         <TextField.Root
           value={block.width}
+          type="number"
+          min={0}
           id="width-input"
           onChange={(e) => onWidthChange?.(Number(e.target.value))}
           disabled={!useWidth}
@@ -61,6 +63,8 @@ export const DefaultLayoutSize = ({
         </Text>
         <TextField.Root
           value={block.height}
+          type="number"
+          min={0}
           id="height-input"
           onChange={(e) => onHeightChange?.(Number(e.target.value))}
           disabled={!useHeight}

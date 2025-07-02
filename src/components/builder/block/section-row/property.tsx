@@ -8,14 +8,16 @@ import { SectionRowBlock } from "@/domain/builder";
 import { Box, Flex, Heading } from "@radix-ui/themes";
 import { useSectionLayoutSize } from "../use-section-layout-size";
 import { DefaultBgColor } from "@/components/builder/property/appearance";
+import { useDomain } from "@/hooks";
 
 export const SectionRowProperties = <
   T extends InstanceType<typeof SectionRowBlock> = InstanceType<typeof SectionRowBlock>
 >({
-  block,
+  block: blockInstance,
 }: {
   block: T;
 }) => {
+  const block = useDomain(blockInstance, blockInstance._listeners);
   const sizeProps = useSectionLayoutSize(block);
 
   return (

@@ -1,5 +1,5 @@
 import { Block } from "@/domain/builder";
-import { useBlockHistory } from "@/hooks";
+import { useBlockHistory, useDebounce } from "@/hooks";
 import { useCallback } from "react";
 import { flushSync } from "react-dom";
 
@@ -16,6 +16,12 @@ export interface IUseLayoutSize {
 
 export const useDefaultLayoutSize = <T extends Block = Block>(block: T): IUseLayoutSize => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
+  const debouncedWidthEndCaptureSnapshot = useDebounce(() => {
+    endCaptureSnapshot(`${block.id}-property-width`);
+  }, 100);
+  const debouncedHeightEndCaptureSnapshot = useDebounce(() => {
+    endCaptureSnapshot(`${block.id}-property-height`);
+  }, 100);
 
   const onWidthChange = useCallback(
     (value: number, after?: () => void, config?: { flush: boolean }) => {
@@ -23,14 +29,20 @@ export const useDefaultLayoutSize = <T extends Block = Block>(block: T): IUseLay
       if (config?.flush) {
         flushSync(() => {
           block.width = value;
+          if (block.widthType !== "fixed") {
+            block.widthType = "fixed";
+          }
         });
       } else {
         block.width = value;
+        if (block.widthType !== "fixed") {
+          block.widthType = "fixed";
+        }
       }
       after?.();
-      endCaptureSnapshot(`${block.id}-property-width`);
+      debouncedWidthEndCaptureSnapshot();
     },
-    [block, endCaptureSnapshot, startCaptureSnapshot]
+    [block, debouncedWidthEndCaptureSnapshot, startCaptureSnapshot]
   );
 
   const onHeightChange = useCallback(
@@ -39,14 +51,20 @@ export const useDefaultLayoutSize = <T extends Block = Block>(block: T): IUseLay
       if (config?.flush) {
         flushSync(() => {
           block.height = value;
+          if (block.heightType !== "fixed") {
+            block.heightType = "fixed";
+          }
         });
       } else {
         block.height = value;
+        if (block.heightType !== "fixed") {
+          block.heightType = "fixed";
+        }
       }
       after?.();
-      endCaptureSnapshot(`${block.id}-property-height`);
+      debouncedHeightEndCaptureSnapshot();
     },
-    [block, endCaptureSnapshot, startCaptureSnapshot]
+    [block, debouncedHeightEndCaptureSnapshot, startCaptureSnapshot]
   );
 
   const onWidthTypeChange = useCallback(

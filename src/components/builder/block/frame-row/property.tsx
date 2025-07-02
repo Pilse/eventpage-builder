@@ -8,14 +8,16 @@ import { FrameRowBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useFrameLayoutSize } from "../use-frame-layout-size";
 import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";
+import { useDomain } from "@/hooks";
 
 export const FrameRowProperties = <
   T extends InstanceType<typeof FrameRowBlock> = InstanceType<typeof FrameRowBlock>
 >({
-  block,
+  block: blockInstance,
 }: {
   block: T;
 }) => {
+  const block = useDomain(blockInstance, blockInstance._listeners);
   const sizeProps = useFrameLayoutSize(block);
 
   return (

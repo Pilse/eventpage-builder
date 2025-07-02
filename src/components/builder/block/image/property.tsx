@@ -4,12 +4,14 @@ import { Flex, Heading } from "@radix-ui/themes";
 import { useImageLayoutSize } from "./use-image-layout-size";
 import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";
 import { DefaultFile } from "@/components/builder/property/image";
+import { useDomain } from "@/hooks";
 
 export const ImageProperties = <T extends InstanceType<typeof ImageBlock> = InstanceType<typeof ImageBlock>>({
-  block,
+  block: blockInstance,
 }: {
   block: T;
 }) => {
+  const block = useDomain(blockInstance, blockInstance._listeners);
   const sizeProps = useImageLayoutSize(block);
 
   return (

@@ -3,14 +3,16 @@ import { SectionBlock } from "@/domain/builder";
 import { Flex, Heading } from "@radix-ui/themes";
 import { useSectionLayoutSize } from "../use-section-layout-size";
 import { DefaultBgColor } from "@/components/builder/property/appearance";
+import { useDomain } from "@/hooks";
 
 export const SectionCanvasProperties = <
   T extends InstanceType<typeof SectionBlock> = InstanceType<typeof SectionBlock>
 >({
-  block,
+  block: blockInstance,
 }: {
   block: T;
 }) => {
+  const block = useDomain(blockInstance, blockInstance._listeners);
   const sizeProps = useSectionLayoutSize(block);
 
   return (

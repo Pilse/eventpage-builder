@@ -1,14 +1,15 @@
 import { TypographyMixinBlockType } from "@/domain/builder/mixin";
-import { Flex, Grid, Popover, Select, Text, TextField } from "@radix-ui/themes";
+import { Flex, Grid, Popover, RadioCards, Select, Text, TextField } from "@radix-ui/themes";
 import Image from "next/image";
 import { useDefaultTypography } from "./use-default-typography";
-import { TbBlur, TbTextSize } from "react-icons/tb";
+import { TbBlur, TbPencil, TbTextSize } from "react-icons/tb";
 import { PiTextAlignCenter, PiTextAlignLeft, PiTextAlignRight, PiTextBBold } from "react-icons/pi";
 import { rgbaToCss } from "@/shared/util/color";
 import { RgbaColorPicker } from "react-colorful";
 import { CgFontHeight, CgFontSpacing } from "react-icons/cg";
 import { TextAlign } from "@/type";
 import { MdOutlineBorderColor } from "react-icons/md";
+import { twMerge } from "tailwind-merge";
 
 const textAlignData = {
   left: {
@@ -143,11 +144,8 @@ export const DefaultTypoGraphy = <T extends TypographyMixinBlockType>({ block }:
           <TextField.Slot side="left">
             <Popover.Root open={openColorPicker}>
               <Popover.Trigger onClick={() => setOpenColorPicker(true)}>
-                <button
-                  className="w-3 h-2  border border-gray-500 relative -rotate-45 "
-                  style={{ backgroundColor: rgbaToCss(block.fontColor) }}
-                >
-                  <div className="absolute rounded-l top-0 left-0 w-full h-full z-10"></div>
+                <button className="relative ">
+                  <TbPencil fill={rgbaToCss(block.fontColor)} size={16} />
                 </button>
               </Popover.Trigger>
 
@@ -201,31 +199,28 @@ export const DefaultTypoGraphy = <T extends TypographyMixinBlockType>({ block }:
         </TextField.Root>
       </Flex>
 
-      <Flex direction="column" gap="1">
+      <Flex direction="column" gap="1" gridColumn={"1/3"}>
         <Text size="1" as="label" htmlFor="width-input">
           Align
         </Text>
-        <Select.Root value={block.textAlign} onValueChange={(value: TextAlign) => onTextAlignChange(value)}>
-          <Select.Trigger>
-            <Flex as="span" align="center" gap="2">
-              {textAlignData[block.textAlign].icon}
-              {textAlignData[block.textAlign].label}
-            </Flex>
-          </Select.Trigger>
-          <Select.Content>
-            {Object.entries(textAlignData).map(([key, { icon, label }]) => (
-              <Select.Item key={key} value={key}>
-                <Flex align="center" gap="2">
-                  {icon}
-                  {label}
-                </Flex>
-              </Select.Item>
-            ))}
-          </Select.Content>
-        </Select.Root>
+        <RadioCards.Root
+          columns="3"
+          gap="1"
+          size="1"
+          color="gray"
+          value={block.textAlign}
+          onValueChange={(value: TextAlign) => onTextAlignChange(value)}
+        >
+          {Object.entries(textAlignData).map(([key, { icon, label }]) => (
+            <RadioCards.Item key={key} value={key}>
+              <Flex align="center" gap="1" className={twMerge(key === "right" && "flex-row-reverse")}>
+                {icon}
+                <Text size="1">{label}</Text>
+              </Flex>
+            </RadioCards.Item>
+          ))}
+        </RadioCards.Root>
       </Flex>
-
-      <Flex></Flex>
 
       <Grid columns="3" gapX="1" gapY="2" gridColumn={"1/3"}>
         <Flex direction="column" gap="1" gridColumn={"1/5"}>
@@ -279,7 +274,7 @@ export const DefaultTypoGraphy = <T extends TypographyMixinBlockType>({ block }:
               <Popover.Root open={openShadowColorPicker}>
                 <Popover.Trigger onClick={() => setShadowOpenColorPicker(true)}>
                   <button
-                    className="w-3.5 h-3.5  border border-gray-500 rounded-full"
+                    className="w-3.5 h-3.5 border border-gray-500 rounded-full"
                     style={{ backgroundColor: rgbaToCss(block.textShadow.color) }}
                   ></button>
                 </Popover.Trigger>

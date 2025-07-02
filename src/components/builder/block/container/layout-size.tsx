@@ -63,6 +63,8 @@ export const ContainerLayoutSize = ({
         <TextField.Root
           value={block.width}
           id="width-input"
+          type="number"
+          disabled
           onChange={(e) => onWidthChange?.(Number(e.target.value))}
         >
           <TextField.Slot side="left">

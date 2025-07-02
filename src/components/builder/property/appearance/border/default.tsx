@@ -74,10 +74,16 @@ export const DefaultBorder = <T extends BorderMixinBlockType>({ block }: { block
           <TextField.Slot side="left">
             <Popover.Root open={openColorPicker}>
               <Popover.Trigger onClick={() => setOpenColorPicker(true)}>
-                <button
-                  className="w-3.5 h-1.5 border border-gray-500"
-                  style={{ backgroundColor: rgbaToCss(block.borderColor) }}
-                ></button>
+                <button className="relative">
+                  <div
+                    className="w-3.5 h-1 border border-gray-500"
+                    style={{ backgroundColor: rgbaToCss(block.borderColor) }}
+                  ></div>
+                  <div
+                    className="w-3.5 h-1.5 border border-gray-500 mt-0.5"
+                    style={{ backgroundColor: rgbaToCss(block.borderColor) }}
+                  ></div>
+                </button>
               </Popover.Trigger>
 
               <Popover.Content>

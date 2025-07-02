@@ -4,12 +4,14 @@ import { Flex, Heading } from "@radix-ui/themes";
 import { useTextLayoutSize } from "./use-text-layout-size";
 import { DefaultBgColor, DefaultBorder, DefaultShadow } from "@/components/builder/property/appearance";
 import { DefaultTypoGraphy } from "@/components/builder/property/typography";
+import { useDomain } from "@/hooks";
 
 export const TextProperties = <T extends InstanceType<typeof TextBlock> = InstanceType<typeof TextBlock>>({
-  block,
+  block: blockInstance,
 }: {
   block: T;
 }) => {
+  const block = useDomain(blockInstance, blockInstance._listeners);
   const sizeProps = useTextLayoutSize(block);
 
   return (

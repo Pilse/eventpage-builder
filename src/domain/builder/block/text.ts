@@ -44,7 +44,7 @@ export class Text extends Block {
     this.lineHeight = initState?.lineHeight ?? 1;
     this.letterSpacing = initState?.letterSpacing ?? 0;
     this.textAlign = initState?.textAlign ?? "left";
-    this.textShadow = initState?.textShadow ?? { x: 0, y: 0, blur: 0, color: { r: 0, g: 0, b: 0, a: 1 } };
+    this.textShadow = initState?.textShadow ?? { x: 0, y: 0, blur: 0, color: { r: 0, g: 0, b: 0, a: 0 } };
   }
 
   get width() {
