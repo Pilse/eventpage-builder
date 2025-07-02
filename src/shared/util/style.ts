@@ -52,11 +52,12 @@ export const getTextStyle = (block: Text) => {
     fontWeight: block.fontWeight,
     fontSize: block.fontSize,
     color: rgbaToCss(block.fontColor),
-    lineHeight: block.lineHeight,
+    lineHeight: `${block.lineHeight}em`,
     letterSpacing: `${block.letterSpacing}px`,
     textAlign: block.textAlign,
     textShadow: `${block.textShadow.x}px ${block.textShadow.y}px ${block.textShadow.blur}px ${rgbaToCss(
       block.textShadow.color
     )}`,
+    height: "auto",
   } satisfies CSSProperties;
 };
