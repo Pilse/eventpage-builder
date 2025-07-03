@@ -85,6 +85,10 @@ export const ChildrenMixin = <TBase extends Constructor<Block & { children: Inst
       return this.children.find((child) => child.id === id);
     }
 
+    public findChildIdx(block: InstanceType<typeof Block>) {
+      return this.children.findIndex((child) => child.id === block.id);
+    }
+
     public swapChildren(child1: InstanceType<typeof Block>, child2: InstanceType<typeof Block>) {
       const child1Idx = this.children.findIndex((child) => child.id === child1.id);
       const child2Idx = this.children.findIndex((child) => child.id === child2.id);

@@ -35,7 +35,6 @@ export const DropRowMixin = <
   return class extends DragSnapMixin(ChildrenMixin(Base)) {
     public rowDroppable = true;
     public childrenOffsetX: number[] = [0];
-    public lastHoveredBlockIdx: number = -1;
 
     constructor(...args: any[]) {
       super(...args);
@@ -124,16 +123,10 @@ export const DropRowMixin = <
       }
 
       if (hoveredBlock.parent.id === this.id) {
-        const idx = this.childrenOffsetX.findLastIndex((childOffetX) => childOffetX > offsetFromThis.x);
+        const idx = this.getHoveredOffsetIdx(hoveredBlock, offsetFromThis);
         if (idx === -1) {
           return;
         }
-
-        if (this.lastHoveredBlockIdx === idx) {
-          return;
-        }
-
-        this.lastHoveredBlockIdx = idx;
 
         hoveredBlock.l = offsetFromThis.x;
 
@@ -145,6 +138,35 @@ export const DropRowMixin = <
           this.autoLayout();
         }
       }
+    }
+
+    private getHoveredOffsetIdx(hoveredBlock: InstanceType<typeof Block>, offsetFromThis: Offset) {
+      const hoveredBlockIdx = this.findChildIdx(hoveredBlock);
+      if (hoveredBlockIdx === -1) {
+        return -1;
+      }
+
+      const compareTargetBlockIdx =
+        hoveredBlock.xDirection === "r" ? hoveredBlockIdx + 1 : hoveredBlockIdx - 1;
+      const compareTargetBlock = this.children[compareTargetBlockIdx];
+      if (!compareTargetBlock) {
+        return -1;
+      }
+
+      if (hoveredBlock.xDirection === "r") {
+        const offset =
+          this.childrenOffsetX[compareTargetBlockIdx] + this.children[compareTargetBlockIdx].width / 2;
+        if (offsetFromThis.x > offset) {
+          return compareTargetBlockIdx;
+        }
+      } else if (hoveredBlock.xDirection === "l") {
+        const offset =
+          this.childrenOffsetX[compareTargetBlockIdx] + this.children[compareTargetBlockIdx].width / 2;
+        if (offsetFromThis.x < offset) {
+          return compareTargetBlockIdx;
+        }
+      }
+      return -1;
     }
   };
 };

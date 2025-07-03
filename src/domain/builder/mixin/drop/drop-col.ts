@@ -35,7 +35,6 @@ export const DropColMixin = <
   return class extends DragSnapMixin(ChildrenMixin(Base)) {
     public colDroppable = true;
     public childrenOffsetY: number[] = [0];
-    public lastHoveredBlockIdx: number = -1;
 
     constructor(...args: any[]) {
       super(...args);
@@ -56,9 +55,6 @@ export const DropColMixin = <
           : this.height - this.pb - childrenTotalHeight;
 
       this.childrenOffsetY = [initialT];
-      if (sort === "posY") {
-        this.children.sort((chlid1, child2) => chlid1.t - child2.t);
-      }
       this.children.forEach((child, idx) => {
         this.childrenOffsetY.push(this.childrenOffsetY[idx] + child.height + this.gap);
         child.t = this.childrenOffsetY[idx];
@@ -126,29 +122,50 @@ export const DropColMixin = <
       }
 
       if (hoveredBlock.parent.id === this.id) {
-        const idx = this.childrenOffsetY.findIndex((childOffetY) => childOffetY > offsetFromThis.y);
+        const idx = this.getHoveredOffsetIdx(hoveredBlock, offsetFromThis);
         if (idx === -1) {
           return;
         }
 
-        if (this.lastHoveredBlockIdx === idx) {
-          return;
-        }
-
-        this.lastHoveredBlockIdx = idx;
-
         hoveredBlock.t = offsetFromThis.y;
 
         if (this.children[idx]) {
-          console.log("swap");
           this.swapChildren(hoveredBlock, this.children[idx]);
-          this.autoLayout();
+          this.autoLayout("order");
         } else if (this.children[idx - 1]) {
-          console.log("swap");
           this.swapChildren(hoveredBlock, this.children[idx - 1]);
-          this.autoLayout();
+          this.autoLayout("order");
         }
       }
+    }
+
+    private getHoveredOffsetIdx(hoveredBlock: InstanceType<typeof Block>, offsetFromThis: Offset) {
+      const hoveredBlockIdx = this.findChildIdx(hoveredBlock);
+      if (hoveredBlockIdx === -1) {
+        return -1;
+      }
+
+      const compareTargetBlockIdx =
+        hoveredBlock.yDirection === "b" ? hoveredBlockIdx + 1 : hoveredBlockIdx - 1;
+      const compareTargetBlock = this.children[compareTargetBlockIdx];
+      if (!compareTargetBlock) {
+        return -1;
+      }
+
+      if (hoveredBlock.yDirection === "b") {
+        const offset =
+          this.childrenOffsetY[compareTargetBlockIdx] + this.children[compareTargetBlockIdx].height / 2;
+        if (offsetFromThis.y > offset) {
+          return compareTargetBlockIdx;
+        }
+      } else if (hoveredBlock.yDirection === "t") {
+        const offset =
+          this.childrenOffsetY[compareTargetBlockIdx] + this.children[compareTargetBlockIdx].height / 2;
+        if (offsetFromThis.y < offset) {
+          return compareTargetBlockIdx;
+        }
+      }
+      return -1;
     }
   };
 };

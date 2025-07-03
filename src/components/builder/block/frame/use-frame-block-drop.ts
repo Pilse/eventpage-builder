@@ -17,7 +17,6 @@ export const useFrameBlockDrop = (
   return useDefaultBlockDrop(
     {
       hover: (item, monitor) => {
-        monitor.getItem();
         if (isDragging || isDraggingDeep(monitor) || !monitor.isOver({ shallow: true })) {
           return;
         }
