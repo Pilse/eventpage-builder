@@ -6,6 +6,7 @@ import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
 import { DragSnapLineLayer, HoverLayer, SectionBlockTypeLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";
 import {
+  BlockContextMenu,
   PreviewBlock,
   useSectionColBlockDrop,
   useSectionColBlockProps,
@@ -27,27 +28,29 @@ export const SectionCol = ({ block }: ISectionColProps) => {
   const { previewBlock, snappableDir } = useSectionPreviewBlock(sectionCol, element);
 
   return (
-    <section
-      ref={(ele) => {
-        setElement(ele);
-        dropRef(ele);
-      }}
-      className={twMerge("group bg-blue-200", isAutoLayouted(sectionCol) && "opacity-100")}
-      {...blockProps}
-    >
-      {!isSelected && (
-        <HoverLayer
-          useProgrammaticHovered={isDragging || block.isHovered}
-          programmaticHovered={isCurrentOver || block.isHovered}
-        />
-      )}
-      {isSelected && element && <ResizeMixin vertical element={element} block={sectionCol} />}
-      {previewBlock && !isAutoLayouted(previewBlock) && element && (
-        <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />
-      )}
-      <SectionBlockTypeLayer block={sectionCol} />
-      <ChildrenMixin block={sectionCol} />
-      {previewBlock && <PreviewBlock block={previewBlock} />}
-    </section>
+    <BlockContextMenu block={sectionCol}>
+      <section
+        ref={(ele) => {
+          setElement(ele);
+          dropRef(ele);
+        }}
+        className={twMerge("group bg-blue-200", isAutoLayouted(sectionCol) && "opacity-100")}
+        {...blockProps}
+      >
+        {!isSelected && (
+          <HoverLayer
+            useProgrammaticHovered={isDragging || block.isHovered}
+            programmaticHovered={isCurrentOver || block.isHovered}
+          />
+        )}
+        {isSelected && element && <ResizeMixin vertical element={element} block={sectionCol} />}
+        {previewBlock && !isAutoLayouted(previewBlock) && element && (
+          <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />
+        )}
+        <SectionBlockTypeLayer block={sectionCol} />
+        <ChildrenMixin block={sectionCol} />
+        {previewBlock && <PreviewBlock block={previewBlock} />}
+      </section>
+    </BlockContextMenu>
   );
 };

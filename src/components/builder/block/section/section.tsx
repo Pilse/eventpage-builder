@@ -3,6 +3,7 @@
 import { SectionBlock } from "@/domain/builder";
 import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
 import {
+  BlockContextMenu,
   PreviewBlock,
   useSectionBlockDrop,
   useSectionBlockProps,
@@ -27,7 +28,7 @@ export const Section = ({ block }: ISectionProps) => {
   const [{ isCurrentOver, isDragging }, dropRef] = useSectionBlockDrop(section, element);
 
   return (
-    <>
+    <BlockContextMenu block={section}>
       <section
         ref={(ele) => {
           dropRef(ele);
@@ -51,6 +52,6 @@ export const Section = ({ block }: ISectionProps) => {
         <ChildrenMixin block={section} />
         {previewBlock && <PreviewBlock block={previewBlock} />}
       </section>
-    </>
+    </BlockContextMenu>
   );
 };

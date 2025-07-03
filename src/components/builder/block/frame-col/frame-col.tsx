@@ -7,6 +7,7 @@ import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
 import { FrameBlockTypeLayer, HoverLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";
 import {
+  BlockContextMenu,
   useFrameColBlockDrag,
   useFrameColBlockDrop,
   useFrameColBlockProps,
@@ -26,31 +27,33 @@ export const FrameCol = ({ block, isPreview }: IFrameColProps) => {
   );
 
   return (
-    <div
-      ref={(ele) => {
-        setElement(ele);
-        dragRef(ele);
-        if (isPreview || !isCurrentDragging) {
-          dropRef(ele);
-        }
-        previewRef(getEmptyImage());
-      }}
-      className={twMerge(
-        "group bg-blue-200",
-        !isPreview && isCurrentDragging && "opacity-0",
-        isAutoLayouted(frameCol) && "opacity-100"
-      )}
-      {...blockProps}
-    >
-      {!isSelected && (
-        <HoverLayer
-          useProgrammaticHovered={isDragging || block.isHovered}
-          programmaticHovered={isCurrentOver || block.isHovered}
-        />
-      )}
-      {isSelected && element && <ResizeMixin element={element} block={frameCol} />}
-      {(block.isHovered || isSelected || isCurrentOver) && <FrameBlockTypeLayer block={frameCol} />}
-      <ChildrenMixin block={frameCol} />
-    </div>
+    <BlockContextMenu block={frameCol}>
+      <div
+        ref={(ele) => {
+          setElement(ele);
+          dragRef(ele);
+          if (isPreview || !isCurrentDragging) {
+            dropRef(ele);
+          }
+          previewRef(getEmptyImage());
+        }}
+        className={twMerge(
+          "group bg-blue-200",
+          !isPreview && isCurrentDragging && "opacity-0",
+          isAutoLayouted(frameCol) && "opacity-100"
+        )}
+        {...blockProps}
+      >
+        {!isSelected && (
+          <HoverLayer
+            useProgrammaticHovered={isDragging || block.isHovered}
+            programmaticHovered={isCurrentOver || block.isHovered}
+          />
+        )}
+        {isSelected && element && <ResizeMixin element={element} block={frameCol} />}
+        {(block.isHovered || isSelected || isCurrentOver) && <FrameBlockTypeLayer block={frameCol} />}
+        <ChildrenMixin block={frameCol} />
+      </div>
+    </BlockContextMenu>
   );
 };

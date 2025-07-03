@@ -1,19 +1,14 @@
-import { BlockFactory, ContainerBlock, Image, ImageBlock } from "@/domain/builder";
+import { ContainerBlock, Image, ImageBlock } from "@/domain/builder";
 import {
   IUseDefaultBlockProps,
-  useBlockHistory,
   useDefaultBlockProps,
+  useDeleteBlock,
   useGlobalContext,
   useNewBlock,
+  useCopyPasteBlock,
 } from "@/hooks";
 import { uploadImage } from "@/service/image";
-import {
-  getImageSizeFromBlobFile,
-  getImageUrlFromBlobFile,
-  hasChildrenMixin,
-  hasDropColMixin,
-  hasDropRowMixin,
-} from "@/shared/util";
+import { getImageSizeFromBlobFile, getImageUrlFromBlobFile } from "@/shared/util";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -22,26 +17,13 @@ interface IUseContainerBlockProps extends IUseDefaultBlockProps<InstanceType<typ
 export const useContainerBlockProps = (
   containerBlock: InstanceType<typeof ContainerBlock>
 ): IUseContainerBlockProps => {
-  const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const { block: container, ...props } = useDefaultBlockProps(containerBlock);
   const globalContext = useGlobalContext();
+  const { deleteBlock } = useDeleteBlock();
   const { isAddable, addNewBlock } = useNewBlock();
-
+  const { copyBlock, pasteBlock } = useCopyPasteBlock();
   useHotkeys("backspace", () => {
-    if (!globalContext.currentBlock) {
-      return;
-    }
-
-    const parent = globalContext.currentBlock.parent;
-    if (parent && hasChildrenMixin(parent)) {
-      startCaptureSnapshot(`remove-${parent.id}`);
-      parent.removeChild(globalContext.currentBlock);
-      if (hasDropColMixin(parent) || hasDropRowMixin(parent)) {
-        parent.autoLayout();
-      }
-      globalContext.setCurrentBlock(containerBlock);
-      endCaptureSnapshot(`remove-${parent.id}`);
-    }
+    deleteBlock();
   });
 
   useHotkeys("mod+c", () => {
@@ -49,7 +31,7 @@ export const useContainerBlockProps = (
       return;
     }
 
-    navigator.clipboard.writeText(JSON.stringify(globalContext.currentBlock.serialize()));
+    copyBlock(globalContext.currentBlock);
   });
 
   useEffect(() => {
@@ -60,19 +42,7 @@ export const useContainerBlockProps = (
       }
 
       try {
-        const copiedBlock = JSON.parse(text);
-        const isSameBlock = globalContext.currentBlock?.id === copiedBlock.id;
-
-        const parent =
-          globalContext.currentBlock && hasChildrenMixin(globalContext.currentBlock) && isSameBlock
-            ? globalContext.currentBlock.parent?.getClosestParent()
-            : globalContext.currentBlock?.getClosestParent();
-        if (!parent) {
-          return false;
-        }
-
-        const block = BlockFactory.create(copiedBlock, parent);
-        addNewBlock(block.type, block.serialize(), parent);
+        pasteBlock(text);
         return true;
       } catch {
         console.error("Failed to paste text block");
@@ -130,7 +100,7 @@ export const useContainerBlockProps = (
     return () => {
       document.removeEventListener("paste", handlePaste);
     };
-  }, [addNewBlock, endCaptureSnapshot, isAddable, startCaptureSnapshot, globalContext.currentBlock]);
+  }, [addNewBlock, isAddable, pasteBlock]);
 
   useEffect(() => {
     if (globalContext.currentBlock === null) {
