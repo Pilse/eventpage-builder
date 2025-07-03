@@ -60,15 +60,18 @@ export const useContainerBlockProps = (
       }
 
       try {
+        const copiedBlock = JSON.parse(text);
+        const isSameBlock = globalContext.currentBlock?.id === copiedBlock.id;
+
         const parent =
-          globalContext.currentBlock && hasChildrenMixin(globalContext.currentBlock)
+          globalContext.currentBlock && hasChildrenMixin(globalContext.currentBlock) && isSameBlock
             ? globalContext.currentBlock.parent?.getClosestParent()
             : globalContext.currentBlock?.getClosestParent();
         if (!parent) {
           return false;
         }
 
-        const block = BlockFactory.create(JSON.parse(text), parent);
+        const block = BlockFactory.create(copiedBlock, parent);
         addNewBlock(block.type, block.serialize(), parent);
         return true;
       } catch {
