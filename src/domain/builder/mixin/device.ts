@@ -53,11 +53,5 @@ const devicePreset = [
   { device: "mobile" as const, name: "iPhone SE" as const, width: 375 },
   { device: "mobile" as const, name: "Galaxy S Ultra" as const, width: 384 },
   { device: "mobile" as const, name: "Galaxy S" as const, width: 360 },
-  { device: "tablet" as const, name: "Surface Pro 8" as const, width: 1440 },
   { device: "tablet" as const, name: "iPad mini 8.3" as const, width: 744 },
-  { device: "tablet" as const, name: "iPad Pro 11" as const, width: 834 },
-  { device: "tablet" as const, name: "iPad Pro 12.9" as const, width: 1024 },
-  { device: "desktop" as const, name: "MacBook Air" as const, width: 1280 },
-  { device: "desktop" as const, name: "MacBook Pro 14" as const, width: 1512 },
-  { device: "desktop" as const, name: "MacBook Pro 16" as const, width: 1728 },
 ];
