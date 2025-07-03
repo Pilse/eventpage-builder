@@ -3,7 +3,7 @@ import "@radix-ui/themes/styles.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "pageio",
+  title: "Pageio",
   description: "Easiest way to build mobile page",
 };
 

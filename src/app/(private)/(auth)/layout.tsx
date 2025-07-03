@@ -11,7 +11,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   if (status === "loading") {
     return (
       <div className="w-full h-screen flex flex-col justify-center items-center">
-        <Image src="/image/pageio.svg" width={30} height={30} alt="pageio" className="animate-spin" />
+        <Image src="/image/pageio.svg" width={20} height={33} alt="pageio" className="animate-spin" />
       </div>
     );
   }
@@ -20,7 +20,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     signIn("google", { redirectTo: pathname });
     return (
       <div className="w-full h-screen flex flex-col justify-center items-center">
-        <Image src="/image/pageio.svg" width={30} height={30} alt="pageio" className="animate-spin" />
+        <Image src="/image/pageio.svg" width={20} height={33} alt="pageio" className="animate-spin" />
       </div>
     );
   }

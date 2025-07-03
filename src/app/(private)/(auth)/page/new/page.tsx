@@ -40,7 +40,7 @@ export default function NewBuilder() {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
-      <Image src="/image/pageio.svg" width={30} height={30} alt="pageio" className="animate-spin" />
+      <Image src="/image/pageio.svg" width={20} height={33} alt="pageio" className="animate-spin" />
     </div>
   );
 }

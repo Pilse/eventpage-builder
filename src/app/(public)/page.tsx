@@ -19,7 +19,7 @@ export default function Home() {
       <div className="relative bg-black">
         <nav className="h-16 backdrop-blur-md w-full fixed bg-white/10 flex justify-between items-center z-10">
           <div className="flex items-center gap-2 ml-6">
-            <Image src="/image/pageio.svg" width={15} height={15} alt="logo" />
+            <Image src="/image/pageio.svg" width={10} height={25} alt="logo" />
             <span className="text-white text-base font-semibold">pageio</span>
           </div>
 
