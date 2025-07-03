@@ -14,6 +14,22 @@ export const BlockContextMenu = ({ block, children }: BlockContextMenuProps) => 
   const { addNewBlock } = useNewBlock();
   const { deleteBlock } = useDeleteBlock();
 
+  const handleAddBlock = async (type: Block["type"]) => {
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    addNewBlock(
+      type,
+      {},
+      hasChildrenMixin(block)
+        ? block
+        : block.parent
+        ? hasChildrenMixin(block.parent)
+          ? block.parent
+          : undefined
+        : undefined,
+      block
+    );
+  };
+
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>{children}</ContextMenu.Trigger>
@@ -34,55 +50,13 @@ export const BlockContextMenu = ({ block, children }: BlockContextMenuProps) => 
         <ContextMenu.Sub>
           <ContextMenu.SubTrigger>Add</ContextMenu.SubTrigger>
           <ContextMenu.SubContent>
-            <ContextMenu.Item
-              onClick={() =>
-                addNewBlock(
-                  "TEXT",
-                  {},
-                  hasChildrenMixin(block)
-                    ? block
-                    : block.parent
-                    ? hasChildrenMixin(block.parent)
-                      ? block.parent
-                      : undefined
-                    : undefined
-                )
-              }
-            >
+            <ContextMenu.Item onClick={() => handleAddBlock("TEXT")}>
               <TextIcon width={16} height={16} /> Text
             </ContextMenu.Item>
-            <ContextMenu.Item
-              onClick={() =>
-                addNewBlock(
-                  "FRAME_CANVAS",
-                  {},
-                  hasChildrenMixin(block)
-                    ? block
-                    : block.parent
-                    ? hasChildrenMixin(block.parent)
-                      ? block.parent
-                      : undefined
-                    : undefined
-                )
-              }
-            >
+            <ContextMenu.Item onClick={() => handleAddBlock("FRAME_CANVAS")}>
               <FrameIcon width={16} height={16} /> Frame
             </ContextMenu.Item>
-            <ContextMenu.Item
-              onClick={() =>
-                addNewBlock(
-                  "IMAGE",
-                  {},
-                  hasChildrenMixin(block)
-                    ? block
-                    : block.parent
-                    ? hasChildrenMixin(block.parent)
-                      ? block.parent
-                      : undefined
-                    : undefined
-                )
-              }
-            >
+            <ContextMenu.Item onClick={() => handleAddBlock("IMAGE")}>
               <ImageIcon width={16} height={16} /> Image
             </ContextMenu.Item>
           </ContextMenu.SubContent>

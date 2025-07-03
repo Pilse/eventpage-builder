@@ -118,13 +118,15 @@ export const useNewBlock = () => {
     <T extends Omit<ReturnType<Block["serialize"]>, "id">>(
       type: T["type"],
       serialized: Partial<T>,
-      _parent?: ChildrenMixinBlockType
+      _parent?: ChildrenMixinBlockType,
+      block?: Block
     ) => {
-      if (!currentBlock) {
+      const selectedBlock = block ?? currentBlock;
+      if (!selectedBlock) {
         return null;
       }
 
-      let parent: ChildrenMixinBlockType | null = _parent || currentBlock.getClosestParent();
+      let parent: ChildrenMixinBlockType | null = _parent || selectedBlock.getClosestParent();
       if (parent?.type.startsWith("SECTION") && type.startsWith("SECTION")) {
         parent = parent.parent?.getClosestParent() ?? null;
       }
@@ -132,7 +134,7 @@ export const useNewBlock = () => {
         return null;
       }
 
-      const { width, height, widthType, heightType, ...props } = getInitalProps(parent, currentBlock, type);
+      const { width, height, widthType, heightType, ...props } = getInitalProps(parent, selectedBlock, type);
 
       const newBlock = BlockFactory.create(
         {

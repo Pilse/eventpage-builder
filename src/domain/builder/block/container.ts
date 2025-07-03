@@ -86,7 +86,6 @@ export class Container extends Block {
   }
 
   public serialize() {
-    console.log("serialize", this.device);
     return {
       ...super.serialize(),
       gap: this.gap,

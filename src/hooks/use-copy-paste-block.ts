@@ -14,7 +14,7 @@ export const useCopyPasteBlock = () => {
 
   const pasteBlock = useCallback(
     (text: string, block?: Block) => {
-      if (!isAddable) {
+      if (!isAddable && !block) {
         return;
       }
 
