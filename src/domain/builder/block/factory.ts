@@ -68,7 +68,6 @@ export class BlockFactory {
           alignVertical: "top",
           ...serialized,
           parent,
-          device: "iPhone Pro Max",
         });
       case "BLOCK":
         return new Block({ ...serialized, parent });

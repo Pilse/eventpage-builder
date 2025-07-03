@@ -20,7 +20,7 @@ export class Container extends Block {
       gap: number;
       alignHorizontal: "left" | "center" | "right";
       alignVertical: "top" | "center" | "bottom";
-      device: string | null;
+      device?: string | null;
     },
     deserialize = true
   ) {
@@ -28,7 +28,7 @@ export class Container extends Block {
     this.gap = initState.gap;
     this.alignHorizontal = initState.alignHorizontal;
     this.alignVertical = initState.alignVertical;
-    this.device = initState.device;
+    this.device = initState.device ?? "iPhone Pro Max";
     this.children = (initState.children.map((child) =>
       deserialize ? BlockFactory.deserialize(child, this) : BlockFactory.create(child, this)
     ) ?? []) as ChildBlock[];
@@ -86,6 +86,7 @@ export class Container extends Block {
   }
 
   public serialize() {
+    console.log("serialize", this.device);
     return {
       ...super.serialize(),
       gap: this.gap,
