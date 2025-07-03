@@ -25,7 +25,7 @@ export const BlockContextMenu = ({ block, children }: BlockContextMenuProps) => 
           shortcut="⌘ V"
           onClick={async (e) => {
             const text = await navigator.clipboard.readText();
-            pasteBlock(text);
+            pasteBlock(text, block);
           }}
         >
           Paste

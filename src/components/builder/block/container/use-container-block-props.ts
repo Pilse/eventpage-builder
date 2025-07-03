@@ -63,17 +63,28 @@ export const useContainerBlockProps = (
         return;
       }
 
+      if (!globalContext.currentBlock) {
+        return;
+      }
+      const parent = globalContext.currentBlock.parent;
+      if (!parent) {
+        return;
+      }
+
       const tempUrl = getImageUrlFromBlobFile(blob);
       const { width, height } = await getImageSizeFromBlobFile(blob);
+      const adjustedWidth = width > parent.width ? parent.width / 2 : width;
+      const adjustedHeight = (height * adjustedWidth) / width;
+
       const imageProps = {
         position: "absolute",
-        width,
-        height,
+        width: adjustedWidth,
+        height: adjustedHeight,
         widthType: "fixed",
         heightType: "fit",
         filename: blob.name,
         url: tempUrl,
-        aspectRatio: Math.floor((width * 100) / height),
+        aspectRatio: Math.floor((adjustedWidth * 100) / adjustedHeight),
         backgroundType: "color",
         backgroundColor: { r: 0, g: 0, b: 0, a: 0 },
       } satisfies Partial<ReturnType<Image["serialize"]>>;
@@ -100,7 +111,7 @@ export const useContainerBlockProps = (
     return () => {
       document.removeEventListener("paste", handlePaste);
     };
-  }, [addNewBlock, isAddable, pasteBlock]);
+  }, [addNewBlock, container, copyBlock, globalContext.currentBlock, isAddable, pasteBlock]);
 
   useEffect(() => {
     if (globalContext.currentBlock === null) {

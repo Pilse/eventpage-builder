@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useGlobalContext } from "./use-global-context";
-import { Block, BlockFactory } from "@/domain/builder";
-import { hasChildrenMixin } from "@/shared/util";
+import { Block, BlockFactory, DropCanvasMixin } from "@/domain/builder";
+import { hasChildrenMixin, hasDropCanvasMixin } from "@/shared/util";
 import { useNewBlock } from "./use-new-block";
 
 export const useCopyPasteBlock = () => {
@@ -13,25 +13,38 @@ export const useCopyPasteBlock = () => {
   }, []);
 
   const pasteBlock = useCallback(
-    (text: string) => {
+    (text: string, block?: Block) => {
       if (!isAddable) {
         return;
       }
 
+      const currentBlock = block ?? globalContext.currentBlock;
+
       const copiedBlock = JSON.parse(text);
-      const isSameBlock = globalContext.currentBlock?.id === copiedBlock.id;
+      const isSameBlock = currentBlock?.id === copiedBlock.id;
 
       const parent =
-        globalContext.currentBlock && hasChildrenMixin(globalContext.currentBlock) && isSameBlock
-          ? globalContext.currentBlock.parent?.getClosestParent()
-          : globalContext.currentBlock?.getClosestParent();
+        currentBlock && hasChildrenMixin(currentBlock) && isSameBlock
+          ? currentBlock.parent?.getClosestParent()
+          : currentBlock?.getClosestParent();
 
       if (!parent) {
         return;
       }
 
-      const block = BlockFactory.create(copiedBlock, parent);
-      addNewBlock(block.type, block.serialize(), parent);
+      if (hasDropCanvasMixin(parent)) {
+        const t = copiedBlock.t > parent.height / 2 ? parent.height / 2 : copiedBlock.t;
+        const l = copiedBlock.l > parent.width / 2 ? parent.width / 2 : copiedBlock.l;
+        const newBlock = BlockFactory.create(copiedBlock, parent);
+        newBlock.t = t;
+        newBlock.l = l;
+        newBlock._centerX = newBlock.getCenterX() - parent.getCenterX();
+        newBlock._centerY = newBlock.getCenterY() - parent.getCenterY();
+        addNewBlock(newBlock.type, newBlock.serialize(), parent);
+      } else {
+        const newBlock = BlockFactory.create(copiedBlock, parent);
+        addNewBlock(newBlock.type, newBlock.serialize(), parent);
+      }
     },
     [addNewBlock, globalContext, isAddable]
   );
