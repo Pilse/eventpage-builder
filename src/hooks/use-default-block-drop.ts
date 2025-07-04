@@ -11,7 +11,7 @@ interface IUseDefaultBlockDropProps {
 
 export const useDefaultBlockDrop = (
   { hover, canDrop, drop }: IUseDefaultBlockDropProps,
-  dependencies?: any[]
+  dependencies: any[] = []
 ) => {
   const debouncedHover = useThrottle(hover ?? (() => {}), 60);
   const { endCaptureSnapshot } = useBlockHistory();
@@ -33,6 +33,6 @@ export const useDefaultBlockDrop = (
         };
       },
     }),
-    [...(dependencies ?? [])]
+    dependencies
   );
 };

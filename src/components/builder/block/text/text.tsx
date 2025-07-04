@@ -54,10 +54,10 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         <p
           ref={(ele) => {
             setPargraphRef(ele);
-            if (ele && text.widthType === "fit") {
+            if (ele && text.widthType === "fit" && text._width !== Math.floor(ele.offsetWidth)) {
               text._width = Math.floor(ele.offsetWidth);
             }
-            if (ele && text.heightType === "fit") {
+            if (ele && text.heightType === "fit" && text._height !== Math.floor(ele.offsetHeight)) {
               text._height = Math.floor(ele.offsetHeight);
             }
           }}

@@ -118,6 +118,7 @@ export const DropRowMixin = <
         hoveredBlock.parent = this;
         hoveredBlock.l = offsetFromThis.x;
         this.addChild(hoveredBlock);
+        this.sortChildren("l");
         this.autoLayout();
         return;
       }
@@ -129,6 +130,7 @@ export const DropRowMixin = <
         }
 
         hoveredBlock.l = offsetFromThis.x;
+        this.sortChildren("l");
 
         if (this.children[idx]) {
           this.swapChildren(hoveredBlock, this.children[idx]);

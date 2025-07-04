@@ -10,7 +10,10 @@ interface IUseDefaultBlockDragProps {
   options?: BlockDragOptions;
 }
 
-export const useDefaultBlockDrag = ({ block, options }: IUseDefaultBlockDragProps, dependencies?: any[]) => {
+export const useDefaultBlockDrag = (
+  { block, options }: IUseDefaultBlockDragProps,
+  dependencies: any[] = []
+) => {
   const { setCurrentBlock } = useGlobalContext();
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const { canDrag, ...restOptions } = options ?? {};
@@ -37,6 +40,6 @@ export const useDefaultBlockDrag = ({ block, options }: IUseDefaultBlockDragProp
       options: { dropEffect: "move" },
       ...restOptions,
     }),
-    [...(dependencies ?? [])]
+    dependencies
   );
 };

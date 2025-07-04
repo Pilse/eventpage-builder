@@ -81,7 +81,7 @@ export class Block {
   public _centerX: number;
   public _centerY: number;
   public link: string | null;
-  private prevOffset: Offset;
+  private _prevOffset: Offset;
 
   constructor(initState: IBlock) {
     this.id = initState.id ?? uuidv4();
@@ -100,7 +100,7 @@ export class Block {
     this._height = initState.height ?? 100;
     this.xDirection = "l";
     this.yDirection = "t";
-    this.prevOffset = { x: 0, y: 0 };
+    this._prevOffset = { x: 0, y: 0 };
     this.widthType = initState.widthType ?? "fixed";
     this.heightType = initState.heightType ?? "fixed";
     this.backgroundType = initState.backgroundType ?? "color";
@@ -151,7 +151,9 @@ export class Block {
         const width = hasDropRowMixin(this.parent)
           ? Math.floor((parentWidth - gapTotal - fixedChildrenWidth) / fillChildrenCnt)
           : parentWidth;
-        this._width = width;
+        if (this._width !== width) {
+          this._width = width;
+        }
 
         return width;
       }
@@ -179,7 +181,10 @@ export class Block {
             );
 
         const width = childrenWidth + gapTotal + paddingTotal;
-        this._width = width;
+        if (this._width !== width) {
+          this._width = width;
+        }
+
         return width;
       }
     }
@@ -214,7 +219,10 @@ export class Block {
         const height = hasDropRowMixin(this.parent)
           ? parentHeight
           : Math.floor((parentHeight - gapTotal - fixedChildrenHeight) / fillChildrenCnt);
-        this._height = height;
+        if (this._height !== height) {
+          this._height = height;
+        }
+
         return height;
       }
       case "fit": {
@@ -241,7 +249,10 @@ export class Block {
             );
 
         const height = childrenHeight + gapTotal + paddingTotal;
-        this._height = height;
+        if (this._height !== height) {
+          this._height = height;
+        }
+
         return height;
       }
     }
@@ -310,19 +321,26 @@ export class Block {
   }
 
   public updateDirection(currentOffset: { x: number; y: number }) {
-    this.xDirection =
-      currentOffset.x === this.prevOffset.x
+    const updatedXDirection =
+      currentOffset.x === this._prevOffset.x
         ? this.xDirection
-        : currentOffset.x - this.prevOffset.x > 0
+        : currentOffset.x - this._prevOffset.x > 0
         ? "r"
         : "l";
-    this.yDirection =
-      currentOffset.y === this.prevOffset.y
+    const updatedYDirection =
+      currentOffset.y === this._prevOffset.y
         ? this.yDirection
-        : currentOffset.y - this.prevOffset.y > 0
+        : currentOffset.y - this._prevOffset.y > 0
         ? "b"
         : "t";
-    this.prevOffset = currentOffset;
+    if (this.xDirection !== updatedXDirection) {
+      this.xDirection = updatedXDirection;
+    }
+    if (this.yDirection !== updatedYDirection) {
+      this.yDirection = updatedYDirection;
+    }
+
+    this._prevOffset = currentOffset;
   }
 
   public getClosestParent(): ChildrenMixinBlockType | null {

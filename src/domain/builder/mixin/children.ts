@@ -100,5 +100,15 @@ export const ChildrenMixin = <TBase extends Constructor<Block & { children: Inst
         idx === child1Idx ? this.children[child2Idx] : idx === child2Idx ? this.children[child1Idx] : child
       );
     }
+
+    public sortChildren(sort: "t" | "l" = "t") {
+      this.children = this.children.sort((a, b) => {
+        if (sort === "t") {
+          return a.t - b.t;
+        } else {
+          return a.l - b.l;
+        }
+      });
+    }
   };
 };

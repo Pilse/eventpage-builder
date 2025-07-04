@@ -1,20 +1,9 @@
 import { Block } from "@/domain/builder";
-import { getBlockStyle, hasChildrenMixin, hasResizeMixin, isAutoLayouted } from "@/shared/util";
-import {
-  CSSProperties,
-  Dispatch,
-  DragEventHandler,
-  MouseEvent,
-  MouseEventHandler,
-  SetStateAction,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { getBlockStyle, isAutoLayouted } from "@/shared/util";
+import { CSSProperties, Dispatch, MouseEvent, MouseEventHandler, SetStateAction, useState } from "react";
 import { DragSourceMonitor } from "react-dnd";
 import { BlockType } from "@/type";
 import { useGlobalContext, useDomain } from "@/hooks";
-import { IS_PROXY } from "@/constant";
-import { rgbaToCss, rgbaToHexColor } from "@/shared/util/color";
 
 export interface IUseDefaultBlockPropsProps<T extends InstanceType<typeof Block>> {
   block: T;
@@ -34,7 +23,6 @@ export interface IUseDefaultBlockProps<T> {
   onMouseEnter: MouseEventHandler;
   onMouseMove: MouseEventHandler;
   onMouseLeave: MouseEventHandler;
-  onDragStart: DragEventHandler;
   isSelected: boolean;
 }
 
@@ -77,6 +65,10 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
   };
 
   const handleMouseMove = () => {
+    if (block.isHovered) {
+      return;
+    }
+
     block.isHovered = true;
     let parent = block.parent;
     while (parent) {
@@ -88,23 +80,12 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
   };
 
   const handleMouseLeave = () => {
-    block.isHovered = false;
-  };
-
-  const handleDragStart = () => {
-    if (!hasResizeMixin(block) || block.isResizing()) {
+    if (!block.isHovered) {
       return;
     }
-  };
 
-  useLayoutEffect(() => {
-    if (block.parent && hasChildrenMixin(block.parent)) {
-      const me = block.parent.findChildById(block.id);
-      if (me && !(me as any)[IS_PROXY]) {
-        block.parent.replaceChild(block);
-      }
-    }
-  }, [block]);
+    block.isHovered = false;
+  };
 
   return {
     tabIndex: -1,
@@ -113,7 +94,6 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     element,
     onClick: handleClick,
     onMouseDown: handleMouseDown,
-    onDragStart: handleDragStart,
     onMouseEnter: handleMouseEnter,
     onMouseMove: handleMouseMove,
     onMouseLeave: handleMouseLeave,

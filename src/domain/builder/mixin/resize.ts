@@ -39,32 +39,48 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
       }
 
       if (this.resizableDir.resizable("t")) {
-        this.yDirection = "t";
+        if (this.yDirection !== "t") {
+          this.yDirection = "t";
+        }
         if (!isAutoLayouted(this)) {
           this.t = this.sizeMetric.getResizedTop(pos.pageY);
         }
-        this.heightType = "fixed";
+        if (this.heightType !== "fixed") {
+          this.heightType = "fixed";
+        }
         this.height = this.sizeMetric.getResizedHeight("t", pos.pageY);
       }
 
       if (this.resizableDir.resizable("r")) {
-        this.xDirection = "r";
-        this.widthType = "fixed";
+        if (this.xDirection !== "r") {
+          this.xDirection = "r";
+        }
+        if (this.widthType !== "fixed") {
+          this.widthType = "fixed";
+        }
         this.width = this.sizeMetric.getResizedWidth("r", pos.pageX);
       }
 
       if (this.resizableDir.resizable("b")) {
-        this.yDirection = "b";
-        this.heightType = "fixed";
+        if (this.yDirection !== "b") {
+          this.yDirection = "b";
+        }
+        if (this.heightType !== "fixed") {
+          this.heightType = "fixed";
+        }
         this.height = this.sizeMetric.getResizedHeight("b", pos.pageY);
       }
 
       if (this.resizableDir.resizable("l")) {
-        this.xDirection = "l";
+        if (this.xDirection !== "l") {
+          this.xDirection = "l";
+        }
         if (!isAutoLayouted(this)) {
           this.l = this.sizeMetric.getResizedLeft(pos.pageX);
         }
-        this.widthType = "fixed";
+        if (this.widthType !== "fixed") {
+          this.widthType = "fixed";
+        }
         this.width = this.sizeMetric.getResizedWidth("l", pos.pageX);
       }
     }
@@ -174,10 +190,23 @@ export class ResizableDir {
   }
 
   public update(resizableDir: Partial<IResizableDir>) {
-    this.t = resizableDir?.t ?? false;
-    this.b = resizableDir?.b ?? false;
-    this.l = resizableDir?.l ?? false;
-    this.r = resizableDir?.r ?? false;
+    const newResizableDirT = resizableDir?.t ?? false;
+    const newResizableDirB = resizableDir?.b ?? false;
+    const newResizableDirL = resizableDir?.l ?? false;
+    const newResizableDirR = resizableDir?.r ?? false;
+
+    if (this.t !== newResizableDirT) {
+      this.t = newResizableDirT;
+    }
+    if (this.b !== newResizableDirB) {
+      this.b = newResizableDirB;
+    }
+    if (this.l !== newResizableDirL) {
+      this.l = newResizableDirL;
+    }
+    if (this.r !== newResizableDirR) {
+      this.r = newResizableDirR;
+    }
   }
 
   public resizable(...directions: ("t" | "b" | "l" | "r")[]) {

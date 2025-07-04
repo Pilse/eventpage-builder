@@ -117,6 +117,7 @@ export const DropColMixin = <
         hoveredBlock.parent = this;
         hoveredBlock.t = offsetFromThis.y;
         this.addChild(hoveredBlock);
+        this.sortChildren("t");
         this.autoLayout();
         return;
       }
@@ -128,13 +129,14 @@ export const DropColMixin = <
         }
 
         hoveredBlock.t = offsetFromThis.y;
+        this.sortChildren("t");
 
         if (this.children[idx]) {
           this.swapChildren(hoveredBlock, this.children[idx]);
-          this.autoLayout("order");
+          this.autoLayout();
         } else if (this.children[idx - 1]) {
           this.swapChildren(hoveredBlock, this.children[idx - 1]);
-          this.autoLayout("order");
+          this.autoLayout();
         }
       }
     }

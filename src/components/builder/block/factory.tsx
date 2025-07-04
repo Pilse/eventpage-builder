@@ -55,30 +55,26 @@ import { SectionColRenderer } from "./section-col/renderer";
 interface IBlockFactoryProps extends IBlockProps<Block> {}
 
 export const BlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
-  return (
-    <>
-      {block.type === "FRAME_CANVAS" ? (
-        <Frame block={block as InstanceType<typeof FrameBlock>} isPreview={isPreview} />
-      ) : block.type === "FRAME_ROW" ? (
-        <FrameRow block={block as InstanceType<typeof FrameRowBlock>} isPreview={isPreview} />
-      ) : block.type === "FRAME_COL" ? (
-        <FrameCol block={block as InstanceType<typeof FrameColBlock>} isPreview={isPreview} />
-      ) : block.type === "TEXT" ? (
-        <Text block={block as InstanceType<typeof TextBlock>} isPreview={isPreview} />
-      ) : block.type === "IMAGE" ? (
-        <ImageComp block={block as InstanceType<typeof ImageBlock>} isPreview={isPreview} />
-      ) : block.type === "SECTION_CANVAS" ? (
-        <Section block={block as InstanceType<typeof SectionBlock>} isPreview={isPreview} />
-      ) : block.type === "SECTION_ROW" ? (
-        <SectionRow block={block as InstanceType<typeof SectionRowBlock>} isPreview={isPreview} />
-      ) : block.type === "SECTION_COL" ? (
-        <SectionCol block={block as InstanceType<typeof SectionColBlock>} isPreview={isPreview} />
-      ) : block.type === "CONTAINER" ? (
-        <Container block={block as InstanceType<typeof ContainerBlock>} isPreview={isPreview} />
-      ) : (
-        <></>
-      )}
-    </>
+  return block.type === "FRAME_CANVAS" ? (
+    <Frame block={block as InstanceType<typeof FrameBlock>} isPreview={isPreview} />
+  ) : block.type === "FRAME_ROW" ? (
+    <FrameRow block={block as InstanceType<typeof FrameRowBlock>} isPreview={isPreview} />
+  ) : block.type === "FRAME_COL" ? (
+    <FrameCol block={block as InstanceType<typeof FrameColBlock>} isPreview={isPreview} />
+  ) : block.type === "TEXT" ? (
+    <Text block={block as InstanceType<typeof TextBlock>} isPreview={isPreview} />
+  ) : block.type === "IMAGE" ? (
+    <ImageComp block={block as InstanceType<typeof ImageBlock>} isPreview={isPreview} />
+  ) : block.type === "SECTION_CANVAS" ? (
+    <Section block={block as InstanceType<typeof SectionBlock>} isPreview={isPreview} />
+  ) : block.type === "SECTION_ROW" ? (
+    <SectionRow block={block as InstanceType<typeof SectionRowBlock>} isPreview={isPreview} />
+  ) : block.type === "SECTION_COL" ? (
+    <SectionCol block={block as InstanceType<typeof SectionColBlock>} isPreview={isPreview} />
+  ) : block.type === "CONTAINER" ? (
+    <Container block={block as InstanceType<typeof ContainerBlock>} isPreview={isPreview} />
+  ) : (
+    <></>
   );
 };
 

@@ -22,7 +22,7 @@ interface IUseTextBlockProps extends IUseDefaultBlockProps<InstanceType<typeof T
 
 export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTextBlockProps => {
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
-  const { block, style, onDragStart, isSelected, ...defaultProps } = useDefaultBlockProps(text);
+  const { block, style, isSelected, ...defaultProps } = useDefaultBlockProps(text);
   const [pargraphRef, setPargraphRef] = useState<HTMLParagraphElement | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const contentRef = useRef(block._content);
@@ -92,9 +92,8 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
     endCaptureSnapshot(`input-${block.id}`);
   };
 
-  const handleDragStart = (e: DragEvent) => {
+  const handleDragStart = () => {
     handleBlur();
-    onDragStart(e);
   };
 
   // block의 widhthType과 heightType이 fit일 때,
@@ -144,7 +143,6 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
     onDoubleClick: handleDoublicClick,
     onBlur: handleBlur,
     onInput: handleInput,
-    onDragStart: handleDragStart,
     isEditing,
     textStyle,
     setPargraphRef,

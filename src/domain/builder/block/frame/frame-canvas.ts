@@ -1,4 +1,8 @@
 import {
+  Block,
+  BlockFactory,
+  ImageBlock,
+  TextBlock,
   DragMixin,
   DropCanvasMixin,
   ResizeMixin,
@@ -6,8 +10,7 @@ import {
   BackgroundMixin,
   BorderMixin,
   ShadowMixin,
-} from "@/domain/builder/mixin";
-import { Block, BlockFactory, ImageBlock, TextBlock } from "@/domain/builder";
+} from "@/domain/builder";
 import { LayoutMap, Position } from "@/type";
 
 type ChildBlock = InstanceType<typeof TextBlock> | InstanceType<typeof ImageBlock>;
