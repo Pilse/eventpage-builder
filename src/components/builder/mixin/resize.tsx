@@ -10,7 +10,7 @@ import {
 import { ResizeSnapLineLayer } from "@/components/builder/layer";
 import { MouseEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useBlockHistory } from "@/hooks";
+import { useBlockHistory, useThrottle } from "@/hooks";
 
 interface IResizableDirection {
   t: boolean;
@@ -33,6 +33,44 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
   const { startCaptureSnapshot, endCaptureSnapshot } = useBlockHistory();
   const sectionElement = useRef<HTMLElement | null>(null);
   const parentElement = useRef<HTMLElement | null>(null);
+
+  const handleMouseMove = useThrottle((e: globalThis.MouseEvent) => {
+    block.resize(e);
+
+    const elementRect = element.getBoundingClientRect();
+    sectionElement.current = getClosestSectionBlockEle(element) as HTMLElement | null;
+    const sectionRect = sectionElement.current?.getBoundingClientRect();
+
+    if (!block.parent) {
+      return;
+    }
+
+    if (hasDropColMixin(block) || hasDropRowMixin(block)) {
+      block.autoLayout();
+    }
+
+    if (hasDropColMixin(block.parent) || hasDropRowMixin(block.parent)) {
+      block.parent.autoLayout();
+    }
+
+    if (!sectionRect) {
+      return;
+    }
+
+    parentElement.current = getBlockEleById(block.parent.id) as HTMLElement | null;
+    const parentRect = parentElement.current?.getBoundingClientRect();
+
+    if (hasResizeSnapMixin(block.parent)) {
+      const { snappedToX, snappedToY } = block.parent.resizeSnap(
+        block,
+        elementRect,
+        sectionRect,
+        parentRect ?? sectionRect,
+        SNAP_THRESHOLD
+      );
+      snappableDir.current = { x: snappedToX, y: snappedToY };
+    }
+  }, 10);
 
   const handleMouseDown = (e: MouseEvent, resizableDir: Partial<IResizableDirection>) => {
     startCaptureSnapshot(`resize-${block.id}`);
@@ -58,51 +96,13 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
       endCaptureSnapshot(`resize-${block.id}`);
     };
 
-    const handleMouseMove = (e: globalThis.MouseEvent) => {
-      block.resize(e);
-
-      const elementRect = element.getBoundingClientRect();
-      sectionElement.current = getClosestSectionBlockEle(element) as HTMLElement | null;
-      const sectionRect = sectionElement.current?.getBoundingClientRect();
-
-      if (!block.parent) {
-        return;
-      }
-
-      if (hasDropColMixin(block) || hasDropRowMixin(block)) {
-        block.autoLayout();
-      }
-
-      if (hasDropColMixin(block.parent) || hasDropRowMixin(block.parent)) {
-        block.parent.autoLayout();
-      }
-
-      if (!sectionRect) {
-        return;
-      }
-
-      parentElement.current = getBlockEleById(block.parent.id) as HTMLElement | null;
-      const parentRect = parentElement.current?.getBoundingClientRect();
-
-      if (hasResizeSnapMixin(block.parent)) {
-        const { snappedToX, snappedToY } = block.parent.resizeSnap(
-          block,
-          elementRect,
-          sectionRect,
-          parentRect ?? sectionRect,
-          SNAP_THRESHOLD
-        );
-        snappableDir.current = { x: snappedToX, y: snappedToY };
-      }
-    };
-
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [block, element, endCaptureSnapshot]);
+  }, [block, element, endCaptureSnapshot, handleMouseMove]);
 
   const resized =
     block.resizableDir.resizable("t") ||
