@@ -10,4 +10,5 @@ export * from "./factory";
 export * from "./container";
 export * from "./use-preview-block";
 export * from "./preview-block";
+export * from "./section-preview-block";
 export * from "./context-menu";

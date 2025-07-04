@@ -3,15 +3,14 @@
 import { twMerge } from "tailwind-merge";
 import { SectionRowBlock } from "@/domain/builder";
 import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
-import { DragSnapLineLayer, HoverLayer, SectionBlockTypeLayer } from "@/components/builder/layer";
+import { HoverLayer, SectionBlockTypeLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";
 import {
   BlockContextMenu,
-  PreviewBlock,
-  useSectionPreviewBlock,
   useSectionRowBlockDrop,
   useSectionRowBlockProps,
 } from "@/components/builder/block";
+import { SectionPreviewBlock } from "../section-preview-block";
 import { isAutoLayouted } from "@/shared/util";
 
 interface ISectionRowProps extends IBlockProps<InstanceType<typeof SectionRowBlock>> {}
@@ -25,7 +24,6 @@ export const SectionRow = ({ block }: ISectionRowProps) => {
     ...blockProps
   } = useSectionRowBlockProps(block);
   const [{ isCurrentOver, isDragging }, dropRef] = useSectionRowBlockDrop(sectionRow, element);
-  const { previewBlock, snappableDir } = useSectionPreviewBlock(sectionRow, element);
 
   return (
     <BlockContextMenu block={sectionRow}>
@@ -44,12 +42,9 @@ export const SectionRow = ({ block }: ISectionRowProps) => {
           />
         )}
         {isSelected && element && <ResizeMixin vertical element={element} block={sectionRow} />}
-        {previewBlock && !isAutoLayouted(previewBlock) && element && (
-          <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />
-        )}
         <SectionBlockTypeLayer block={sectionRow} />
         <ChildrenMixin block={sectionRow} />
-        {previewBlock && <PreviewBlock block={previewBlock} />}
+        <SectionPreviewBlock section={sectionRow} element={element} />
       </section>
     </BlockContextMenu>
   );

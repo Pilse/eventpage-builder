@@ -2,16 +2,10 @@
 
 import { SectionBlock } from "@/domain/builder";
 import { ChildrenMixin, ResizeMixin } from "@/components/builder/mixin";
-import {
-  BlockContextMenu,
-  PreviewBlock,
-  useSectionBlockDrop,
-  useSectionBlockProps,
-  useSectionPreviewBlock,
-} from "@/components/builder/block";
+import { BlockContextMenu, useSectionBlockDrop, useSectionBlockProps } from "@/components/builder/block";
+import { SectionPreviewBlock } from "../section-preview-block";
 import { IBlockProps } from "@/type";
-import { HoverLayer, DragSnapLineLayer, SectionBlockTypeLayer } from "@/components/builder/layer";
-import { isAutoLayouted } from "@/shared/util";
+import { HoverLayer, SectionBlockTypeLayer } from "@/components/builder/layer";
 
 interface ISectionProps extends IBlockProps<InstanceType<typeof SectionBlock>> {}
 
@@ -24,7 +18,6 @@ export const Section = ({ block }: ISectionProps) => {
     style,
     ...blockProps
   } = useSectionBlockProps(block);
-  const { previewBlock, snappableDir } = useSectionPreviewBlock(section, element);
   const [{ isCurrentOver, isDragging }, dropRef] = useSectionBlockDrop(section, element);
 
   return (
@@ -45,12 +38,9 @@ export const Section = ({ block }: ISectionProps) => {
           />
         )}
         {isSelected && element && <ResizeMixin element={element} block={section} vertical />}
-        {previewBlock && !isAutoLayouted(previewBlock) && element && (
-          <DragSnapLineLayer sectionElement={element} block={previewBlock} snappableDir={snappableDir} />
-        )}
         <SectionBlockTypeLayer block={block} />
         <ChildrenMixin block={section} />
-        {previewBlock && <PreviewBlock block={previewBlock} />}
+        <SectionPreviewBlock section={section} element={element} />
       </section>
     </BlockContextMenu>
   );
