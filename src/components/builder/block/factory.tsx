@@ -51,11 +51,10 @@ import {
 } from "@/components/builder/block";
 import { SectionRowRenderer } from "./section-row/renderer";
 import { SectionColRenderer } from "./section-col/renderer";
-import { memo } from "react";
 
 interface IBlockFactoryProps extends IBlockProps<Block> {}
 
-const PureBlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
+export const BlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
   return block.type === "FRAME_CANVAS" ? (
     <Frame block={block as InstanceType<typeof FrameBlock>} isPreview={isPreview} />
   ) : block.type === "FRAME_ROW" ? (
@@ -78,8 +77,6 @@ const PureBlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
     <></>
   );
 };
-
-export const BlockFactory = memo(PureBlockFactory);
 
 export const PropertiesFactory = ({ block }: { block: Block }) => {
   return block.type === "CONTAINER" ? (
