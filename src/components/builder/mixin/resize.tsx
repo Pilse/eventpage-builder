@@ -10,7 +10,7 @@ import {
 import { ResizeSnapLineLayer } from "@/components/builder/layer";
 import { MouseEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useBlockHistory, useThrottle } from "@/hooks";
+import { useBlockHistory, useGlobalContext, useThrottle } from "@/hooks";
 
 interface IResizableDirection {
   t: boolean;
@@ -26,6 +26,7 @@ interface IResizeMixinProps {
 }
 
 export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => {
+  const { setIsResizing } = useGlobalContext();
   const snappableDir = useRef<{
     x: "l" | "r" | "c" | boolean;
     y: "t" | "b" | "c" | boolean;
@@ -74,15 +75,16 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
 
   const handleMouseDown = (e: MouseEvent, resizableDir: Partial<IResizableDirection>) => {
     startCaptureSnapshot(`resize-${block.id}`);
-    if (resizableDir.t || resizableDir.b) {
+    if ((resizableDir.t || resizableDir.b) && block.heightType !== "fixed") {
       block.heightType = "fixed";
     }
-    if (resizableDir.l || resizableDir.r) {
+    if ((resizableDir.l || resizableDir.r) && block.widthType !== "fixed") {
       block.widthType = "fixed";
     }
     const elementRect = element.getBoundingClientRect();
     block.setSizeMetric(elementRect, element.scrollLeft, element.scrollTop, e.pageX, e.pageY);
     block.resizableDir.update(resizableDir);
+    setIsResizing(true);
   };
 
   useEffect(() => {
@@ -94,6 +96,7 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
       block.resetSizeMetric();
       block.resizableDir.update({});
       endCaptureSnapshot(`resize-${block.id}`);
+      setIsResizing(false);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -102,7 +105,7 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [block, element, endCaptureSnapshot, handleMouseMove]);
+  }, [block, element, endCaptureSnapshot, handleMouseMove, setIsResizing]);
 
   const resized =
     block.resizableDir.resizable("t") ||

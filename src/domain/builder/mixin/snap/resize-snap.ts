@@ -91,14 +91,20 @@ export const ResizeSnapMixin = <
 
       if (snappedToY === "t") {
         block.height -= snappedCoords.y - parentOffset.y - block.t;
-        block.t = snappedCoords.y - parentOffset.y;
+        const newT = snappedCoords.y - parentOffset.y;
+        if (newT !== block.t) {
+          block.t = newT;
+        }
       }
       if (snappedToY === "b") {
         block.height += snappedCoords.y - parentOffset.y - block.t;
       }
       if (snappedToX === "l") {
         block.width -= snappedCoords.x - parentOffset.x - block.l;
-        block.l = snappedCoords.x - parentOffset.x;
+        const newL = snappedCoords.x - parentOffset.x;
+        if (newL !== block.l) {
+          block.l = newL;
+        }
       }
       if (snappedToX === "r") {
         block.width += snappedCoords.x - parentOffset.x - block.l;

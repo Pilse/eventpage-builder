@@ -19,10 +19,10 @@ export interface IUseDefaultBlockProps<T> {
   setElement: Dispatch<SetStateAction<HTMLElement | null>>;
   style: CSSProperties;
   onClick: MouseEventHandler;
-  onMouseDown: MouseEventHandler;
-  onMouseEnter: MouseEventHandler;
-  onMouseMove: MouseEventHandler;
-  onMouseLeave: MouseEventHandler;
+  onMouseDown?: MouseEventHandler;
+  onMouseEnter?: MouseEventHandler;
+  onMouseMove?: MouseEventHandler;
+  onMouseLeave?: MouseEventHandler;
   isSelected: boolean;
 }
 
@@ -31,7 +31,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
 ): IUseDefaultBlockProps<T> => {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
-  const { currentBlock, setCurrentBlock } = useGlobalContext();
+  const { currentBlock, setCurrentBlock, isResizing } = useGlobalContext();
   const block = useDomain(blockInstance, blockInstance._listeners);
 
   const isSelected = currentBlock?.id === block.id;
@@ -93,10 +93,10 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     "data-block-type": block.type,
     element,
     onClick: handleClick,
-    onMouseDown: handleMouseDown,
-    onMouseEnter: handleMouseEnter,
-    onMouseMove: handleMouseMove,
-    onMouseLeave: handleMouseLeave,
+    onMouseDown: isResizing ? undefined : handleMouseDown,
+    onMouseEnter: isResizing ? undefined : handleMouseEnter,
+    onMouseMove: isResizing ? undefined : handleMouseMove,
+    onMouseLeave: isResizing ? undefined : handleMouseLeave,
     setElement,
     style,
     block,

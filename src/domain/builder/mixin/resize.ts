@@ -43,12 +43,18 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
           this.yDirection = "t";
         }
         if (!isAutoLayouted(this)) {
-          this.t = this.sizeMetric.getResizedTop(pos.pageY);
+          const newT = this.sizeMetric.getResizedTop(pos.pageY);
+          if (newT !== this.t) {
+            this.t = newT;
+          }
         }
         if (this.heightType !== "fixed") {
           this.heightType = "fixed";
         }
-        this.height = this.sizeMetric.getResizedHeight("t", pos.pageY);
+        const newHeight = this.sizeMetric.getResizedHeight("t", pos.pageY);
+        if (newHeight !== this.height) {
+          this.height = newHeight;
+        }
       }
 
       if (this.resizableDir.resizable("r")) {
@@ -58,7 +64,10 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
         if (this.widthType !== "fixed") {
           this.widthType = "fixed";
         }
-        this.width = this.sizeMetric.getResizedWidth("r", pos.pageX);
+        const newWidth = this.sizeMetric.getResizedWidth("r", pos.pageX);
+        if (newWidth !== this.width) {
+          this.width = newWidth;
+        }
       }
 
       if (this.resizableDir.resizable("b")) {
@@ -68,7 +77,10 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
         if (this.heightType !== "fixed") {
           this.heightType = "fixed";
         }
-        this.height = this.sizeMetric.getResizedHeight("b", pos.pageY);
+        const newHeight = this.sizeMetric.getResizedHeight("b", pos.pageY);
+        if (newHeight !== this.height) {
+          this.height = newHeight;
+        }
       }
 
       if (this.resizableDir.resizable("l")) {
@@ -76,12 +88,18 @@ export const ResizeMixin = <TBase extends Constructor<Block>>(Base: TBase) => {
           this.xDirection = "l";
         }
         if (!isAutoLayouted(this)) {
-          this.l = this.sizeMetric.getResizedLeft(pos.pageX);
+          const newL = this.sizeMetric.getResizedLeft(pos.pageX);
+          if (newL !== this.l) {
+            this.l = newL;
+          }
         }
         if (this.widthType !== "fixed") {
           this.widthType = "fixed";
         }
-        this.width = this.sizeMetric.getResizedWidth("l", pos.pageX);
+        const newWidth = this.sizeMetric.getResizedWidth("l", pos.pageX);
+        if (newWidth !== this.width) {
+          this.width = newWidth;
+        }
       }
     }
 
