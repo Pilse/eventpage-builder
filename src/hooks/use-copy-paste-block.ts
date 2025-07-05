@@ -1,8 +1,14 @@
 import { useCallback } from "react";
 import { useGlobalContext } from "./use-global-context";
-import { Block, BlockFactory, DropCanvasMixin } from "@/domain/builder";
-import { hasChildrenMixin, hasDropCanvasMixin } from "@/shared/util";
+import { Block, BlockFactory, DropCanvasMixin, Image, ImageBlock } from "@/domain/builder";
+import {
+  getImageSizeFromBlobFile,
+  getImageUrlFromBlobFile,
+  hasChildrenMixin,
+  hasDropCanvasMixin,
+} from "@/shared/util";
 import { useNewBlock } from "./use-new-block";
+import { uploadImage } from "@/service/image";
 
 export const useCopyPasteBlock = () => {
   const globalContext = useGlobalContext();
@@ -49,5 +55,47 @@ export const useCopyPasteBlock = () => {
     [addNewBlock, globalContext, isAddable]
   );
 
-  return { copyBlock, pasteBlock };
+  const pasteBlob = useCallback(
+    async (blob: File) => {
+      if (!isAddable) {
+        return;
+      }
+
+      if (!globalContext.currentBlock) {
+        return;
+      }
+      const parent = globalContext.currentBlock.parent;
+      if (!parent) {
+        return;
+      }
+
+      const tempUrl = getImageUrlFromBlobFile(blob);
+      const { width, height } = await getImageSizeFromBlobFile(blob);
+      const adjustedWidth = width > parent.width / 2 ? parent.width / 2 : width;
+      const adjustedHeight = (height * adjustedWidth) / width;
+
+      const imageProps = {
+        position: "absolute",
+        width: adjustedWidth,
+        height: adjustedHeight,
+        widthType: "fixed",
+        heightType: "fit",
+        filename: blob.name,
+        url: tempUrl,
+        aspectRatio: Math.floor((adjustedWidth * 100) / adjustedHeight),
+        backgroundType: "color",
+        backgroundColor: { r: 0, g: 0, b: 0, a: 0 },
+      } satisfies Partial<ReturnType<Image["serialize"]>>;
+
+      const imageBlock = addNewBlock("IMAGE", imageProps) as InstanceType<typeof ImageBlock> | null;
+      if (!imageBlock) {
+        return;
+      }
+      const imageUrl = await uploadImage(blob);
+      imageBlock.url = imageUrl || "";
+    },
+    [addNewBlock, globalContext.currentBlock, isAddable]
+  );
+
+  return { copyBlock, pasteBlock, pasteBlob };
 };

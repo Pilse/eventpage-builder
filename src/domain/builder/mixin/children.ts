@@ -85,6 +85,16 @@ export const ChildrenMixin = <TBase extends Constructor<Block & { children: Inst
       return this.children.find((child) => child.id === id);
     }
 
+    public findChildByIdDeep(id: string) {
+      for (const child of this) {
+        if (child.id === id) {
+          return child;
+        }
+      }
+
+      return null;
+    }
+
     public findChildIdx(block: InstanceType<typeof Block>) {
       return this.children.findIndex((child) => child.id === block.id);
     }

@@ -1,4 +1,4 @@
-import { ContainerBlock, Image, ImageBlock } from "@/domain/builder";
+import { ContainerBlock } from "@/domain/builder";
 import {
   IUseDefaultBlockProps,
   useDefaultBlockProps,
@@ -7,8 +7,6 @@ import {
   useNewBlock,
   useCopyPasteBlock,
 } from "@/hooks";
-import { uploadImage } from "@/service/image";
-import { getImageSizeFromBlobFile, getImageUrlFromBlobFile } from "@/shared/util";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -21,7 +19,7 @@ export const useContainerBlockProps = (
   const globalContext = useGlobalContext();
   const { deleteBlock } = useDeleteBlock();
   const { isAddable, addNewBlock } = useNewBlock();
-  const { copyBlock, pasteBlock } = useCopyPasteBlock();
+  const { copyBlock, pasteBlock, pasteBlob } = useCopyPasteBlock();
   useHotkeys("backspace", () => {
     deleteBlock();
   });
@@ -59,43 +57,7 @@ export const useContainerBlockProps = (
       }
 
       e.preventDefault();
-      if (!isAddable) {
-        return;
-      }
-
-      if (!globalContext.currentBlock) {
-        return;
-      }
-      const parent = globalContext.currentBlock.parent;
-      if (!parent) {
-        return;
-      }
-
-      const tempUrl = getImageUrlFromBlobFile(blob);
-      const { width, height } = await getImageSizeFromBlobFile(blob);
-      const adjustedWidth = width > parent.width ? parent.width / 2 : width;
-      const adjustedHeight = (height * adjustedWidth) / width;
-
-      const imageProps = {
-        position: "absolute",
-        width: adjustedWidth,
-        height: adjustedHeight,
-        widthType: "fixed",
-        heightType: "fit",
-        filename: blob.name,
-        url: tempUrl,
-        aspectRatio: Math.floor((adjustedWidth * 100) / adjustedHeight),
-        backgroundType: "color",
-        backgroundColor: { r: 0, g: 0, b: 0, a: 0 },
-      } satisfies Partial<ReturnType<Image["serialize"]>>;
-
-      const imageBlock = addNewBlock("IMAGE", imageProps) as InstanceType<typeof ImageBlock> | null;
-      if (!imageBlock) {
-        return;
-      }
-
-      const imageUrl = await uploadImage(blob);
-      imageBlock.url = imageUrl || "";
+      pasteBlob(blob);
     };
 
     const handlePaste = async (e: ClipboardEvent) => {
@@ -111,7 +73,7 @@ export const useContainerBlockProps = (
     return () => {
       document.removeEventListener("paste", handlePaste);
     };
-  }, [addNewBlock, container, copyBlock, globalContext.currentBlock, isAddable, pasteBlock]);
+  }, [container, globalContext, isAddable, pasteBlob, pasteBlock]);
 
   useEffect(() => {
     if (globalContext.currentBlock === null) {
