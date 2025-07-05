@@ -44,8 +44,8 @@ export const useCopyPasteBlock = () => {
         const newBlock = BlockFactory.create(copiedBlock, parent);
         newBlock.t = t;
         newBlock.l = l;
-        newBlock._centerX = newBlock.getCenterX() - parent.getCenterX();
-        newBlock._centerY = newBlock.getCenterY() - parent.getCenterY();
+        newBlock._centerX = newBlock.getCenterX();
+        newBlock._centerY = newBlock.getCenterY();
         addNewBlock(newBlock.type, newBlock.serialize(), parent);
       } else {
         const newBlock = BlockFactory.create(copiedBlock, parent);

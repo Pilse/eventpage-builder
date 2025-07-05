@@ -23,7 +23,7 @@ export const SectionCol = ({ block }: ISectionColProps) => {
     isSelected,
     ...blockProps
   } = useSectionColBlockProps(block);
-  const [{ isCurrentOver, isDragging }, dropRef] = useSectionColBlockDrop(sectionCol, element);
+  const [{ isCurrentOver, isDragging, isOver }, dropRef] = useSectionColBlockDrop(sectionCol, element);
 
   return (
     <BlockContextMenu block={sectionCol}>
@@ -42,7 +42,7 @@ export const SectionCol = ({ block }: ISectionColProps) => {
           />
         )}
         {isSelected && element && <ResizeMixin vertical element={element} block={sectionCol} />}
-        <SectionBlockTypeLayer block={sectionCol} />
+        {(block.isHovered || isSelected || isOver) && <SectionBlockTypeLayer block={sectionCol} />}
         <ChildrenMixin block={sectionCol} />
         <SectionPreviewBlock section={sectionCol} element={element} />
       </section>

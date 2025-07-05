@@ -19,7 +19,7 @@ interface IFrameProps extends IBlockProps<InstanceType<typeof FrameBlock>> {}
 export const Frame = ({ block, isPreview }: IFrameProps) => {
   const { block: frame, element, setElement, isSelected, ...blockProps } = useFrameBlockProps(block);
   const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useFrameBlockDrag(frame);
-  const [{ isCurrentOver, isDragging }, dropRef] = useFrameBlockDrop(
+  const [{ isCurrentOver, isDragging, isOver }, dropRef] = useFrameBlockDrop(
     frame,
     element,
     isCurrentDragging,
@@ -51,7 +51,7 @@ export const Frame = ({ block, isPreview }: IFrameProps) => {
           />
         )}
         {isSelected && element && <ResizeMixin element={element} block={frame} />}
-        {(block.isHovered || isSelected || isCurrentOver) && <FrameBlockTypeLayer block={frame} />}
+        {(block.isHovered || isSelected || isOver) && <FrameBlockTypeLayer block={frame} />}
         <ChildrenMixin block={frame} />
       </div>
     </BlockContextMenu>

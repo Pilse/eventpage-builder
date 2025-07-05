@@ -19,7 +19,7 @@ interface IFrameColProps extends IBlockProps<InstanceType<typeof FrameColBlock>>
 export const FrameCol = ({ block, isPreview }: IFrameColProps) => {
   const { block: frameCol, element, setElement, isSelected, ...blockProps } = useFrameColBlockProps(block);
   const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useFrameColBlockDrag(frameCol);
-  const [{ isCurrentOver, isDragging }, dropRef] = useFrameColBlockDrop(
+  const [{ isCurrentOver, isDragging, isOver }, dropRef] = useFrameColBlockDrop(
     frameCol,
     element,
     isCurrentDragging,
@@ -51,7 +51,7 @@ export const FrameCol = ({ block, isPreview }: IFrameColProps) => {
           />
         )}
         {isSelected && element && <ResizeMixin element={element} block={frameCol} />}
-        {(block.isHovered || isSelected || isCurrentOver) && <FrameBlockTypeLayer block={frameCol} />}
+        {(block.isHovered || isSelected || isOver) && <FrameBlockTypeLayer block={frameCol} />}
         <ChildrenMixin block={frameCol} />
       </div>
     </BlockContextMenu>

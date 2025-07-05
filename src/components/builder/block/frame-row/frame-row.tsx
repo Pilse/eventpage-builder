@@ -19,7 +19,7 @@ interface IFrameRowProps extends IBlockProps<InstanceType<typeof FrameRowBlock>>
 export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
   const { block: frameRow, element, setElement, isSelected, ...blockProps } = useFrameRowBlockProps(block);
   const [{ isDragging: isCurrentDragging }, dragRef, previewRef] = useFrameRowBlockDrag(frameRow);
-  const [{ isCurrentOver, isDragging }, dropRef] = useFrameRowBlockDrop(
+  const [{ isCurrentOver, isDragging, isOver }, dropRef] = useFrameRowBlockDrop(
     frameRow,
     element,
     isCurrentDragging,
@@ -51,7 +51,7 @@ export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
           />
         )}
         {isSelected && element && <ResizeMixin element={element} block={frameRow} />}
-        {(block.isHovered || isSelected || isCurrentOver) && <FrameBlockTypeLayer block={frameRow} />}
+        {(block.isHovered || isSelected || isOver) && <FrameBlockTypeLayer block={frameRow} />}
         <ChildrenMixin block={frameRow} />
       </div>
     </BlockContextMenu>
