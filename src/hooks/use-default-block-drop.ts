@@ -1,7 +1,6 @@
 import { Block } from "@/domain/builder";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import { useBlockHistory } from "./use-block-history";
-import { useThrottle } from "./use-throttle";
 
 interface IUseDefaultBlockDropProps {
   hover?: (item: Block, monitor: DropTargetMonitor<Block>) => void;
@@ -13,12 +12,11 @@ export const useDefaultBlockDrop = (
   { hover, canDrop, drop }: IUseDefaultBlockDropProps,
   dependencies: any[] = []
 ) => {
-  const debouncedHover = useThrottle(hover ?? (() => {}), 60);
   const { endCaptureSnapshot } = useBlockHistory();
 
   return useDrop(
     () => ({
-      hover: debouncedHover,
+      hover,
       drop: (item, monitor) => {
         drop(item, monitor);
         endCaptureSnapshot(`drag-${item.id}`);
