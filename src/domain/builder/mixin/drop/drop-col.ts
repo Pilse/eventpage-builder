@@ -55,6 +55,9 @@ export const DropColMixin = <
           : this.height - this.pb - childrenTotalHeight;
 
       this.childrenOffsetY = [initialT];
+      if (sort === "posY") {
+        this.children.sort((chlid1, child2) => chlid1.t - child2.t);
+      }
       this.children.forEach((child, idx) => {
         this.childrenOffsetY.push(this.childrenOffsetY[idx] + child.height + this.gap);
         child.t = this.childrenOffsetY[idx];
