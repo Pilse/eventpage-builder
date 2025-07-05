@@ -10,10 +10,15 @@ export const getBlockStyle = (block: Block, isSelected: boolean) => {
     width: block.width,
     height: block.height,
     position: block.position,
-    top: useConstraint ? (block.parent?.height ?? 0) / 2 - (block._centerY + block.height / 2) : block.t,
-    left: useConstraint ? (block.parent?.width ?? 0) / 2 - (block._centerX + block.width / 2) : block.l,
-    right: block.r,
-    bottom: block.b,
+    top: 0,
+    left: 0,
+    transform: `translate(${
+      useConstraint ? (block.parent?.width ?? 0) / 2 - (block._centerX + block.width / 2) : block.l
+    }px, ${
+      useConstraint ? (block.parent?.height ?? 0) / 2 - (block._centerY + block.height / 2) : block.t
+    }px)`,
+    // right: block.r,
+    // bottom: block.b,
     backgroundColor: block.backgroundType === "color" ? rgbaToCss(block.backgroundColor) : "transparent",
     backgroundImage: block.backgroundType === "image" ? `url(${block.backgroundImageUrl})` : "none",
     ...(block.backgroundType === "image" && {
