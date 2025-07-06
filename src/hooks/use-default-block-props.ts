@@ -1,9 +1,18 @@
 import { Block } from "@/domain/builder";
-import { getBlockStyle, isAutoLayouted } from "@/shared/util";
-import { CSSProperties, Dispatch, MouseEvent, MouseEventHandler, SetStateAction, useState } from "react";
+import { getBlockStyle, hasChildrenMixin, isAutoLayouted } from "@/shared/util";
+import {
+  CSSProperties,
+  Dispatch,
+  MouseEvent,
+  MouseEventHandler,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { DragSourceMonitor } from "react-dnd";
 import { BlockType } from "@/type";
 import { useGlobalContext, useDomain } from "@/hooks";
+import { IS_PROXY } from "@/constant";
 
 export interface IUseDefaultBlockPropsProps<T extends InstanceType<typeof Block>> {
   block: T;
@@ -86,6 +95,15 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
 
     block.isHovered = false;
   };
+
+  // useEffect(() => {
+  //   if (block.parent && hasChildrenMixin(block.parent)) {
+  //     const me = block.parent.findChildById(block.id);
+  //     if (me && !(me as any)[IS_PROXY]) {
+  //       block.parent.replaceChild(block);
+  //     }
+  //   }
+  // }, [block]);
 
   return {
     tabIndex: -1,

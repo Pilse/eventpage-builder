@@ -9,6 +9,7 @@ import { HoverLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";
 import { isAutoLayouted } from "@/shared/util";
 import { useMemo } from "react";
+import { off } from "process";
 
 interface ITextProps extends IBlockProps<InstanceType<typeof TextBlock>> {}
 

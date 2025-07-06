@@ -52,11 +52,7 @@ export const useDomain = <T extends InstanceType<Constructor>>(
   );
 
   const listeners = useRef<Function[]>([]);
-  const domainInstanceRef = useRef<T>(
-    (() => {
-      return proxyObject(domainInstance);
-    })()
-  );
+  const domainInstanceRef = useRef<T>(proxyObject(domainInstance));
 
   const getSnapshot = useCallback(() => {
     return domainInstanceRef.current;

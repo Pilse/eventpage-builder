@@ -70,7 +70,12 @@ export const ChildrenMixin = <TBase extends Constructor<Block & { children: Inst
     }
 
     public removeChild(child: InstanceType<typeof Block>) {
-      this.children = this.children.filter((c) => c.id !== child.id);
+      this.children = this.children.filter((c) => {
+        if (c.id === child.id) {
+          c._listeners = [];
+        }
+        return c.id !== child.id;
+      });
     }
 
     public replaceChild(block: InstanceType<typeof Block>) {
