@@ -38,7 +38,7 @@ export const Section = ({ block }: ISectionProps) => {
           />
         )}
         {isSelected && element && <ResizeMixin element={element} block={section} vertical />}
-        {(block.isHovered || isSelected || isOver) && <SectionBlockTypeLayer block={block} />}
+        <SectionBlockTypeLayer block={block} />
         <ChildrenMixin block={section} />
         <SectionPreviewBlock section={section} element={element} />
       </section>
