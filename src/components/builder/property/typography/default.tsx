@@ -63,9 +63,9 @@ export const DefaultTypoGraphy = <T extends TypographyMixinBlockType>({ block }:
             <Image
               src={block.getFont().thumbnail}
               alt={block.getFont().fontName}
-              width={60}
+              width={80}
               height={20}
-              className="brightness-100 invert w-full h-5 object-cover "
+              className="brightness-100 invert w-full h-5 object-contain"
             />
           </Select.Trigger>
           <Select.Content>
@@ -75,8 +75,8 @@ export const DefaultTypoGraphy = <T extends TypographyMixinBlockType>({ block }:
                   src={font.thumbnail}
                   alt={font.fontName}
                   width={80}
-                  height={30}
-                  className="brightness-100 invert w-full h-5 object-cover"
+                  height={20}
+                  className="brightness-100 invert w-full h-5 object-contain"
                 />
               </Select.Item>
             ))}

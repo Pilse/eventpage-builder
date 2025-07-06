@@ -16,6 +16,7 @@ export class Text extends Block {
   public fontWeight: number;
   public fontColor: Color;
   public fontSize: number;
+  public googleFonts: boolean;
   public letterSpacing: number;
   public lineHeight: number;
   public textAlign: TextAlign;
@@ -28,6 +29,7 @@ export class Text extends Block {
       fontWeight?: number;
       fontColor?: Color;
       fontSize?: number;
+      googleFonts?: boolean;
       letterSpacing?: number;
       lineHeight?: number;
       textAlign?: TextAlign;
@@ -42,6 +44,7 @@ export class Text extends Block {
     this.fontColor = initState?.fontColor ?? { r: 0, g: 0, b: 0, a: 1 };
     this.fontSize = initState?.fontSize ?? 16;
     this.lineHeight = initState?.lineHeight ?? 1;
+    this.googleFonts = initState?.googleFonts ?? false;
     this.letterSpacing = initState?.letterSpacing ?? 0;
     this.textAlign = initState?.textAlign ?? "left";
     this.textShadow = initState?.textShadow ?? { x: 0, y: 0, blur: 0, color: { r: 0, g: 0, b: 0, a: 0 } };
@@ -79,6 +82,7 @@ export class Text extends Block {
       fontWeight: this.fontWeight,
       fontColor: this.fontColor,
       fontSize: this.fontSize,
+      googleFonts: this.googleFonts,
       letterSpacing: this.letterSpacing,
       lineHeight: this.lineHeight,
       textAlign: this.textAlign,

@@ -53,7 +53,7 @@ export const getTextWrapperStyle = (block: Text) => {
 export const getTextStyle = (block: Text) => {
   return {
     padding: `${block.pt}px ${block.pr}px ${block.pb}px ${block.pl}px`,
-    fontFamily: `${block.fontName}${block.fontWeight ? `-${block.fontWeight}` : ""}`,
+    fontFamily: `${block.fontName}${!block.googleFonts && block.fontWeight ? `-${block.fontWeight}` : ""}`,
     fontWeight: block.fontWeight,
     fontSize: block.fontSize,
     color: rgbaToCss(block.fontColor),
