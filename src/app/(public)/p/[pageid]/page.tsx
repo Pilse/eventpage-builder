@@ -34,6 +34,18 @@ export const generateViewport = async ({ params }: { params: Promise<{ pageid: s
   };
 };
 
+export const generateMetadata = async ({ params }: { params: Promise<{ pageid: string }> }) => {
+  const { pageid } = await params;
+  const page = await getPage(pageid);
+  if (!page) {
+    return {};
+  }
+
+  return {
+    title: page.name,
+  };
+};
+
 export default async function Home({ params }: { params: Promise<{ pageid: string }> }) {
   const { pageid } = await params;
 
