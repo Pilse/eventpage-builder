@@ -99,14 +99,23 @@ export function PageList({
                           target="_blank"
                           className="hover:underline w-full "
                         >
-                          https://pageio.app/p/{page.publicId}
+                          {window.location.origin}/p/{page.publicId}
                         </Link>
                       ) : (
                         <> - </>
                       )}
                     </Code>
                     {page.isPublished && (
-                      <IconButton size="1" aria-label="Copy value" color="gray" variant="ghost">
+                      <IconButton
+                        size="1"
+                        aria-label="Copy value"
+                        color="gray"
+                        variant="ghost"
+                        onClick={() =>
+                          navigator.clipboard.writeText(`${window.location.origin}/p/${page.publicId}`)
+                        }
+                        className="cursor-pointer"
+                      >
                         <CopyIcon />
                       </IconButton>
                     )}
