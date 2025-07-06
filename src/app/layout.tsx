@@ -47,7 +47,8 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "Pageio",
-  description: "Easiest way to build mobile page",
+  description: "The Easiest Way To Create Your Mobile Webpage",
+  keywords: ["page", "pageio", "mobile", "webpage", "builder", "editor", "drag and drop"],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

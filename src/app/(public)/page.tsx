@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Viewport } from "next";
 import { TbMail } from "react-icons/tb";
-import { Badge } from "@radix-ui/themes";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
