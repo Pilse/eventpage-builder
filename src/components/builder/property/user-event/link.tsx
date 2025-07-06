@@ -15,7 +15,7 @@ export const DefaultUserEventLink = <T extends Block>({ block }: { block: T }) =
         <TextField.Root
           value={block.link ?? ""}
           onChange={(e) => onLinkChange(e.target.value)}
-          placeholder="https://pageio.app"
+          placeholder="https://pageio.cloud"
         >
           <TextField.Slot side="left">
             <TbLink />

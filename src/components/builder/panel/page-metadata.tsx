@@ -44,7 +44,7 @@ export const PageMetaData = ({ block, pageData, userId }: IPageMetatDataProps) =
                   <Flex align="center" gap="1">
                     <RiGlobalLine className="shrink-0" />
                     <Code variant="ghost" className="truncate" size="1" color="blue">
-                      https://pageio.app/p/{pageData.publicId}
+                      {window.location.origin}/p/{pageData.publicId}
                     </Code>
                   </Flex>
                 </Text>
