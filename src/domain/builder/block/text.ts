@@ -39,7 +39,7 @@ export class Text extends Block {
     super({ ...initState, type: "TEXT" });
     this.content = initState?.content ?? "";
     this._content = initState?.content ?? "";
-    this.fontName = initState?.fontName ?? "Pretendard";
+    this.fontName = initState?.fontName ?? "Montserrat";
     this.fontWeight = initState?.fontWeight ?? 400;
     this.fontColor = initState?.fontColor ?? { r: 0, g: 0, b: 0, a: 1 };
     this.fontSize = initState?.fontSize ?? 16;

@@ -109,6 +109,48 @@ export const TypographyMixin = <TBase extends Constructor<Text>>(Base: TBase) =>
 
 const fonts = [
   {
+    fontName: "Oswald",
+    thumbnail: "/image/oswald.png",
+    weights: [200, 300, 400, 500, 600, 700],
+    googleFonts: true,
+  },
+  {
+    fontName: "Montserrat",
+    thumbnail: "/image/montserrat.png",
+    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    googleFonts: true,
+  },
+  {
+    fontName: "Poppins",
+    thumbnail: "/image/poppins.png",
+    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    googleFonts: true,
+  },
+  {
+    fontName: "Inter",
+    thumbnail: "/image/inter.png",
+    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    googleFonts: true,
+  },
+  {
+    fontName: "Noto Sans",
+    thumbnail: "/image/notosans.png",
+    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    googleFonts: true,
+  },
+  {
+    fontName: "Open Sans",
+    thumbnail: "/image/opensans.png",
+    weights: [300, 400, 500, 600, 700, 800],
+    googleFonts: true,
+  },
+  {
+    fontName: "Roboto",
+    thumbnail: "/image/roboto.png",
+    weights: [100, 300, 400, 500, 700, 900],
+    googleFonts: true,
+  },
+  {
     fontName: "Pretendard",
     thumbnail: "/image/pretendard.png",
     weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
@@ -197,47 +239,5 @@ const fonts = [
     thumbnail: "/image/independence_hall.png",
     weights: [400],
     googleFonts: false,
-  },
-  {
-    fontName: "Oswald",
-    thumbnail: "/image/oswald.png",
-    weights: [200, 300, 400, 500, 600, 700],
-    googleFonts: true,
-  },
-  {
-    fontName: "Montserrat",
-    thumbnail: "/image/montserrat.png",
-    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    googleFonts: true,
-  },
-  {
-    fontName: "Poppins",
-    thumbnail: "/image/poppins.png",
-    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    googleFonts: true,
-  },
-  {
-    fontName: "Inter",
-    thumbnail: "/image/inter.png",
-    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    googleFonts: true,
-  },
-  {
-    fontName: "Noto Sans",
-    thumbnail: "/image/notosans.png",
-    weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    googleFonts: true,
-  },
-  {
-    fontName: "Open Sans",
-    thumbnail: "/image/opensans.png",
-    weights: [300, 400, 500, 600, 700, 800],
-    googleFonts: true,
-  },
-  {
-    fontName: "Roboto",
-    thumbnail: "/image/roboto.png",
-    weights: [100, 300, 400, 500, 700, 900],
-    googleFonts: true,
   },
 ];
