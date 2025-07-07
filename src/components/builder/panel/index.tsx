@@ -53,23 +53,6 @@ export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
       {({ root, historyId }) => {
         return (
           <Flex maxHeight="100vh" overflow="hidden">
-            <Box
-              flexShrink="0"
-              width="256px"
-              height="100vh"
-              className="overflow-auto"
-              position="sticky"
-              top="0"
-              left="0"
-              p="4"
-            >
-              <DndProvider backend={HTML5Backend}>
-                <Flex direction="column" gap="4">
-                  <Heading size="2">Layer</Heading>
-                  <TreeNodeFactory key={historyId} block={root} depth={1} />
-                </Flex>
-              </DndProvider>
-            </Box>
             <Flex
               direction="column"
               flexShrink="1"
@@ -103,7 +86,34 @@ export const BuilderPanel = ({ pagePromise }: IBuilderPanelProps) => {
                 </DndProvider>
               </Box>
             </Flex>
-            <Box flexShrink="0" width="300px" top="0" left="0" overflow="auto" maxHeight="100%">
+            <Box
+              flexShrink="0"
+              width="256px"
+              height="100vh"
+              className="overflow-auto"
+              style={{ backgroundColor: "hsl(var(--background))" }}
+              position="fixed"
+              top="0"
+              left="0"
+              p="4"
+            >
+              <DndProvider backend={HTML5Backend}>
+                <Flex direction="column" gap="4">
+                  <Heading size="2">Layer</Heading>
+                  <TreeNodeFactory key={historyId} block={root} depth={1} />
+                </Flex>
+              </DndProvider>
+            </Box>
+            <Box
+              flexShrink="0"
+              width="300px"
+              style={{ backgroundColor: "hsl(var(--background))" }}
+              position="fixed"
+              top="0"
+              right="0"
+              overflow="auto"
+              height="100vh"
+            >
               <Flex direction="column" p="4">
                 <PageMetaData block={root} pageData={pageData} userId={session?.user?.id ?? ""} />
               </Flex>
