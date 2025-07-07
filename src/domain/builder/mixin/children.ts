@@ -125,5 +125,9 @@ export const ChildrenMixin = <TBase extends Constructor<Block & { children: Inst
         }
       });
     }
+
+    public isChildrenSelectedDeep() {
+      return [...this].some((child) => child.isSelected);
+    }
   };
 };

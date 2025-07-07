@@ -23,6 +23,12 @@ let globalContext: GlobalContext = {
     if (globalContext.currentBlock === block) {
       return;
     }
+    if (globalContext.currentBlock) {
+      globalContext.currentBlock.isSelected = false;
+    }
+    if (block) {
+      block.isSelected = true;
+    }
     globalContext = { ...globalContext, currentBlock: block };
     globalContextStore.emitChange();
   },

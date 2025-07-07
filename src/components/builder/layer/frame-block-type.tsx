@@ -4,7 +4,6 @@ import { CgArrowLongDownE, CgArrowLongRightE } from "react-icons/cg";
 import { RxMix } from "react-icons/rx";
 import { useDefaultLayoutType } from "../property/layout";
 import { twMerge } from "tailwind-merge";
-import { useGlobalContext } from "@/hooks";
 
 interface IFrameBlockTypeLayer {
   block:

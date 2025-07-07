@@ -51,7 +51,9 @@ export const FrameRow = ({ block, isPreview }: IFrameRowProps) => {
           />
         )}
         {isSelected && element && <ResizeMixin element={element} block={frameRow} />}
-        {(block.isHovered || isSelected || isOver) && <FrameBlockTypeLayer block={frameRow} />}
+        {(block.isHovered || isSelected || frameRow.isChildrenSelectedDeep() || isOver) && (
+          <FrameBlockTypeLayer block={frameRow} />
+        )}
         <ChildrenMixin block={frameRow} />
       </div>
     </BlockContextMenu>
