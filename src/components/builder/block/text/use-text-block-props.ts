@@ -114,13 +114,21 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
       return;
     }
 
-    if (block.widthType === "fit" && block._width !== Math.floor(pargraphRef.offsetWidth)) {
-      block._width = Math.floor(pargraphRef.offsetWidth);
-      block._centerX = block.getCenterX();
+    const offsetWidth = Math.floor(pargraphRef.offsetWidth);
+    const offsetHeight = Math.floor(pargraphRef.offsetHeight);
+    const centerX = block.getCenterX();
+    const centerY = block.getCenterY();
+    if (block.widthType === "fit" && block._width !== offsetWidth) {
+      block._width = offsetWidth;
     }
-    if (block.heightType === "fit" && block._height !== Math.floor(pargraphRef.offsetHeight)) {
-      block._height = Math.floor(pargraphRef.offsetHeight);
-      block._centerY = block.getCenterY();
+    if (block._centerX !== centerX) {
+      block._centerX = centerX;
+    }
+    if (block.heightType === "fit" && block._height !== offsetHeight) {
+      block._height = offsetHeight;
+    }
+    if (block._centerY !== centerY) {
+      block._centerY = centerY;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [block.widthType, block.heightType, block.content, pargraphRef]);
