@@ -80,23 +80,23 @@ export const BlockFactory = ({ block, isPreview }: IBlockFactoryProps) => {
 
 export const PropertiesFactory = ({ block }: { block: Block }) => {
   return block.type === "CONTAINER" ? (
-    <ContainerProperties block={block as InstanceType<typeof ContainerBlock>} />
+    <ContainerProperties key={block.id} block={block as InstanceType<typeof ContainerBlock>} />
   ) : block.type === "SECTION_CANVAS" ? (
-    <SectionCanvasProperties block={block as InstanceType<typeof SectionBlock>} />
+    <SectionCanvasProperties key={block.id} block={block as InstanceType<typeof SectionBlock>} />
   ) : block.type === "SECTION_ROW" ? (
-    <SectionRowProperties block={block as InstanceType<typeof SectionRowBlock>} />
+    <SectionRowProperties key={block.id} block={block as InstanceType<typeof SectionRowBlock>} />
   ) : block.type === "SECTION_COL" ? (
-    <SectionColProperties block={block as InstanceType<typeof SectionColBlock>} />
+    <SectionColProperties key={block.id} block={block as InstanceType<typeof SectionColBlock>} />
   ) : block.type === "FRAME_CANVAS" ? (
-    <FrameCanvasProperties block={block as InstanceType<typeof FrameBlock>} />
+    <FrameCanvasProperties key={block.id} block={block as InstanceType<typeof FrameBlock>} />
   ) : block.type === "FRAME_ROW" ? (
-    <FrameRowProperties block={block as InstanceType<typeof FrameRowBlock>} />
+    <FrameRowProperties key={block.id} block={block as InstanceType<typeof FrameRowBlock>} />
   ) : block.type === "FRAME_COL" ? (
-    <FrameColProperties block={block as InstanceType<typeof FrameColBlock>} />
+    <FrameColProperties key={block.id} block={block as InstanceType<typeof FrameColBlock>} />
   ) : block.type === "TEXT" ? (
-    <TextProperties block={block as InstanceType<typeof TextBlock>} />
+    <TextProperties key={block.id} block={block as InstanceType<typeof TextBlock>} />
   ) : block.type === "IMAGE" ? (
-    <ImageProperties block={block as InstanceType<typeof ImageBlock>} />
+    <ImageProperties key={block.id} block={block as InstanceType<typeof ImageBlock>} />
   ) : (
     <></>
   );
