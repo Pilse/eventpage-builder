@@ -49,11 +49,11 @@ export const DropCanvasMixin = <
       }
 
       if (hoveredBlock.parent.id !== this.id && hasChildrenMixin(hoveredBlock.parent)) {
-        if (hoveredBlock.widthType !== "fixed") {
+        if (hoveredBlock.widthType === "fill") {
           hoveredBlock.widthType = "fixed";
         }
 
-        if (hoveredBlock.heightType !== "fixed") {
+        if (hoveredBlock.heightType === "fill") {
           hoveredBlock.heightType = "fixed";
         }
         hoveredBlock.parent.removeChild(hoveredBlock);
