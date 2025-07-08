@@ -40,7 +40,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
 ): IUseDefaultBlockProps<T> => {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
-  const { currentBlock, setCurrentBlock, isResizing } = useGlobalContext();
+  const { currentBlock, setCurrentBlock } = useGlobalContext();
   const block = useDomain(blockInstance, blockInstance._listeners);
 
   const isSelected = currentBlock?.id === block.id;
@@ -111,7 +111,7 @@ export const useDefaultBlockProps = <T extends InstanceType<typeof Block>>(
     "data-block-type": block.type,
     element,
     onClick: handleClick,
-    // onMouseDown: isResizing ? undefined : handleMouseDown,
+    onMouseDown: handleMouseDown,
     // onMouseEnter: isResizing ? undefined : handleMouseEnter,
     // onMouseMove: isResizing ? undefined : handleMouseMove,
     // onMouseLeave: isResizing ? undefined : handleMouseLeave,
