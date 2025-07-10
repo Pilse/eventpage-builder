@@ -34,7 +34,6 @@ export class Image extends Block {
     const width = super.width;
     if (this.heightType === "fit") {
       this._height = Math.floor((this._width / this.aspectRatio) * 100);
-      this._centerY = this.getCenterY();
     }
     return width;
   }
