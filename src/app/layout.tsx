@@ -49,6 +49,25 @@ export const metadata: Metadata = {
   title: "Pageio",
   description: "The Easiest Way To Create Your Mobile Webpage",
   keywords: ["page", "pageio", "mobile", "webpage", "builder", "editor", "drag and drop"],
+  icons:
+    "https://pageio-upload.s3.ap-northeast-2.amazonaws.com/images/image.png-5e8f0af1-96f5-4f8c-b9d6-175857cbefa9",
+  openGraph: {
+    images:
+      "https://pageio-upload.s3.ap-northeast-2.amazonaws.com/images/image.png-5e8f0af1-96f5-4f8c-b9d6-175857cbefa9",
+    title: "Pageio",
+    description: "The Easiest Way To Create Your Mobile Webpage",
+    url: "https://www.pageio.com",
+    siteName: "Pageio",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pageio",
+    description: "The Easiest Way To Create Your Mobile Webpage",
+    images:
+      "https://pageio-upload.s3.ap-northeast-2.amazonaws.com/images/image.png-5e8f0af1-96f5-4f8c-b9d6-175857cbefa9",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
