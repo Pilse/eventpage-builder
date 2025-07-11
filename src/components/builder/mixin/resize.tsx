@@ -8,9 +8,9 @@ import {
   hasResizeSnapMixin,
 } from "@/shared/util";
 import { ResizeSnapLineLayer } from "@/components/builder/layer";
-import { MouseEvent, useCallback, useEffect, useRef } from "react";
+import { MouseEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useBlockHistory, useGlobalContext, useThrottle } from "@/hooks";
+import { useBlockHistory, useGlobalContext, useRAF } from "@/hooks";
 
 interface IResizableDirection {
   t: boolean;
@@ -35,7 +35,7 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
   const sectionElement = useRef<HTMLElement | null>(null);
   const parentElement = useRef<HTMLElement | null>(null);
 
-  const handleMouseMove = useThrottle((e: globalThis.MouseEvent) => {
+  const handleMouseMove = useRAF((e: globalThis.MouseEvent) => {
     block.resize(e);
 
     const elementRect = element.getBoundingClientRect();
@@ -71,7 +71,7 @@ export const ResizeMixin = ({ element, block, vertical }: IResizeMixinProps) => 
       );
       snappableDir.current = { x: snappedToX, y: snappedToY };
     }
-  }, 15);
+  });
 
   const handleMouseDown = (e: MouseEvent, resizableDir: Partial<IResizableDirection>) => {
     startCaptureSnapshot(`resize-${block.id}`);

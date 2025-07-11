@@ -8,5 +8,6 @@ export * from "./use-new-block";
 export * from "./use-server-action";
 export * from "./use-debounce";
 export * from "./use-throttle";
+export * from "./use-raf";
 export * from "./use-delete-block";
 export * from "./use-copy-paste-block";
