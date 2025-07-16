@@ -41,7 +41,7 @@ export default function Home() {
         <section className="min-h-dvh object-cover w-full flex flex-col justify-start items-center p-4 pt-20 md:p-8 md:pt-36 bg-neutral-900">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-12 md:mb-32 whitespace-pre-line text-center">{`The Easiest Way 
 To Create Your
-Mobile Webpage`}</h1>
+Mobile Website`}</h1>
           <Image
             src="/image/pageiohero.png"
             width={1400}
