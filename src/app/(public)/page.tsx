@@ -54,7 +54,7 @@ Mobile Website`}</h1>
         {/* Footer Section */}
         <footer className="py-12 px-4 md:px-8 bg-black w-full">
           <div className=" text-center text-gray-400 flex flex-col gap-2 justify-center">
-            <p>&copy; 2025 pageio. All rights reserved.</p>
+            <p>2025 pageio.</p>
             <p className="flex items-center gap-2 justify-center">
               <TbMail size={16} />{" "}
               <a href="mailto:gogosky1175@gmail.com" className="underline">
