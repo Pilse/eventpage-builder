@@ -87,21 +87,25 @@ export const BlockToolbars = ({ pageId }: { pageId: string }) => {
           </IconButton>
         </Flex>
 
-        <Separator orientation="vertical" size="2" mx="2" />
+        {pageId && (
+          <>
+            <Separator orientation="vertical" size="2" mx="2" />
 
-        <Flex direction="column" gap="2" align="center">
-          <Text size="1" color="gray">
-            Preview
-          </Text>
-          <IconButton
-            size="3"
-            variant="soft"
-            color="gray"
-            onClick={() => router.push(`/page/${pageId}/preview`)}
-          >
-            <TbPlayerPlay />
-          </IconButton>
-        </Flex>
+            <Flex direction="column" gap="2" align="center">
+              <Text size="1" color="gray">
+                Preview
+              </Text>
+              <IconButton
+                size="3"
+                variant="soft"
+                color="gray"
+                onClick={() => router.push(`/page/${pageId}/preview`)}
+              >
+                <TbPlayerPlay />
+              </IconButton>
+            </Flex>
+          </>
+        )}
       </Flex>
     </Card>
   );
