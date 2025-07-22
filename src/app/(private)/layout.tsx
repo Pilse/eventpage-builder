@@ -1,7 +1,6 @@
 import { SessionProvider } from "next-auth/react";
 import { Theme } from "@radix-ui/themes";
 import { Montserrat } from "next/font/google";
-import { Viewport } from "next";
 import "@radix-ui/themes/styles.css";
 import "@/app/globals.css";
 
@@ -10,10 +9,6 @@ const montserrat = Montserrat({
   weight: ["100", "300", "400", "500", "700", "900"],
   variable: "--font-montserrat",
 });
-
-export const viewport: Viewport = {
-  themeColor: "#000000",
-};
 
 export default function PrivateLayout({ children }: { children: React.ReactNode }) {
   return (

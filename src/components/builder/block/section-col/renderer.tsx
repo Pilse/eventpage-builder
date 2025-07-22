@@ -9,31 +9,14 @@ import { getUserEvents } from "@/shared/user-event";
 interface ISectionColProps extends IRendererBlockProps<SectionCol> {}
 
 export const SectionColRenderer = ({ block }: ISectionColProps) => {
-  const { backgroundImage, backgroundRepeat, backgroundPosition, backgroundSize, ...style } = getBlockStyle(
-    block,
-    false
-  );
+  const style = getBlockStyle(block, false);
   const userEvents = getUserEvents(block);
 
   return (
-    <section style={{ ...style, width: "100%" }}>
-      <div
-        style={{
-          width: style.width,
-          height: style.height,
-          margin: "0 auto",
-          position: "relative",
-          backgroundImage,
-          backgroundRepeat,
-          backgroundPosition,
-          backgroundSize,
-        }}
-        {...userEvents}
-      >
-        {block.children.map((child) => (
-          <RendererFactory key={child.id} block={child} />
-        ))}
-      </div>
+    <section style={style} {...userEvents}>
+      {block.children.map((child) => (
+        <RendererFactory key={child.id} block={child} />
+      ))}
     </section>
   );
 };

@@ -13,12 +13,10 @@ export const ContainerRenderer = ({ block }: IContainerProps) => {
   const userEvents = getUserEvents(block);
 
   return (
-    <main className="mx-auto" style={{ ...style, width: "100%" }} {...userEvents}>
-      <div style={{ height: style.height, margin: "0 auto", position: "relative" }}>
-        {block.children.map((child) => (
-          <RendererFactory key={child.id} block={child} />
-        ))}
-      </div>
+    <main className="mx-auto min-h-screen" style={style} {...userEvents}>
+      {block.children.map((child) => (
+        <RendererFactory key={child.id} block={child} />
+      ))}
     </main>
   );
 };
