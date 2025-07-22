@@ -116,20 +116,15 @@ export const useTextBlockProps = (text: InstanceType<typeof TextBlock>): IUseTex
 
     const offsetWidth = Math.floor(pargraphRef.offsetWidth);
     const offsetHeight = Math.floor(pargraphRef.offsetHeight);
-    const centerX = block.getCenterX();
-    const centerY = block.getCenterY();
+
     if (block.widthType === "fit" && block._width !== offsetWidth) {
-      block._width = offsetWidth;
+      block.width = offsetWidth;
     }
-    if (block._centerX !== centerX) {
-      block._centerX = centerX;
-    }
+
     if (block.heightType === "fit" && block._height !== offsetHeight) {
-      block._height = offsetHeight;
+      block.height = offsetHeight;
     }
-    if (block._centerY !== centerY) {
-      block._centerY = centerY;
-    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [block.widthType, block.heightType, block.content, pargraphRef]);
 

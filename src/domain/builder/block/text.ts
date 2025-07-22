@@ -50,30 +50,6 @@ export class Text extends Block {
     this.textShadow = initState?.textShadow ?? { x: 0, y: 0, blur: 0, color: { r: 0, g: 0, b: 0, a: 0 } };
   }
 
-  get width() {
-    if (this.widthType === "fit") {
-      return this._width;
-    }
-
-    return super.width;
-  }
-
-  set width(value: number) {
-    super.width = value;
-  }
-
-  get height() {
-    if (this.heightType === "fit") {
-      return this._height;
-    }
-
-    return super.height;
-  }
-
-  set height(value: number) {
-    super.height = value;
-  }
-
   public serialize() {
     return {
       ...super.serialize(),

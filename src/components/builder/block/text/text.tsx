@@ -9,7 +9,6 @@ import { HoverLayer } from "@/components/builder/layer";
 import { IBlockProps } from "@/type";
 import { isAutoLayouted } from "@/shared/util";
 import { useMemo } from "react";
-import { off } from "process";
 
 interface ITextProps extends IBlockProps<InstanceType<typeof TextBlock>> {}
 
@@ -55,11 +54,11 @@ export const Text = ({ block, isPreview }: ITextProps) => {
         <p
           ref={(ele) => {
             setPargraphRef(ele);
-            if (ele && text.widthType === "fit" && text._width !== Math.floor(ele.offsetWidth)) {
-              text._width = Math.floor(ele.offsetWidth);
+            if (ele && text.widthType === "fit" && text.width !== Math.floor(ele.offsetWidth)) {
+              text.width = Math.floor(ele.offsetWidth);
             }
-            if (ele && text.heightType === "fit" && text._height !== Math.floor(ele.offsetHeight)) {
-              text._height = Math.floor(ele.offsetHeight);
+            if (ele && text.heightType === "fit" && text.height !== Math.floor(ele.offsetHeight)) {
+              text.height = Math.floor(ele.offsetHeight);
             }
           }}
           key={text.content}
